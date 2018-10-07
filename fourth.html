@@ -57,21 +57,6 @@
                         	
                         </li>
                         
-                        <li class="mar-top5"> 
-                         <input type="submit" id="myBtn"  class="btn btn-md btn-primary headerbutton " value="Main">
-                        	
-                        </li>
-                        
-                        
-                         <li class="mar-top5"> 
-                         <input type="submit" id="myBtn"  class="btn btn-md btn-primary headerbutton " value="Second">
-                        	
-                        </li>
-                         <li class="mar-top5"> 
-                         <input type="submit" id="myBtn"  class="btn btn-md btn-primary headerbutton " value="Third">
-                        	
-                        </li>
-                         
                        
 					</ul>
 				</div>
@@ -154,7 +139,38 @@
                     <span ><img class="header-icons" src="./img/gmail.png" alt=""/></span>
                     <span class="headernum">easytalk.learn@gmail.com</span>
                         
+                        
+                    <form id="contact-form" method="post" action="message" role="form">
+         
+                            
+                            <div class="row">
+                                <div class="col-md-12">
                                     
+                                     <div>
+                                
+                                    <div class="form-group">
+                                        <label for="form_email">Email *</label>
+                                        <input id="form_email" type="email" name="email" class="form-control" placeholder="Введите свой e-mail" required="required" data-error="Это обязательное.">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="form_message">Message *</label>
+                                        <textarea id="form_message" name="message" class="form-control" placeholder="Пожалуйста, оставьте нам сообщение." rows="4" required="required" data-error="Пожалуйста, оставьте нам сообщение."></textarea>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="submit" class="btn btn-primary btn-send contact-btn" value="Отправить">
+                                </div>
+                            </div>
+                          
+
+                    </form>
+                        
+                        
                         
                     </div>
                     
@@ -163,9 +179,91 @@
                 </div>
                 
                 
-     
-            </div>
+                 <!-- The Modal form -->
+                <div id="myModalForm" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content">
+                <span class="close">&times;</span>
+                    
+                   <div>
+                        <form id="contact-form" method="post" action="contact" role="form">
+
+                        
+
+                        <div class="controls">
+
+                            
+                                <div>
+                                
+                                    <div class="form-group">
+                                        <label for="form_name">Firstname Lastname *</label>
+                                        <input id="form_name" type="text" name="name" class="form-control" placeholder="Введите свои имя и фамилию" required="required" data-error="Имя и фамилия это обязательное поле.">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                
+                                    </div>
+                            </div>
+                          
+                                <div>
+                                
+                                    <div class="form-group">
+                                        <label for="form_email">Email *</label>
+                                        <input id="form_email" type="email" name="email" class="form-control" placeholder="Введите свой e-mail" required="required" data-error="Это обязательное.">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                
+                                    </div>
+                               
+                                
+                                    <div class="form-group">
+                                        <label for="form_phone">Phone</label>
+                                        <input id="form_phone" type="tel" name="phone" class="form-control" placeholder="Введите свой номер телефона">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                               
+       <div class="form-group">
+        <label for="sel1">Выберите уроки:</label>
+        <select class="form-control" id="sel1">
+                <option>Английский для школьников</option>
+                <option>Английский для взрослых</option>
+                <option>IELTS, TOEFL, SAT, ACT</option>
+                <option>Подготовка к FLEX</option>
+            <option>Математика</option>
+            <option>Физика</option>
+            <option>Программирование</option>
+            <option>Подготовка к ЕГЭ, ЕНТ, ЗНО</option>
+        </select>
+        
+                        
+                            </div>
+                            
+                            
+                            
+                            <div class="row">
+                               
+                                <div class="col-md-12">
+                                    <input type="submit" class="btn btn-primary btn-send contact-btn" value="Отправить">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p class="text-muted"><strong>*</strong> Эти поля обязательны.</p>
+                                </div>
+                            
+                        </div>
+
+                    </form>
+                    </div>
+                    
                 </div>
+
+                </div>
+                
+                
+                
+                
+			</div>	
             </div>
 		</section>	
         
