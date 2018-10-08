@@ -207,7 +207,7 @@ hr {
 }
 
 .grid img:hover {
-  opacity: 1;
+  opacity: 0.9;
 }
 
 /* Contact Form */
@@ -282,23 +282,4 @@ hr {
   margin: 15px 0;
 }
 
-/* Copyrights */
 
-#copyrights {
-  background: #222222;
-  padding: 20px 0;
-  text-align: center;
-}
-
-#copyrights p {
-  margin-bottom: 5px;
-  color: #fff;
-}
-
-#copyrights a {
-  color: #74cfae;
-}
-
-.credits {
-  color: #999;
-}
