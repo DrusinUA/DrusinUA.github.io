@@ -203,7 +203,7 @@ hr {
 /* Image Opacity */
 
 .grid img {
-  opacity: .7;
+  opacity: 1;
 }
 
 .grid img:hover {
