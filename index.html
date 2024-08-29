@@ -85,8 +85,7 @@
             flex-direction: column;
             text-align: center;
             padding: 0 50px; /* Added padding for consistent spacing */
-           /* width: 100vw; /* Ensure full width */
-            max-width: 100%
+            max-width: 100%;
         }
 
         .video-section video {
@@ -134,9 +133,10 @@
 
         /* Content Section with YouTube Video */
         .content-section {
+            background-image: url('Media/gameplay-king.png');
             display: flex;
             flex-wrap: wrap;
-            padding: 70px 50px; /* Added padding for consistent spacing */
+            padding: 30px 100px; /* Added padding for consistent spacing */
             background-color: #5A518C;
             min-height: 600px;
             max-width: 100%; /* Ensure full width */
@@ -224,12 +224,27 @@
         .feature-stats .stat-grid {
             display: flex;
             justify-content: center;
+            align-items: center;
             gap: 50px;
+            position: relative; /* Enable relative positioning for line */
+        }
+
+        .feature-stats .stat-grid::after {
+            content: '';
+            position: absolute;
+            width: 80%; /* Adjust width as needed */
+            height: 2px;
+            background-color: white;
+            top: 50%;
+            left: 10%; /* Center the line horizontally */
+            z-index: -1; /* Ensure the line is behind the text */
         }
 
         .feature-stats .stat {
             font-size: 3em; /* Increased size of numbers */
             font-weight: bold;
+            padding: 0 20px; /* Add padding to separate from the line */
+            background-color: #4A3F82; /* Match the background color to blend the text */
         }
 
         .feature-stats .label {
@@ -282,11 +297,32 @@
 
         /* Fair Play Section */
         .fair-play {
-            background-color: #4A3F82;
-            padding: 60px 200px; /* Added padding for consistent spacing */
-            text-align: center; /* Centered text */
-            max-width: 100%; /* Ensure full width */
-            margin: 0 auto; /* Center the section */
+            background-image: url('Media/serpent-background.png'); /* Background image with serpent */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 60px 500px; /* Adjusted padding */
+            text-align: center; /* Align text to the left */
+            color: #fff; /* Ensure text is readable on the background */
+            position: relative;
+        }
+
+        .fair-play::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5); /* Slightly darken the background */
+            backdrop-filter: blur(3px); /* Slight blur effect */
+            z-index: 1;
+        }
+
+        .fair-play h2,
+        .fair-play p {
+            position: relative;
+            z-index: 2; /* Ensure text is above the darkened background */
         }
 
         .fair-play h2 {
@@ -303,7 +339,7 @@
         /* Community Section */
         .community {
             background-color: #251D4E;
-            padding: 60px 50px; /* Added padding for consistent spacing */
+            padding: 10px 50px; /* Added padding for consistent spacing */
             text-align: center;
             max-width: 100%; /* Ensure full width */
             margin: 0 auto; /* Center the section */
@@ -331,9 +367,19 @@
             border-radius: 50%;
         }
 
+        /* Mobile Optimization */
         @media (max-width: 768px) {
+            .header {
+                padding: 10px 20px;
+            }
+
+            .menu {
+                gap: 10px;
+            }
+
             .content-section {
                 flex-direction: column;
+                padding: 50px 20px; /* Adjusted padding for smaller screens */
             }
 
             .content-section .video-wrapper, .content-section .text-wrapper {
@@ -352,10 +398,15 @@
 
             .feature-stats .stat-grid {
                 flex-direction: column;
+                gap: 20px;
             }
 
             .progression-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .fair-play {
+                padding: 40px 20px; /* Adjusted padding for smaller screens */
             }
 
             .community-links {
