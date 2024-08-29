@@ -36,30 +36,11 @@
             margin-right: 20px; /* Added margin for spacing from the left side */
         }
 
-        .menu {
-            display: flex;
-            justify-content: center; /* Centering the menu items */
-            flex-grow: 1; /* Allow menu to take available space */
-            gap: 30px; /* Increased gap for better spacing */
-        }
-
-        .menu a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            position: relative;
-            transition: color 0.3s ease;
-        }
-
-        .menu a:hover {
-            color: #FFD700; /* Gold color on hover */
-        }
-
         .social-links {
             display: flex;
             gap: 10px; /* Reduced gap for more compact spacing */
             align-items: center;
-            margin-right: auto; /* Shifted icons closer to the left */
+            margin-right: 20px; /* Shifted icons closer to the left */
             transform: translateX(-50px); /* Move icons to the left by 50px */
         }
 
@@ -373,10 +354,6 @@
                 padding: 10px 20px;
             }
 
-            .menu {
-                gap: 10px;
-            }
-
             .content-section {
                 flex-direction: column;
                 padding: 50px 20px; /* Adjusted padding for smaller screens */
@@ -410,7 +387,10 @@
             }
 
             .community-links {
-                flex-direction: column;
+                flex-direction: row; /* Ensure the social icons stay in a row */
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px; /* Adjust spacing for smaller screens */
             }
         }
     </style>
@@ -420,10 +400,6 @@
     <!-- Header Section -->
     <header class="header">
         <img src="Media/logo.png" alt="Calamity Logo">
-        <div class="menu">
-            <a href="#">Game</a>
-            <a href="#">Play-to-Airdrop</a>
-        </div>
         <div class="social-links">
             <a href="https://twitter.com/PlayCalamity"><img src="Media/twitter-logo.png" alt="Twitter"></a>
             <a href="https://discord.gg/hTRqHqUM"><img src="Media/discord-logo.png" alt="Discord"></a>
