@@ -1,161 +1,490 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Restless Corp</title>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <meta content="" name="keywords">
-  <meta content="" name="description">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calamity - Action RPG</title>
+    <link rel="icon" href="Media/favicon.png" type="image/png"> <!-- Favicon -->
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            scroll-behavior: smooth;
+            box-sizing: border-box;
+        }
 
-  <!-- Favicons -->
-  <link href="img/favicon.png" rel="icon">
-  <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(74, 63, 130, 0.85); /* Transparent background */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 50px; /* Adjusted padding */
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for styling */
+            backdrop-filter: blur(10px); /* Blur effect for modern look */
+        }
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900|Raleway:400,300,700,900" rel="stylesheet">
+        .header img {
+            height: 50px;
+            margin-right: 20px; /* Added margin for spacing from the left side */
+        }
 
-  <!-- Bootstrap CSS File -->
-  <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        .menu {
+            display: flex;
+            justify-content: center; /* Centering the menu items */
+            flex-grow: 1; /* Allow menu to take available space */
+            gap: 30px; /* Increased gap for better spacing */
+        }
 
-  <!-- Libraries CSS Files -->
-  <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        .menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            position: relative;
+            transition: color 0.3s ease;
+        }
 
-  <!-- Main Stylesheet File -->
-  <link href="css/style.css" rel="stylesheet">
+        .menu a:hover {
+            color: #FFD700; /* Gold color on hover */
+        }
 
-  
+        .social-links {
+            display: flex;
+            gap: 10px; /* Reduced gap for more compact spacing */
+            align-items: center;
+            margin-right: auto; /* Shifted icons closer to the left */
+            transform: translateX(-50px); /* Move icons to the left by 50px */
+        }
+
+        .social-links img {
+            height: 30px;
+            width: 30px;
+            transition: transform 0.3s ease, border-radius 0.3s ease; /* Smooth transition for hover effect */
+        }
+
+        .social-links img:hover {
+            transform: scale(1.1); /* Slightly increase size on hover */
+            border-radius: 50%; /* Transition to round shape */
+        }
+
+        /* Fullscreen Video Section */
+        .video-section {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 0 50px; /* Added padding for consistent spacing */
+            width: 100vw; /* Ensure full width */
+        }
+
+        .video-section video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: blur(5px) brightness(0.7);
+        }
+
+        .video-section .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .video-section .content img {
+            width: 500px;
+        }
+
+        .video-section .content p {
+            font-size: 1.5em;
+            margin-bottom: 30px; /* Added space between text and button */
+        }
+
+        .video-section .discord-button {
+            background-color: #7289DA; /* Discord logo color */
+            padding: 15px 40px;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            display: inline-block;
+            margin-top: 20px; /* Space from the previous text */
+        }
+
+        .video-section .discord-button:hover {
+            background-color: #5A6FB8; /* Slightly darker on hover */
+            transform: scale(1.1); /* Pop up effect on hover */
+        }
+
+        /* Content Section with YouTube Video */
+        .content-section {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 70px 50px; /* Added padding for consistent spacing */
+            background-color: #5A518C;
+            min-height: 600px;
+            max-width: 100%; /* Ensure full width */
+            margin: 0 auto; /* Center the section */
+        }
+
+        .content-section .video-wrapper {
+            flex: 1;
+            max-width: 50%; /* Adjusted to balance with the text */
+            padding-right: 40px;
+            margin-top: 50px; /* Moved video slightly down */
+        }
+
+        .content-section .video-wrapper iframe {
+            width: 100%;
+            height: 400px;
+        }
+
+        .content-section .text-wrapper {
+            flex: 1;
+            max-width: 50%; /* Adjusted to balance with the video */
+            padding-left: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .content-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .content-section p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-top: 20px;
+        }
+
+        /* Classic Experiences Section */
+        .classic-experiences {
+            background-color: #251D4E;
+            padding: 60px 50px; /* Added padding for consistent spacing */
+            text-align: center;
+            max-width: 100%; /* Ensure full width */
+            margin: 0 auto; /* Center the section */
+        }
+
+        .classic-experiences h2 {
+            font-size: 2.5em;
+            margin-bottom: 40px;
+        }
+
+        .experiences-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .experience {
+            flex: 1;
+            max-width: 300px;
+            text-align: left;
+        }
+
+        .experience h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .experience p {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        /* Feature Stats Section */
+        .feature-stats {
+            background-color: #4A3F82;
+            padding: 50px 50px; /* Added padding for consistent spacing */
+            text-align: center;
+            max-width: 100%; /* Ensure full width */
+            margin: 0 auto; /* Center the section */
+        }
+
+        .feature-stats .stat-grid {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+        }
+
+        .feature-stats .stat {
+            font-size: 3em; /* Increased size of numbers */
+            font-weight: bold;
+        }
+
+        .feature-stats .label {
+            font-size: 1em; /* Reduced size of text */
+            margin-top: 5px;
+            color: #FFD700;
+        }
+
+        /* Diverse Progression Systems Section */
+        .progression-systems {
+            background-color: #251D4E;
+            padding: 60px 50px; /* Added padding for consistent spacing */
+            text-align: center;
+            max-width: 100%; /* Ensure full width */
+            margin: 0 auto; /* Center the section */
+        }
+
+        .progression-systems h2 {
+            font-size: 2.5em;
+            margin-bottom: 40px;
+        }
+
+        .progression-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px; /* Further reduced gap to decrease overlap */
+            justify-content: center;
+            align-items: start;
+            max-width: 900px; /* Constrain width for better alignment */
+            margin: 0 auto; /* Center grid */
+        }
+
+        .progression-feature {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px; /* Further reduced padding */
+            border-radius: 8px;
+            text-align: center; /* Center text alignment */
+            height: 100%; /* Ensure equal height for grid items */
+        }
+
+        .progression-feature h3 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .progression-feature p {
+            font-size: 1.1em;
+            line-height: 1.4;
+        }
+
+        /* Fair Play Section */
+        .fair-play {
+            background-color: #4A3F82;
+            padding: 60px 200px; /* Added padding for consistent spacing */
+            text-align: center; /* Centered text */
+            max-width: 100%; /* Ensure full width */
+            margin: 0 auto; /* Center the section */
+        }
+
+        .fair-play h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        .fair-play p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* Community Section */
+        .community {
+            background-color: #251D4E;
+            padding: 60px 50px; /* Added padding for consistent spacing */
+            text-align: center;
+            max-width: 100%; /* Ensure full width */
+            margin: 0 auto; /* Center the section */
+        }
+
+        .community h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        .community-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px; /* Reduced spacing between logos */
+        }
+
+        .community-links img {
+            height: 50px;
+            width: 50px;
+            transition: transform 0.3s ease, border-radius 0.3s ease;
+        }
+
+        .community-links img:hover {
+            transform: scale(1.1);
+            border-radius: 50%;
+        }
+
+        @media (max-width: 768px) {
+            .content-section {
+                flex-direction: column;
+            }
+
+            .content-section .video-wrapper, .content-section .text-wrapper {
+                max-width: 100%;
+                padding: 0;
+                margin-bottom: 20px;
+            }
+
+            .experiences-grid {
+                flex-direction: column;
+            }
+
+            .experience {
+                max-width: 100%;
+            }
+
+            .feature-stats .stat-grid {
+                flex-direction: column;
+            }
+
+            .progression-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .community-links {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
+<body>
 
-<body data-spy="scroll" data-offset="80" data-target="#thenavbar">
-
-  <!-- Fixed navbar -->
-  <div id="thenavbar" class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">  
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-       
-      </div>
-      <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li class="active"><a href="#hello" class="smoothscroll">Home</a></li>
-          <li><a href="#green" class="smoothscroll">About</a></li>
-          <li><a href="#portfolio" class="smoothscroll">Portfolio</a></li>
-          <li><a href="#contact" class="smoothscroll">Contact</a></li>
-        </ul>
-      </div>
-      <!--/.nav-collapse -->
-    </div>
-  </div>
-
-  <div id="hello">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 centered">
-          <h1>Restless</h1>
-            <h1> Corp</h1>
-         
+    <!-- Header Section -->
+    <header class="header">
+        <img src="Media/logo.png" alt="Calamity Logo">
+        <div class="menu">
+            <a href="#">Game</a>
+            <a href="#">Play-to-Airdrop</a>
         </div>
-        <!-- /col-lg-8 -->
-      </div>
-      <!-- /row -->
-    </div>
-    <!-- /container -->
-  </div>
-  <!-- /hello -->
-
-  <div id="green">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-5 centered">
-          <img src="img/iphone.png" alt="">
+        <div class="social-links">
+            <a href="https://twitter.com/PlayCalamity"><img src="Media/twitter-logo.png" alt="Twitter"></a>
+            <a href="https://discord.gg/hTRqHqUM"><img src="Media/discord-logo.png" alt="Discord"></a>
+            <a href="https://playcalamity.medium.com/"><img src="Media/medium-logo.png" alt="Medium"></a>
+            <a href="https://store.epicgames.com/en-US/p/calamity-3cb31b"><img src="Media/epic-logo.png" alt="Epic Store"></a>
         </div>
+    </header>
 
-        <div class="col-lg-7 centered">
-          <h3>WHAT WE CAN DO?</h3>
-          <p>We are a game developing team working in Unity hame engine.</p>
+    <!-- Video Section -->
+    <section class="video-section">
+        <video autoplay muted loop>
+            <source src="Media/gameplay.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="content">
+            <img src="Media/logo-large.png" alt="Calamity Logo">
+            <p>Action RPG with real economy</p>
+            <a class="discord-button" href="https://discord.gg/hTRqHqUM">Join Discord</a>
         </div>
-      </div>
-    </div>
-  </div>
-  <div id="portfolio"></div>
-  <div class="container">
-    <div class="row centered mt grid">
-      <h3>OUR LATEST WORK</h3>
-        <h3>Restless Hero</h3>
-      <div class="mt"></div>
-      <div class="row centered mt grid">
-        <a href="#"><img src="img/01.png" alt=""></a>
-           <div class="mt"></div>
-      </div>
-        <div class="row centered mt grid">
-        <a href="https://play.google.com/store/apps/details?id=com.restlescorp.restlesshero"><img src="img/Download.png" alt=""></a>
-          
-           <div class="mt"></div>
-      </div>
-        
-    </div>
+    </section>
 
-    
-   
-
-
-
-
-  <section id="contact">
-
-  
-      <!-- /container -->
-    <!-- /social -->
-    <div class="container">
-      <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-          <form class="contact-form php-mail-form" role="form" action="contactform/contactform.php" method="POST">
-
-            <div class="form-group">
-              <input type="name" name="name" class="form-control" id="contact-name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" >
-              <div class="validate"></div>
-            </div>
-            <div class="form-group">
-              <input type="email" name="email" class="form-control" id="contact-email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email">
-              <div class="validate"></div>
-            </div>
-            <div class="form-group">
-              <input type="text" name="subject" class="form-control" id="contact-subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject">
-              <div class="validate"></div>
-            </div>
-
-            <div class="form-group">
-              <textarea class="form-control" name="message" id="contact-message" placeholder="Your Message" rows="5" data-rule="required" data-msg="Please write something for us"></textarea>
-              <div class="validate"></div>
-            </div>
-
-            <div class="loading"><img src="lib/php-mail-form/loading.gif"></div>
-            <div class="error-message"></div>
-            <div class="sent-message">Your message has been sent. Thank you!</div>
-
-            <div class="form-send">
-              <button type="submit" class="btn btn-large">Send Message</button>
-            </div>
-
-          </form>
+    <!-- New Content Section with YouTube Video and Text -->
+    <section class="content-section">
+        <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/HvH1_0mMZcA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
-      </div>
-    </div>
+        <div class="text-wrapper">
+            <h2>Gameplay is King</h2>
+            <p>Setting ourselves apart from many web3 games that lean on casual turn-based gameplay, we're dedicated to creating a skill-based, real-time gameplay experience that caters to the tastes of mid-core gamers.</p>
+        </div>
+    </section>
 
+    <!-- Classic Experiences Section -->
+    <section class="classic-experiences">
+        <h2>Classic experiences that you love</h2>
+        <div class="experiences-grid">
+            <div class="experience">
+                <h3>Adventures</h3>
+                <p>Embark on classic PvE experiences. Clear dungeons, arenas, and trials filled with hordes of mobs. Confront elite enemies and epic bosses.</p>
+            </div>
+            <div class="experience">
+                <h3>Player vs Player</h3>
+                <p>Challenge other players in duels with tokens at stake. Enjoy skirmishes in the arenas, and earn tokens, epic gear, and fame with Arena Battle Passes.</p>
+            </div>
+            <div class="experience">
+                <h3>Social</h3>
+                <p>Chat, trade, duel, or simply make friends. Flaunt your hard-earned gear and accomplishments. Form powerful guilds to dominate the game world.</p>
+            </div>
+        </div>
+    </section>
 
+    <!-- Feature Stats Section -->
+    <section class="feature-stats">
+        <div class="stat-grid">
+            <div class="stat">
+                3
+                <div class="label">Classes</div>
+            </div>
+            <div class="stat">
+                40+
+                <div class="label">Stats</div>
+            </div>
+            <div class="stat">
+                60+
+                <div class="label">Unique Skills</div>
+            </div>
+            <div class="stat">
+                150+
+                <div class="label">Items</div>
+            </div>
+        </div>
+    </section>
 
-  <!-- JavaScript Libraries -->
-  <script src="lib/jquery/jquery.min.js"></script>
-  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-  <script src="lib/php-mail-form/validate.js"></script>
-  <script src="lib/easing/easing.min.js"></script>
-  <script src="lib/chart/chart.js"></script>
+    <!-- Diverse Progression Systems Section -->
+    <section class="progression-systems">
+        <h2>Diverse Progression Systems</h2>
+        <div class="progression-grid">
+            <div class="progression-feature">
+                <h3>Class Leveling</h3>
+                <p>Advance your class level to boost stats.</p>
+            </div>
+            <div class="progression-feature">
+                <h3>Gem Crafting</h3>
+                <p>Craft better gems and insert them in gear for added attributes.</p>
+            </div>
+            <div class="progression-feature">
+                <h3>Equipment Tiers</h3>
+                <p>Acquire gear of four rarities, from Common to Epic.</p>
+            </div>
+            <div class="progression-feature">
+                <h3>Gear Enhancement</h3>
+                <p>Improve your gear's stats through the enhancement system.</p>
+            </div>
+        </div>
+    </section>
 
-  <!-- Template Main Javascript File -->
-  <script src="js/main.js"></script>
+    <!-- Fair Play Section -->
+    <section class="fair-play">
+        <h2>Fair Play: No Pay-to-Win</h2>
+        <p>We stand against cash shops, crystals, energy systems, and other modern predatory practices. Our goal is to preserve the value of your hard-earned loot.</p>
+        <p>Our in-game economy is powered by a single WYRM token, used for player trading, accessing competitive mechanics, and unlocking new features through staking.</p>
+    </section>
 
+    <!-- Community Section -->
+    <section class="community">
+        <h2>Join our community</h2>
+        <div class="community-links">
+            <a href="https://twitter.com/PlayCalamity"><img src="Media/twitter-logo.png" alt="Twitter"></a>
+            <a href="https://discord.gg/hTRqHqUM"><img src="Media/discord-logo.png" alt="Discord"></a>
+            <a href="https://playcalamity.medium.com/"><img src="Media/medium-logo.png" alt="Medium"></a>
+            <a href="https://store.epicgames.com/en-US/p/calamity-3cb31b"><img src="Media/epic-logo.png" alt="Epic Store"></a>
+        </div>
+    </section>
 
+</body>
+</html>
