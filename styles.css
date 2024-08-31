@@ -110,11 +110,10 @@ body {
 
 /* Hero Section */
 .hero {
-    background-image: url('Media/thiefs_shelter_hero_combined.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 80vh;
+    height: 90vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -148,11 +147,50 @@ body {
     transform: scale(1.05);
 }
 
-/* Section Styles */
+/* Featured Section */
+.featured-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.featured-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+    width: 100%;
+    max-width: 600px;
+    text-align: left;
+}
+
+.featured-item img {
+    width: 50px;
+    height: auto;
+    margin-right: 20px;
+    border-radius: 8px;
+}
+
+.featured-item div {
+    flex: 1;
+}
+
+.featured-item h3 {
+    font-size: 24px;
+    color: #e63946;
+    margin-bottom: 10px;
+}
+
+.featured-item p {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+/* About Section */
 #about, #overview {
-    padding: 60px 20px;
     max-width: 900px;
-    margin: 0 auto;
+    margin: 60px auto;
     text-align: left;
 }
 
@@ -162,12 +200,7 @@ body {
     margin-bottom: 20px;
 }
 
-#about p, #overview p {
-    margin-bottom: 20px;
-    line-height: 1.8;
-}
-
-.about-container, .overview-container {
+#about .about-container, #overview .overview-container {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -175,10 +208,15 @@ body {
     gap: 20px;
 }
 
-.about-photo, .overview-photo {
+#about .about-photo, #overview .overview-photo {
     width: 200px;
     height: auto;
     border-radius: 8px;
+}
+
+#about .about-text, #overview .overview-text {
+    flex: 1;
+    min-width: 250px;
 }
 
 .about-screenshot, .overview-screenshot {
@@ -259,6 +297,6 @@ body {
     }
 
     #about, #overview {
-        padding: 20px;
+        padding: 0 20px;
     }
 }
