@@ -15,7 +15,6 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    text-align: center; /* Centering text globally */
 }
 
 /* Header Styles */
@@ -41,6 +40,7 @@ body {
 .nav {
     display: flex;
     gap: 30px;
+    margin-right: 50px; /* Shift the menu more to the left */
 }
 
 .nav ul {
@@ -67,15 +67,15 @@ body {
     padding: 20px;
     position: fixed;
     top: 0;
-    left: -100%;
+    right: -100%; /* Start from the right */
     height: 100%;
     width: 250px;
     z-index: 1001;
-    transition: left 0.3s ease;
+    transition: right 0.3s ease;
 }
 
 .mobile-nav.active {
-    left: 0;
+    right: 0; /* Slide in from the right */
 }
 
 .mobile-nav ul {
@@ -96,6 +96,9 @@ body {
     display: none;
     font-size: 30px;
     color: #fff;
+    padding: 10px;
+    background-color: rgba(230, 57, 70, 0.8); /* Background color to make it distinct */
+    border-radius: 5px;
 }
 
 /* Hero Section */
