@@ -114,7 +114,7 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 90vh;
+    height: 80vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -148,60 +148,26 @@ body {
     transform: scale(1.05);
 }
 
-/* Featured Section */
-.featured-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 40px;
-}
-
-.featured-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 40px;
-    width: 100%;
-    max-width: 600px;
-    text-align: left;
-}
-
-.featured-item img {
-    width: 50px;
-    height: auto;
-    margin-right: 20px;
-    border-radius: 8px;
-}
-
-.featured-item div {
-    flex: 1;
-}
-
-.featured-item h3 {
-    font-size: 24px;
-    color: #e63946;
-    margin-bottom: 10px;
-}
-
-.featured-item p {
-    font-size: 16px;
-    margin-bottom: 15px;
-}
-
-/* About Section */
-#about {
+/* Section Styles */
+#about, #overview {
+    padding: 60px 20px;
     max-width: 900px;
-    margin: 60px auto;
+    margin: 0 auto;
     text-align: left;
 }
 
-#about h2 {
+#about h2, #overview h2 {
     font-size: 36px;
     color: #e63946;
     margin-bottom: 20px;
 }
 
-#about .about-container {
+#about p, #overview p {
+    margin-bottom: 20px;
+    line-height: 1.8;
+}
+
+.about-container, .overview-container {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -209,45 +175,17 @@ body {
     gap: 20px;
 }
 
-#about .about-photo {
+.about-photo, .overview-photo {
     width: 200px;
     height: auto;
     border-radius: 8px;
 }
 
-#about .about-text {
-    flex: 1;
-    min-width: 250px;
-}
-
-.about-screenshot {
+.about-screenshot, .overview-screenshot {
     width: 100%;
     max-width: 800px;
     margin: 20px 0;
     border-radius: 8px;
-}
-
-/* Thief's Shelter Genesis Section */
-#thiefs-shelter-genesis {
-    padding: 40px 20px;
-    background-color: #1a1a1a;
-    color: #ddd;
-    max-width: 900px;
-    margin: 0 auto 60px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
-#thiefs-shelter-genesis h2 {
-    font-size: 32px;
-    color: #e63946;
-    margin-bottom: 20px;
-}
-
-#thiefs-shelter-genesis p {
-    font-size: 18px;
-    margin-bottom: 20px;
-    line-height: 1.8;
 }
 
 /* Footer */
@@ -320,11 +258,7 @@ body {
         margin-bottom: 20px;
     }
 
-    #about {
-        padding: 0 20px;
-    }
-
-    #thiefs-shelter-genesis {
+    #about, #overview {
         padding: 20px;
     }
 }
