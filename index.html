@@ -3,516 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calamity - Action RPG</title>
-    <link rel="icon" href="Media/favicon.png" type="image/png"> <!-- Favicon -->
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #000;
-            color: #fff;
-            scroll-behavior: smooth;
-            box-sizing: border-box;
-        }
-
-        /* Header Styles */
-        .header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background-color: rgba(74, 63, 130, 0.85); /* Transparent background */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 50px; /* Adjusted padding */
-            z-index: 1000;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for styling */
-            backdrop-filter: blur(10px); /* Blur effect for modern look */
-        }
-
-        .header img {
-            height: 50px;
-            margin-right: 20px; /* Added margin for spacing from the left side */
-        }
-
-        .social-links {
-            display: flex;
-            gap: 10px; /* Reduced gap for more compact spacing */
-            align-items: center;
-            margin-right: 20px; /* Shifted icons closer to the left */
-            transform: translateX(-50px); /* Move icons to the left by 50px */
-        }
-
-        .social-links img {
-            height: 30px;
-            width: 30px;
-            transition: transform 0.3s ease, border-radius 0.3s ease; /* Smooth transition for hover effect */
-        }
-
-        .social-links img:hover {
-            transform: scale(1.1); /* Slightly increase size on hover */
-            border-radius: 50%; /* Transition to round shape */
-        }
-
-        /* Fullscreen Video Section */
-        .video-section {
-            position: relative;
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            text-align: center;
-            padding: 0 50px; /* Added padding for consistent spacing */
-            max-width: 100%;
-        }
-
-        .video-section video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: blur(5px) brightness(0.7);
-        }
-
-        .video-section .content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .video-section .content img {
-            width: 500px;
-        }
-
-        .video-section .content p {
-            font-size: 1.5em;
-            margin-bottom: 30px; /* Added space between text and button */
-        }
-
-        .video-section .discord-button {
-            background-color: #7289DA; /* Discord logo color */
-            padding: 15px 40px;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            display: inline-block;
-            margin-top: 20px; /* Space from the previous text */
-        }
-
-        .video-section .discord-button:hover {
-            background-color: #5A6FB8; /* Slightly darker on hover */
-            transform: scale(1.1); /* Pop up effect on hover */
-        }
-
-        /* Content Section with YouTube Video */
-        .content-section {
-            background-image: url('Media/gameplay-king.png');
-            display: flex;
-            flex-wrap: wrap;
-            padding: 30px 100px; /* Added padding for consistent spacing */
-            background-color: #5A518C;
-            min-height: 600px;
-            max-width: 100%; /* Ensure full width */
-            margin: 0 auto; /* Center the section */
-        }
-
-        .content-section .video-wrapper {
-            flex: 1;
-            max-width: 50%; /* Adjusted to balance with the text */
-            padding-right: 40px;
-            margin-top: 50px; /* Moved video slightly down */
-        }
-
-        .content-section .video-wrapper iframe {
-            width: 100%;
-            height: 400px;
-        }
-
-        .content-section .text-wrapper {
-            flex: 1;
-            max-width: 50%; /* Adjusted to balance with the video */
-            padding-left: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .content-section h2 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-        }
-
-        .content-section p {
-            font-size: 1.2em;
-            line-height: 1.6;
-            margin-top: 20px;
-        }
-
-        /* Classic Experiences Section */
-        .classic-experiences {
-            background-color: #251D4E;
-            padding: 60px 50px; /* Added padding for consistent spacing */
-            text-align: center;
-            max-width: 100%; /* Ensure full width */
-            margin: 0 auto; /* Center the section */
-        }
-
-        .classic-experiences h2 {
-            font-size: 2.5em;
-            margin-bottom: 40px;
-        }
-
-        .experiences-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 40px;
-        }
-
-        .experience {
-            flex: 1;
-            max-width: 300px;
-            text-align: left;
-        }
-
-        .experience h3 {
-            font-size: 1.8em;
-            margin-bottom: 15px;
-        }
-
-        .experience p {
-            font-size: 1.1em;
-            line-height: 1.6;
-        }
-
-        /* Feature Stats Section */
-        .feature-stats {
-            background-color: #4A3F82;
-            padding: 50px 50px; /* Added padding for consistent spacing */
-            text-align: center;
-            max-width: 100%; /* Ensure full width */
-            margin: 0 auto; /* Center the section */
-        }
-
-        .feature-stats .stat-grid {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 50px;
-            position: relative; /* Enable relative positioning for line */
-        }
-
-        .feature-stats .stat-grid::after {
-            content: '';
-            position: absolute;
-            width: 80%; /* Adjust width as needed */
-            height: 2px;
-            background-color: white;
-            top: 50%;
-            left: 10%; /* Center the line horizontally */
-            z-index: -1; /* Ensure the line is behind the text */
-        }
-
-        .feature-stats .stat {
-            font-size: 3em; /* Increased size of numbers */
-            font-weight: bold;
-            padding: 0 20px; /* Add padding to separate from the line */
-            background-color: #4A3F82; /* Match the background color to blend the text */
-        }
-
-        .feature-stats .label {
-            font-size: 1em; /* Reduced size of text */
-            margin-top: 5px;
-            color: #FFD700;
-        }
-
-        /* Diverse Progression Systems Section */
-        .progression-systems {
-            background-color: #251D4E;
-            padding: 60px 50px; /* Added padding for consistent spacing */
-            text-align: center;
-            max-width: 100%; /* Ensure full width */
-            margin: 0 auto; /* Center the section */
-        }
-
-        .progression-systems h2 {
-            font-size: 2.5em;
-            margin-bottom: 40px;
-        }
-
-        .progression-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px; /* Further reduced gap to decrease overlap */
-            justify-content: center;
-            align-items: start;
-            max-width: 900px; /* Constrain width for better alignment */
-            margin: 0 auto; /* Center grid */
-        }
-
-        .progression-feature {
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 10px; /* Further reduced padding */
-            border-radius: 8px;
-            text-align: center; /* Center text alignment */
-            height: 100%; /* Ensure equal height for grid items */
-        }
-
-        .progression-feature h3 {
-            font-size: 1.8em;
-            margin-bottom: 10px;
-        }
-
-        .progression-feature p {
-            font-size: 1.1em;
-            line-height: 1.4;
-        }
-
-        /* Fair Play Section */
-        .fair-play {
-            background-image: url('Media/serpent-background.png'); /* Background image with serpent */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            padding: 60px 500px; /* Adjusted padding */
-            text-align: center; /* Align text to the left */
-            color: #fff; /* Ensure text is readable on the background */
-            position: relative;
-        }
-
-        .fair-play::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5); /* Slightly darken the background */
-            backdrop-filter: blur(3px); /* Slight blur effect */
-            z-index: 1;
-        }
-
-        .fair-play h2,
-        .fair-play p {
-            position: relative;
-            z-index: 2; /* Ensure text is above the darkened background */
-        }
-
-        .fair-play h2 {
-            font-size: 2.5em;
-            margin-bottom: 30px;
-        }
-
-        .fair-play p {
-            font-size: 1.2em;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        /* Community Section */
-        .community {
-            background-color: #251D4E;
-            padding: 10px 50px; /* Added padding for consistent spacing */
-            text-align: center;
-            max-width: 100%; /* Ensure full width */
-            margin: 0 auto; /* Center the section */
-        }
-
-        .community h2 {
-            font-size: 2.5em;
-            margin-bottom: 30px;
-        }
-
-        .community-links {
-            display: flex;
-            justify-content: center;
-            gap: 15px; /* Reduced spacing between logos */
-        }
-
-        .community-links img {
-            height: 50px;
-            width: 50px;
-            transition: transform 0.3s ease, border-radius 0.3s ease;
-        }
-
-        .community-links img:hover {
-            transform: scale(1.1);
-            border-radius: 50%;
-        }
-
-        /* Mobile Optimization */
-        @media (max-width: 768px) {
-            .header {
-                padding: 10px 20px;
-            }
-
-            .content-section {
-                flex-direction: column;
-                padding: 50px 20px; /* Adjusted padding for smaller screens */
-            }
-
-            .content-section .video-wrapper, .content-section .text-wrapper {
-                max-width: 100%;
-                padding: 0;
-                margin-bottom: 20px;
-            }
-
-            .experiences-grid {
-                flex-direction: column;
-            }
-
-            .experience {
-                max-width: 100%;
-            }
-
-            .feature-stats .stat-grid {
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            .progression-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .fair-play {
-                padding: 40px 20px; /* Adjusted padding for smaller screens */
-            }
-
-            .community-links {
-                flex-direction: row; /* Ensure the social icons stay in a row */
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 10px; /* Adjust spacing for smaller screens */
-            }
-        }
-    </style>
+    <title>Geo Games - Welcome</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="Media/logo.png" type="image/png">
+    <script src="menu.js" defer></script>
 </head>
 <body>
-
     <!-- Header Section -->
     <header class="header">
-        <img src="Media/logo.png" alt="Calamity Logo">
-        <div class="social-links">
-            <a href="https://twitter.com/PlayCalamity"><img src="Media/twitter-logo.png" alt="Twitter"></a>
-            <a href="https://discord.gg/hTRqHqUM"><img src="Media/discord-logo.png" alt="Discord"></a>
-            <a href="https://playcalamity.medium.com/"><img src="Media/medium-logo.png" alt="Medium"></a>
-            <a href="https://store.epicgames.com/en-US/p/calamity-3cb31b"><img src="Media/epic-logo.png" alt="Epic Store"></a>
+        <img src="Media/logo.png" alt="Geo Games Logo" class="logo">
+        <div class="nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="thiefs_shelter.html">Thief’s Shelter</a></li>
+            </ul>
         </div>
+        <div class="menu-icon">&#9776;</div>
     </header>
 
-    <!-- Video Section -->
-    <section class="video-section">
-        <video autoplay muted loop>
-            <source src="Media/gameplay.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <div class="content">
-            <img src="Media/logo-large.png" alt="Calamity Logo">
-            <p>Action RPG with real economy</p>
-            <a class="discord-button" href="https://discord.gg/hTRqHqUM">Join Discord</a>
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="thiefs_shelter.html">Thief’s Shelter</a></li>
+        </ul>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Welcome to Geo Games</h1>
+            <p>Where Immersive Worlds Come to Life</p>
+            <a href="thiefs_shelter.html" class="cta-button">Explore Thief's Shelter</a>
         </div>
     </section>
 
-    <!-- New Content Section with YouTube Video and Text -->
-    <section class="content-section">
-        <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/HvH1_0mMZcA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-        <div class="text-wrapper">
-            <h2>Gameplay is King</h2>
-            <p>Setting ourselves apart from many web3 games that lean on casual turn-based gameplay, we're dedicated to creating a skill-based, real-time gameplay experience that caters to the tastes of mid-core gamers.</p>
-        </div>
+    <!-- About Section -->
+    <section id="about">
+        <h2>About Dimitris</h2>
+        <p>As a Game Director, Motion and Game Designer, Writer, and Storyteller with over 4 years of experience, my passion lies in crafting experiences that truly immerse players in the worlds I create. Through my work, I strive to deliver unforgettable journeys that captivate and engage, allowing players to escape into new realities.</p>
     </section>
 
-    <!-- Classic Experiences Section -->
-    <section class="classic-experiences">
-        <h2>Classic experiences that you love</h2>
-        <div class="experiences-grid">
-            <div class="experience">
-                <h3>Adventures</h3>
-                <p>Embark on classic PvE experiences. Clear dungeons, arenas, and trials filled with hordes of mobs. Confront elite enemies and epic bosses.</p>
-            </div>
-            <div class="experience">
-                <h3>Player vs Player</h3>
-                <p>Challenge other players in duels with tokens at stake. Enjoy skirmishes in the arenas, and earn tokens, epic gear, and fame with Arena Battle Passes.</p>
-            </div>
-            <div class="experience">
-                <h3>Social</h3>
-                <p>Chat, trade, duel, or simply make friends. Flaunt your hard-earned gear and accomplishments. Form powerful guilds to dominate the game world.</p>
+    <!-- Featured Project Section -->
+    <section class="featured-section">
+        <div class="featured-item">
+            <img src="Media/thiefs_shelter_keyart.jpg" alt="Thief's Shelter Key Art">
+            <div>
+                <h3>Thief’s Shelter</h3>
+                <p>Thief’s Shelter is an immersive adventure that plunges players into a richly atmospheric world where every choice matters. Set in a society where the strong prey on the weak, and shadowy demonic forces pull the strings, this game weaves together fictional and real-world elements to create a gripping narrative.</p>
+                <a href="thiefs_shelter.html" class="cta-button">Learn More</a>
             </div>
         </div>
-    </section>
 
-    <!-- Feature Stats Section -->
-    <section class="feature-stats">
-        <div class="stat-grid">
-            <div class="stat">
-                3
-                <div class="label">Classes</div>
-            </div>
-            <div class="stat">
-                40+
-                <div class="label">Stats</div>
-            </div>
-            <div class="stat">
-                60+
-                <div class="label">Unique Skills</div>
-            </div>
-            <div class="stat">
-                150+
-                <div class="label">Items</div>
+        <div class="featured-item">
+            <img src="Media/kaer_morhen_remake.jpg" alt="Kaer Morhen Remake">
+            <div>
+                <h3>Kaer Morhen Remake</h3>
+                <p>In addition to game development, I’ve been honing my skills in modding, particularly with the Witcher 3 RED Kit. My current project, the 'Kaer Morhen Remake,' brings new life to this iconic location.</p>
+                <a href="https://next.nexusmods.com/profile/DimitrisG9/about-me?gameId=952" class="cta-button">View Mods</a>
             </div>
         </div>
     </section>
 
-    <!-- Diverse Progression Systems Section -->
-    <section class="progression-systems">
-        <h2>Diverse Progression Systems</h2>
-        <div class="progression-grid">
-            <div class="progression-feature">
-                <h3>Class Leveling</h3>
-                <p>Advance your class level to boost stats.</p>
-            </div>
-            <div class="progression-feature">
-                <h3>Gem Crafting</h3>
-                <p>Craft better gems and insert them in gear for added attributes.</p>
-            </div>
-            <div class="progression-feature">
-                <h3>Equipment Tiers</h3>
-                <p>Acquire gear of four rarities, from Common to Epic.</p>
-            </div>
-            <div class="progression-feature">
-                <h3>Gear Enhancement</h3>
-                <p>Improve your gear's stats through the enhancement system.</p>
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Geo Games. All rights reserved.</p>
+            <p>Contact: <a href="mailto:askgeogames@gmail.com">askgeogames@gmail.com</a></p>
+            <div class="social-media">
+                <a href="https://discord.com/invite/8uWHut5" target="_blank"><img src="Media/discord-black.png" alt="Discord"></a>
+                <a href="https://twitter.com/GeoGames14" target="_blank"><img src="Media/twitter-black.png" alt="Twitter"></a>
+                <a href="https://www.youtube.com/channel/UCjz48AFm4Z85UFyd5wOQ2zw" target="_blank"><img src="Media/youtube-black.png" alt="YouTube"></a>
+                <a href="https://www.instagram.com/geogames__/" target="_blank"><img src="Media/instagram-black.png" alt="Instagram"></a>
+                <a href="https://www.facebook.com/GeoGamesDev/" target="_blank"><img src="Media/facebook-black.png" alt="Facebook"></a>
             </div>
         </div>
-    </section>
-
-    <!-- Fair Play Section -->
-    <section class="fair-play">
-        <h2>Fair Play: No Pay-to-Win</h2>
-        <p>We stand against cash shops, crystals, energy systems, and other modern predatory practices. Our goal is to preserve the value of your hard-earned loot.</p>
-        <p>Our in-game economy is powered by a single WYRM token, used for player trading, accessing competitive mechanics, and unlocking new features through staking.</p>
-    </section>
-
-    <!-- Community Section -->
-    <section class="community">
-        <h2>Join our community</h2>
-        <div class="community-links">
-            <a href="https://twitter.com/PlayCalamity"><img src="Media/twitter-logo.png" alt="Twitter"></a>
-            <a href="https://discord.gg/hTRqHqUM"><img src="Media/discord-logo.png" alt="Discord"></a>
-            <a href="https://playcalamity.medium.com/"><img src="Media/medium-logo.png" alt="Medium"></a>
-            <a href="https://store.epicgames.com/en-US/p/calamity-3cb31b"><img src="Media/epic-logo.png" alt="Epic Store"></a>
-        </div>
-    </section>
-
+    </footer>
 </body>
 </html>

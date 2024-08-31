@@ -1,0 +1,271 @@
+/* Basic Reset */
+body, h1, h2, h3, p, ul, li, a, img {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+/* Body and Container Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #1e1e1e;
+    color: #ccc;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    text-align: center; /* Centering text globally */
+}
+
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: rgba(20, 20, 20, 0.8); /* Slight transparency */
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    height: 60px; /* Reduced height */
+}
+
+.logo {
+    width: 60px; /* Smaller logo size */
+    height: auto;
+}
+
+.nav {
+    display: flex;
+    gap: 30px;
+}
+
+.nav ul {
+    display: flex;
+    gap: 30px;
+}
+
+.nav ul li a {
+    color: #ccc;
+    font-size: 16px;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.nav ul li a:hover {
+    color: #fff;
+}
+
+/* Mobile Menu */
+.mobile-nav {
+    display: none;
+    flex-direction: column;
+    background-color: rgba(20, 20, 20, 0.95); /* Slightly more opaque for mobile */
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    height: 100%;
+    width: 250px;
+    z-index: 1001;
+    transition: left 0.3s ease;
+}
+
+.mobile-nav.active {
+    left: 0;
+}
+
+.mobile-nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.mobile-nav ul li a {
+    color: #ccc;
+    font-size: 20px;
+    text-transform: uppercase;
+    padding: 10px;
+}
+
+.menu-icon {
+    cursor: pointer;
+    display: none;
+    font-size: 30px;
+    color: #fff;
+}
+
+/* Hero Section */
+.hero {
+    background-image: url('Media/thiefs_shelter_hero_combined.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+    width: 100%;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #e63946;
+    color: #fff;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-size: 18px;
+}
+
+.cta-button:hover {
+    background-color: #a52834;
+}
+
+/* Featured Section */
+.featured-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.featured-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+    width: 100%;
+    max-width: 600px; /* Limit width of the content */
+    text-align: left;
+}
+
+.featured-item img {
+    width: 50px; /* Small icon size */
+    height: auto;
+    margin-right: 20px;
+    border-radius: 8px;
+}
+
+.featured-item div {
+    flex: 1;
+}
+
+.featured-item h3 {
+    font-size: 24px;
+    color: #e63946;
+    margin-bottom: 10px;
+}
+
+.featured-item p {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+/* About Section */
+#about {
+    max-width: 600px; /* Limit width of the content */
+    margin: 60px auto;
+}
+
+#about h2 {
+    font-size: 36px;
+    color: #e63946;
+    margin-bottom: 20px;
+}
+
+#about p {
+    font-size: 18px;
+    margin-bottom: 20px;
+    line-height: 1.8;
+}
+
+/* Footer */
+.footer {
+    background-color: #141414;
+    padding: 20px;
+    text-align: center;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer p, .footer a {
+    color: #ccc;
+}
+
+.footer a:hover {
+    color: #e63946;
+}
+
+/* Social Media Icons */
+.social-media {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-media img {
+    width: 24px;
+    height: 24px;
+    border-radius: 0;
+    transition: border-radius 0.3s ease;
+}
+
+.social-media img:hover {
+    border-radius: 50%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav {
+        display: none;
+    }
+
+    .menu-icon {
+        display: block;
+    }
+
+    .hero h1 {
+        font-size: 36px;
+    }
+
+    .hero p {
+        font-size: 18px;
+    }
+
+    .mobile-nav {
+        display: flex;
+    }
+
+    .featured-item {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .featured-item img {
+        margin-bottom: 20px;
+    }
+
+    #about {
+        padding: 0 20px;
+    }
+}
