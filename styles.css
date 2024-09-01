@@ -121,7 +121,7 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 90vh;
+    height: 100vh; /* This makes the hero section take up 100% of the viewport height */
     display: flex;
     align-items: center;
     justify-content: center;
