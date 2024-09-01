@@ -1,3 +1,6 @@
+/* Import Raleway Font with All Weights */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
 /* Basic Reset */
 body, h1, h2, h3, p, ul, li, a, img {
     margin: 0;
@@ -5,14 +8,11 @@ body, h1, h2, h3, p, ul, li, a, img {
     text-decoration: none;
     list-style: none;
     box-sizing: border-box;
+    font-family: 'Raleway', sans-serif; /* Apply Raleway to all elements */
 }
-
-/* Import Raleway Font */
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700&display=swap');
 
 /* Body and Container Styles */
 body {
-    font-family: 'Raleway', sans-serif;
     background: linear-gradient(135deg, rgba(30,30,30,0.9), rgba(18,18,18,0.9)), url('Media/ts_screenshot3.jpg');
     background-size: cover;
     background-attachment: fixed;
@@ -22,6 +22,7 @@ body {
     padding: 0;
     text-align: center;
     scroll-behavior: smooth;
+    font-weight: 400; /* Set default font weight */
 }
 
 /* Header Styles */
@@ -60,7 +61,7 @@ body {
     font-size: 16px;
     text-transform: uppercase;
     transition: color 0.3s ease;
-    font-family: 'Raleway', sans-serif;
+    font-weight: 600; /* Semi-bold for navigation */
 }
 
 .nav ul li a:hover {
@@ -80,7 +81,7 @@ body {
     width: 250px;
     z-index: 1001;
     transition: right 0.3s ease;
-    font-family: 'Raleway', sans-serif;
+    font-weight: 400; /* Normal weight for mobile menu */
 }
 
 .mobile-nav.active {
@@ -98,6 +99,7 @@ body {
     font-size: 20px;
     text-transform: uppercase;
     padding: 10px;
+    font-weight: 600; /* Semi-bold for mobile navigation */
 }
 
 .menu-icon {
@@ -140,17 +142,17 @@ body {
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-
 .hero h1 {
     font-size: 48px;
     margin-bottom: 10px;
     letter-spacing: 1px;
-    font-family: 'Raleway', sans-serif;
+    font-weight: 700; /* Bold for hero section titles */
 }
 
 .hero p {
     font-size: 24px;
     margin-bottom: 20px;
+    font-weight: 400; /* Normal weight for hero section text */
 }
 
 /* Introductory Section */
@@ -164,7 +166,7 @@ body {
     font-size: 36px;
     color: #e63946;
     margin-bottom: 20px;
-    font-family: 'Raleway', sans-serif;
+    font-weight: 700; /* Bold for section titles */
 }
 
 .intro-text p {
@@ -172,7 +174,7 @@ body {
     line-height: 1.8;
     max-width: 800px;
     margin: 0 auto;
-    font-family: 'Raleway', sans-serif;
+    font-weight: 400; /* Normal weight for section text */
 }
 
 /* Project Section */
@@ -195,6 +197,7 @@ body {
     background-color: #1f1f1f;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-weight: 400; /* Normal weight for featured items */
 }
 
 .featured-item img {
@@ -229,11 +232,11 @@ body {
     border-radius: 5px;
     transition: background-color 0.2s ease, transform 0.2s ease;
     font-size: 18px;
-    width: 80%;
+    width: 60%;
     box-sizing: border-box;
     margin-bottom: 0; /* Remove bottom margin since gap handles spacing */
-    font-family: 'Raleway', sans-serif;
-    max-width: 400px; /* Set a max-width to prevent buttons from being too wide */
+    font-weight: 600; /* Semi-bold for buttons */
+    max-width: 300px; /* Set a max-width to prevent buttons from being too wide */
     text-align: center;
 }
 
@@ -264,7 +267,7 @@ body {
     font-size: 36px;
     color: #e63946;
     margin-bottom: 20px;
-    font-family: 'Raleway', sans-serif;
+    font-weight: 700; /* Bold for section titles */
 }
 
 #about .about-container, #overview .overview-container {
@@ -284,6 +287,7 @@ body {
 #about .about-text, #overview .overview-text {
     flex: 1;
     min-width: 250px;
+    font-weight: 400; /* Normal weight for text */
 }
 
 .about-screenshot, .overview-screenshot {
@@ -309,6 +313,7 @@ body {
 
 .footer p, .footer a {
     color: #ccc;
+    font-weight: 400; /* Normal weight for footer */
 }
 
 .footer a:hover {
