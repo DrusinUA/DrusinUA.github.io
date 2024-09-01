@@ -170,7 +170,7 @@ body {
     flex-direction: column;
     align-items: center;
     margin-bottom: 40px;
-    padding: 35px 20px; /* Increased by 15% */
+    padding: 35px 20px;
 }
 
 .featured-item {
@@ -179,22 +179,34 @@ body {
     justify-content: center;
     margin-bottom: 40px;
     width: 100%;
-    max-width: 740px; /* Increased by 10% */
+    max-width: 800px;
     text-align: left;
     background-color: #1f1f1f;
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .featured-item img {
-    width: 66px; /* Increased by 10% */
+    width: 120px;
     height: auto;
     margin-right: 20px;
-    border-radius: 8px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
 }
 
 .featured-item div {
     flex: 1;
+}
+
+/* Button Container for Stacking Buttons */
+.cta-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
 }
 
 /* Button Styling */
@@ -204,24 +216,26 @@ body {
     background-color: #e63946;
     color: #fff;
     border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.2s ease, transform 0.2s ease;
     font-size: 18px;
-    width: 100%;
+    width: auto;
     box-sizing: border-box;
-    margin-bottom: 10px;
+    margin-bottom: 0; /* Remove bottom margin since gap handles spacing */
     font-family: 'Raleway', sans-serif;
+    max-width: 800px; /* Set a max-width to prevent buttons from being too wide */
+    text-align: center;
 }
 
 .cta-button img {
-    width: 20px;
-    height: auto;
+    width: 30px;
+    height: 30px; /* Ensure consistent size for icons */
     vertical-align: middle;
     margin-right: 10px;
 }
 
 .cta-button:hover {
     background-color: #a52834;
-    transform: scale(1.05);
+    transform: scale(1.02); /* Subtle hover effect */
 }
 
 /* About Section */
