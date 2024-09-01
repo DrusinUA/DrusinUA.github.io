@@ -7,11 +7,16 @@ body, h1, h2, h3, p, ul, li, a, img {
     box-sizing: border-box;
 }
 
+/* Import Raleway Font */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700&display=swap');
+
 /* Body and Container Styles */
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #1e1e1e;
-    color: #ccc;
+    font-family: 'Raleway', sans-serif;
+    background: linear-gradient(135deg, rgba(30,30,30,0.9), rgba(18,18,18,0.9)), url('Media/ts_screenshot3.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    color: #ddd;
     line-height: 1.6;
     margin: 0;
     padding: 0;
@@ -55,6 +60,7 @@ body {
     font-size: 16px;
     text-transform: uppercase;
     transition: color 0.3s ease;
+    font-family: 'Raleway', sans-serif;
 }
 
 .nav ul li a:hover {
@@ -74,6 +80,7 @@ body {
     width: 250px;
     z-index: 1001;
     transition: right 0.3s ease;
+    font-family: 'Raleway', sans-serif;
 }
 
 .mobile-nav.active {
@@ -110,6 +117,7 @@ body {
 
 /* Hero Section */
 .hero {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('Media/thiefs_shelter_hero_combined.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -125,6 +133,8 @@ body {
 .hero h1 {
     font-size: 48px;
     margin-bottom: 10px;
+    letter-spacing: 1px;
+    font-family: 'Raleway', sans-serif;
 }
 
 .hero p {
@@ -132,27 +142,35 @@ body {
     margin-bottom: 20px;
 }
 
-.cta-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #e63946;
-    color: #fff;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    font-size: 18px;
+/* Introductory Section */
+.intro-text {
+    padding: 60px 20px;
+    background-color: rgba(26, 26, 26, 0.9);
+    text-align: center;
 }
 
-.cta-button:hover {
-    background-color: #a52834;
-    transform: scale(1.05);
+.intro-text h2 {
+    font-size: 36px;
+    color: #e63946;
+    margin-bottom: 20px;
+    font-family: 'Raleway', sans-serif;
 }
 
-/* Featured Section */
+.intro-text p {
+    font-size: 20px;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: 'Raleway', sans-serif;
+}
+
+/* Project Section */
 .featured-section {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 40px;
+    padding: 35px 20px; /* Increased by 15% */
 }
 
 .featured-item {
@@ -161,12 +179,15 @@ body {
     justify-content: center;
     margin-bottom: 40px;
     width: 100%;
-    max-width: 600px;
+    max-width: 740px; /* Increased by 10% */
     text-align: left;
+    background-color: #1f1f1f;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .featured-item img {
-    width: 50px;
+    width: 66px; /* Increased by 10% */
     height: auto;
     margin-right: 20px;
     border-radius: 8px;
@@ -176,15 +197,31 @@ body {
     flex: 1;
 }
 
-.featured-item h3 {
-    font-size: 24px;
-    color: #e63946;
+/* Button Styling */
+.cta-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #e63946;
+    color: #fff;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-size: 18px;
+    width: 100%;
+    box-sizing: border-box;
     margin-bottom: 10px;
+    font-family: 'Raleway', sans-serif;
 }
 
-.featured-item p {
-    font-size: 16px;
-    margin-bottom: 15px;
+.cta-button img {
+    width: 20px;
+    height: auto;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.cta-button:hover {
+    background-color: #a52834;
+    transform: scale(1.05);
 }
 
 /* About Section */
@@ -192,12 +229,17 @@ body {
     max-width: 900px;
     margin: 60px auto;
     text-align: left;
+    padding: 20px;
+    background-color: rgba(26, 26, 26, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 #about h2, #overview h2 {
     font-size: 36px;
     color: #e63946;
     margin-bottom: 20px;
+    font-family: 'Raleway', sans-serif;
 }
 
 #about .about-container, #overview .overview-container {
@@ -224,13 +266,14 @@ body {
     max-width: 800px;
     margin: 20px 0;
     border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Footer */
 .footer {
     background-color: #141414;
-    padding: 20px;
-    text-align: center;
+    padding: 30px 20px;
+    border-top: 1px solid #333;
 }
 
 .footer-content {
@@ -258,11 +301,26 @@ body {
     width: 24px;
     height: 24px;
     border-radius: 0;
-    transition: border-radius 0.3s ease;
+    transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .social-media img:hover {
-    border-radius: 50%;
+    transform: scale(1.2);
+    color: #e63946;
+}
+
+/* Fade-in effect for sections */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Responsive Design */
@@ -273,6 +331,10 @@ body {
 
     .menu-icon {
         display: block;
+        position: fixed;
+        right: 10px;
+        top: 10px;
+        z-index: 1001;
     }
 
     .hero h1 {
@@ -297,6 +359,6 @@ body {
     }
 
     #about, #overview {
-        padding: 0 20px;
+        padding: 20px;
     }
 }
