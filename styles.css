@@ -229,7 +229,7 @@ body {
     border-radius: 5px;
     transition: background-color 0.2s ease, transform 0.2s ease;
     font-size: 18px;
-    width: 100%;
+    width: 80%;
     box-sizing: border-box;
     margin-bottom: 0; /* Remove bottom margin since gap handles spacing */
     font-family: 'Raleway', sans-serif;
@@ -238,8 +238,8 @@ body {
 }
 
 .cta-button img {
-    width: 30px;
-    height: 30px; /* Ensure consistent size for icons */
+    width: 32px;
+    height: 32px; /* Ensure consistent size for icons */
     vertical-align: middle;
     margin-right: 10px;
 }
