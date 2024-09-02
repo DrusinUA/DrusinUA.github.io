@@ -230,7 +230,7 @@ body {
     border-radius: 5px;
     transition: background-color 0.2s ease, transform 0.2s ease;
     font-size: 18px;
-    width: 60%;
+    width: 70%;
     box-sizing: border-box;
     margin-bottom: 0; /* Remove bottom margin since gap handles spacing */
     font-weight: 600; /* Semi-bold for buttons */
