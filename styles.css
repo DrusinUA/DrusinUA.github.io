@@ -13,7 +13,7 @@ body, h1, h2, h3, p, ul, li, a, img {
 
 /* Body and Container Styles */
 body {
-    background: linear-gradient(135deg, rgba(30,30,30,0.9), rgba(18,18,18,0.9)), url('Media/ts_screenshot3.jpg') no-repeat center center fixed;
+    background: linear-gradient(135deg, rgba(30,30,30,0.9), rgba(18,18,18,0.9)), url('Media/background.jpg') no-repeat center center fixed;
     background-size: cover;
     color: #ddd;
     line-height: 1.6;
