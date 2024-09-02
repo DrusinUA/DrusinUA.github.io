@@ -13,9 +13,8 @@ body, h1, h2, h3, p, ul, li, a, img {
 
 /* Body and Container Styles */
 body {
-    background: linear-gradient(135deg, rgba(30,30,30,0.9), rgba(18,18,18,0.9)), url('Media/ts_screenshot3.jpg');
+    background: linear-gradient(135deg, rgba(30,30,30,0.9), rgba(18,18,18,0.9)), url('Media/ts_screenshot3.jpg') no-repeat center center fixed;
     background-size: cover;
-    background-attachment: fixed;
     color: #ddd;
     line-height: 1.6;
     margin: 0;
@@ -23,6 +22,7 @@ body {
     text-align: center;
     scroll-behavior: smooth;
     font-weight: 400; /* Set default font weight */
+    min-height: 100vh; /* Ensure body is always at least 100vh */
 }
 
 /* Header Styles */
@@ -119,10 +119,8 @@ body {
 
 /* Hero Section */
 .hero {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('Media/thiefs_shelter_hero_combined.png');
+    background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('Media/thiefs_shelter_hero_combined.png') no-repeat center center;
     background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     height: 100vh; /* This makes the hero section take up 100% of the viewport height */
     display: flex;
     align-items: center;
@@ -292,7 +290,6 @@ body {
 
 .about-screenshot, .overview-screenshot {
     width: 100%;
-    max-width: 800px;
     margin: 20px 0;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
