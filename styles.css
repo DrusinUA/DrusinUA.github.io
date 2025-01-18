@@ -122,6 +122,17 @@ body {
   width: 100%;
   border-radius: 10px;
 }
+
+.disclaimer {
+  margin-top: 15px;
+  font-size: 0.8rem;
+}
+
+.disclaimer a {
+  color: #fff;
+  text-decoration: underline;
+}
+
 /* Footer Styling */
 .footer {
   position: relative;
