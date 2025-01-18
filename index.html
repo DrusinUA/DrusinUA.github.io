@@ -3,86 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geo Games - Welcome</title>
+    <meta name="description" content="Eon Rush: A co-op-action RPG where the thrills of end-game PvE and PvP are immediate and accessible.">
+    <title>Eon Rush</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="Media/logo-small.png" type="image/png">
-    <script src="menu.js" defer></script>
+    <link rel="icon" type="image/x-icon" href="./Assets/favicon.ico">
 </head>
 <body>
-    <!-- Header Section -->
-    <header class="header">
-        <img src="Media/logo.png" alt="Geo Games Logo" class="logo">
-        <div class="nav">
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="thiefs_shelter.html">Thief’s Shelter</a></li>
-            </ul>
+    <div class="hero">
+        <video autoplay muted loop class="hero-video">
+            <source src="./Assets/Eon_Rush_KeyArt_WebHeader_V2_2.webm" type="video/webm">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-content">
+            <img src="./Assets/logo.png" alt="Eon Rush Logo" class="logo">
+            <h1>Experience the End Game, Instantly</h1>
+            <p>
+                Eon Rush is a co-op-action RPG where the thrills of end-game PvE and PvP are immediate and accessible. 
+                Select from a roster of powerful Heroes and battle through space and time as you take on colossal beasts, 
+                trials, gauntlets, and more.
+            </p>
+            <div id="mc_embed_shell">
+                <div id="mc_embed_signup">
+                    <form action="https://eonrush.us8.list-manage.com/subscribe/post?u=993e67356647bf8e156834810&amp;id=9573b6375f&amp;f_id=00480de3f0" 
+                          method="post" 
+                          id="mc-embedded-subscribe-form" 
+                          name="mc-embedded-subscribe-form" 
+                          class="validate" 
+                          target="_self" 
+                          novalidate="">
+                        <div id="mc_embed_signup_scroll">
+                            <label for="mce-EMAIL">Join the Playtest!</label>
+                            <p>Sign up and get notified when you get access to the Playtest.</p>
+                            <input type="email" name="EMAIL" id="mce-EMAIL" placeholder="Enter your email" required>
+                            <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="menu-icon">&#9776;</div>
-    </header>
-
-    <!-- Mobile Navigation -->
-    <div class="mobile-nav">
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="thiefs_shelter.html">Thief’s Shelter</a></li>
-        </ul>
     </div>
 
-    <!-- Hero Section -->
-    <section class="hero fade-in">
-        <div class="hero-text">
-            <h1>Welcome to Geo Games</h1>
-            <p>Where Immersive Worlds Come to Life</p>
-            <a href="thiefs_shelter.html" class="cta-button">
-                <img src="Media/S_icon.png" alt="TS Icon">Explore Thief's Shelter
-            </a>
-        </div>
-    </section>
-
-    <!-- Introductory Section -->
-    <section class="intro-text fade-in">
-        <h2>Geo Games</h2>
-        <p>My name is Dimitris and Welcome to Geo Games, my personal page where I share my creative journey in game development. Here, you'll find insights into my work, passion projects, and the experiences that have shaped my path in the gaming industry.</p>
-    </section>
-
-    <!-- Featured Projects Section -->
-    <section class="featured-section fade-in">
-        <h2>Projects</h2>
-
-        <div class="featured-item">
-            <img src="Media/thiefs_shelter_keyart.jpg" alt="Thief's Shelter Project Image">
-            <div>
-                <h3>Thief's Shelter</h3>
-                <p>An atmospheric adventure where every choice matters. Immerse yourself in a world of mystery and dark secrets.</p>
-                <a href="thiefs_shelter.html" class="cta-button">Learn More</a>
+    <section class="features">
+        <h2>Skip to the Fun</h2>
+        <p>Jump into the action quickly and enjoy sessions that are fun and rewarding from the start.</p>
+        <div class="usp-grid">
+            <div class="usp">
+                <video autoplay muted loop class="usp-video">
+                    <source src="./Assets/PVP_And_PVE.webm" type="video/webm">
+                </video>
+                <h3>Adventure and Competition</h3>
+                <p>
+                    Team up and battle through gauntlets, colossal bosses, and epic MMO-inspired raids, 
+                    or take on other Guardians in heart-pounding PvP.
+                </p>
             </div>
-        </div>
-
-        <div class="featured-item">
-            <img src="Media/kaer_morhen_remake.jpg" alt="Kaer Morhen Remake Project Image">
-            <div>
-                <h3>Kaer Morhen Remake</h3>
-                <p>A faithful recreation of the iconic Kaer Morhen from The Witcher series, blending nostalgia with modern visuals.</p>
-                <a href="https://next.nexusmods.com/profile/DimitrisG9/about-me?gameId=952" class="cta-button" target="_blank">View Mods</a>
+            <div class="usp">
+                <video autoplay muted loop class="usp-video">
+                    <source src="./Assets/DEEPER_CO-OP.webm" type="video/webm">
+                </video>
+                <h3>Genre Defining Co-op</h3>
+                <p>
+                    Experience true cooperative combat. Maximize your potential by linking abilities and chaining combos, 
+                    transforming teamwork into your ultimate weapon.
+                </p>
+            </div>
+            <div class="usp">
+                <video autoplay muted loop class="usp-video">
+                    <source src="./Assets/Guardians.webm" type="video/webm">
+                </video>
+                <h3>Become a Guardian of Time</h3>
+                <p>
+                    Recruit Heroes from across the Eras to fight for the preservation of time. 
+                    Master their unique abilities and playstyles, adding depth and variety to each session.
+                </p>
             </div>
         </div>
     </section>
 
-    <!-- Footer Section -->
     <footer class="footer">
+        <div class="footer-bg">
+            <img src="./Assets/footterbg.png" alt="Footer Background">
+        </div>
         <div class="footer-content">
-            <p>&copy; 2024 Geo Games. All rights reserved.</p>
-            <p>Contact: <a href="mailto:askgeogames@gmail.com">askgeogames@gmail.com</a></p>
-            <div class="social-media">
-                <a href="https://discord.com/invite/8uWHut5" target="_blank"><img src="Media/discord-black.png" alt="Discord"></a>
-                <a href="https://twitter.com/GeoGames14" target="_blank"><img src="Media/twitter-black.png" alt="Twitter"></a>
-                <a href="https://www.youtube.com/channel/UCjz48AFm4Z85UFyd5wOQ2zw" target="_blank"><img src="Media/youtube-black.png" alt="YouTube"></a>
-                <a href="https://www.instagram.com/geogames__/" target="_blank"><img src="Media/instagram-black.png" alt="Instagram"></a>
-                <a href="https://www.facebook.com/GeoGamesDev/" target="_blank"><img src="Media/facebook-black.png" alt="Facebook"></a>
+            <a href="https://eonrush.com/" target="_blank">
+                <img src="./Assets/logo.png" alt="Eon Rush Logo" class="footer-logo">
+            </a>
+            <div class="social-links">
+                <a href="https://store.steampowered.com/app/2557020/Eon_Rush/" target="_blank">
+                    <img src="./Assets/steam.svg" alt="Steam">
+                </a>
+                <a href="https://x.com/eonrushofficial" target="_blank">
+                    <img src="./Assets/twitter.svg" alt="Twitter">
+                </a>
+                <a href="https://discord.com/invite/eonrush" target="_blank">
+                    <img src="./Assets/discord.svg" alt="Discord">
+                </a>
+                <a href="https://www.instagram.com/eonrushofficial/" target="_blank">
+                    <img src="./Assets/insta.svg" alt="Instagram">
+                </a>
+                <a href="https://www.facebook.com/eonrush" target="_blank">
+                    <img src="./Assets/facebook.svg" alt="Facebook">
+                </a>
             </div>
+            <p class="footer-text">
+                ©2024 Eon Rush Studios Ltd. All logos and trademarks are registered trademarks of Eon Rush Studios Ltd.<br>
+                ©2024 Valve Corporation. Steam and the Steam logo are trademarks and/or registered trademarks of Valve Corporation in the U.S. and/or other countries.<br>
+                <a href="https://eonrush.com/accessibility/" target="_blank" class="accessibility-link">Accessibility</a>
+            </p>
         </div>
     </footer>
 </body>
