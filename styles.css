@@ -13,6 +13,7 @@ body {
   color: #000; /* Black text for better contrast */
   background: url('./Assets/WhiteBackground.png') no-repeat center center fixed; /* Static background */
   background-size: cover; /* Ensure the background covers the full viewport */
+  min-height: 100vh; /* Ensure background fills at least the viewport height */
 }
 
 /* Hero Section */
