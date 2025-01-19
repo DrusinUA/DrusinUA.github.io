@@ -66,21 +66,26 @@ body {
 #mc_embed_signup {
   max-width: 500px;
   margin: 0 auto;
-  padding: 20px;
-  background-color: rgba(0, 0, 0, 0.5); /* Transparent blending */
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+  padding: 30px;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('./Assets/SignUp_BG.png'); /* Semi-transparent overlay + background image */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Subtle shadow */
+  color: #fff;
+  text-align: center;
 }
 
 #mc_embed_signup .signup-header {
   font-family: 'Abruzzo', 'Source Sans Pro', Arial, sans-serif;
-  font-size: 1.4rem;
+  font-size: 1.6rem; /* Slightly larger for better emphasis */
   color: #fff;
-  margin-bottom: 20px; /* Spaced out from the fields */
+  margin-bottom: 25px; /* Better spacing from the fields */
 }
 
 #mc_embed_signup .signup-header span {
-  color: #144581; /* Same color as Adventure and Competition */
+  color: #144581; /* Highlighting "Playtest" with consistent color */
 }
 
 #mc_embed_signup input[type="text"],
@@ -89,9 +94,9 @@ body {
   padding: 15px;
   margin-bottom: 15px;
   font-size: 1rem;
-  border: none; /* Removed borders */
+  border: none;
   border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent fields */
+  background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent field background */
   color: #fff;
   box-sizing: border-box;
 }
@@ -100,20 +105,25 @@ body {
   color: #aaa;
 }
 
-#mc_embed_signup input.button {
+#mc_embed_signup button.button {
   background-color: #e34b46;
+  font-family: 'Abruzzo', 'Source Sans Pro', Arial, sans-serif;
   color: white;
   padding: 15px 30px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 1.2rem;
-  transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+  text-align: center; /* Center the text horizontally */
 }
 
-#mc_embed_signup input.button:hover {
+#mc_embed_signup button.button:hover {
   background-color: #d63f40;
+  transform: scale(1.05); /* Slight scaling effect on hover */
 }
+
+
 
 /* Disclaimer Styling */
 #mc_embed_signup .disclaimer {
@@ -141,7 +151,7 @@ body {
 
 .features h2,
 .discover-section h2 {
-  font-size: 2rem;
+  font-size: 4rem;
   margin-bottom: 20px;
   color: #e34b46;
   font-family: 'Abruzzo', 'Source Sans Pro', Arial, sans-serif;
