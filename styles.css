@@ -16,6 +16,22 @@ body {
   min-height: 100vh; /* Ensure background fills at least the viewport height */
 }
 
+html {
+  height: 100%; /* Ensure full height for html */
+}
+
+body::before {
+  content: "";
+  position: fixed; /* Fixed background for smooth scrolling */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('./Assets/WhiteBackground.png') no-repeat center center;
+  background-size: cover; /* Make sure it covers the viewport */
+  z-index: -1; /* Ensures it sits behind content */
+}
+
 /* Hero Section */
 .hero {
   position: relative;
@@ -143,7 +159,7 @@ body {
 
 /* Steam Widget Section */
 .steam-widget {
-  padding: 50px 20px;
+  padding: 30px 20px; /* Reduced padding from 50px to 30px */
   text-align: center;
 }
 
@@ -156,7 +172,7 @@ body {
 /* Features and Discover Sections */
 .features,
 .discover-section {
-  padding: 50px 20px;
+  padding: 30px 20px; /* Reduced padding for tighter layout */
   text-align: center;
 }
 
