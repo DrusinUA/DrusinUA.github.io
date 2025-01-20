@@ -49,9 +49,9 @@ body::before {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 95%;
   object-fit: cover;
-  filter: blur(1px) brightness(0.8);
+  /* filter: blur(1px) brightness(1); */
 }
 
 .hero-content {
@@ -104,14 +104,14 @@ body::before {
   width: 100%;
   height: 100%;
   background: linear-gradient(
-      rgba(0, 0, 0, 0.6),
-      rgba(0, 0, 0, 0.6)
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)
     ), /* Semi-transparent overlay */
     url('./Assets/SignUp_BG.png'); /* Background image */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  opacity: 0.5; /* 50% transparency for the background */
+  opacity: 0.7; /* 50% transparency for the background */
   border-radius: 15px; /* Match the form's border radius */
   z-index: -1; /* Send it behind the form's content */
   transition: opacity 0.3s ease-in-out; /* Smooth transition */
@@ -128,10 +128,6 @@ body::before {
   font-size: 1.6rem; /* Slightly larger for better emphasis */
   color: #fff;
   margin-bottom: 25px; /* Better spacing from the fields */
-}
-
-#mc_embed_signup .signup-header span {
-  color: #144581; /* Highlighting "Playtest" with consistent color */
 }
 
 /* Input Fields */
