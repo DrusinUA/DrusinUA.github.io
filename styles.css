@@ -41,7 +41,8 @@ body::before {
   align-items: center;
   justify-content: flex-start;
   text-align: center;
-  padding-top: 40px; /* Adjusted for higher positioning */
+  padding-top: 40px;
+  flex-wrap: wrap; /* Allow wrapping */
 }
 
 .hero-video {
@@ -83,16 +84,20 @@ body::before {
 }
 
 #mc_embed_signup {
-  position: relative; /* Enable pseudo-element positioning */
+  position: relative;
+  max-width: 90%; /* Ensure it fits within smaller screens */
+  max-height: 60vh; /* Constrain height */
+  width: auto;
   max-width: 600px;
-  margin: 0 auto;
-  padding: 30px;
-  border-radius: 15px; /* Rounded corners */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Subtle shadow */
+  height: auto;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
   color: #fff;
   text-align: center;
-  z-index: 1; /* Ensure content stays above pseudo-element */
-  background: none; /* Remove direct background from form */
+  background: none;
+  transform: scale(1); /* Default scaling */
+  transition: transform 0.3s ease, max-height 0.3s ease;
 }
 
 /* Background Pseudo-element for Transparency */
