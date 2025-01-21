@@ -84,7 +84,7 @@ body::before {
 
 #mc_embed_signup {
   position: relative; /* Enable pseudo-element positioning */
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto;
   padding: 30px;
   border-radius: 15px; /* Rounded corners */
