@@ -41,7 +41,7 @@ body::before {
   align-items: center;
   justify-content: flex-start;
   text-align: center;
-  padding-top: 70px; /* Adjusted for higher positioning */
+  padding-top: 40px; /* Adjusted for higher positioning */
 }
 
 .hero-video {
