@@ -33,7 +33,7 @@ body::before {
 /* Hero Section */
 .hero {
   position: relative;
-  height: 70vh;
+  height: 85vh;
   width: 100%;
   overflow: hidden;
   display: flex;
