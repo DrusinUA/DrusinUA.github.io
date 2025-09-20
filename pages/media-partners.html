@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Become a Media Partner | Restless Corp</title>
+
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="Become a Media Partner | Restless Corp" name="title">
+    <meta content="Media, Partner, Press, Influencer, Indie Games, Restless Corp" name="keywords">
+    <meta content="Join our press list for assets, review keys and news. Submit your media details to become a media partner." name="description">
+
+    <link href="../img/favicon.png" rel="icon">
+    <link href="../img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,600,700,900" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <link href="../css/style.css" rel="stylesheet">
+</head>
+
+<body data-spy="scroll">
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header flex-block">
+            <a class="header-icon-container" href="../index.html">
+                <img class="header-icon" src="../img/LogoSquareBlack.png" />
+            </a>
+            <div class="button-container">
+                <a class="button height-90" href="../index.html">
+                    HOME
+                    <div class="bottom-button"></div>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Intro -->
+    <section id="main-section" class="margin-top-120 section" style="padding-top: 24px;">
+        <div class="line">
+            <h2>Become a Media Partner</h2>
+            <div class="underline"></div>
+        </div>
+        <div class="paragraph-gray margin-top-32">
+            Join our press list to receive assets, review keys and announcements. Tell us where you publish and how we can reach you.
+        </div>
+    </section>
+
+    <!-- Form -->
+    <section id="form-section" class="section margin-top-64">
+        <div class="rc-card form-card">
+            <form id="mediaForm" class="rc-form" method="POST" accept-charset="UTF-8" action="MEDIA_ENDPOINT" novalidate>
+                <!-- Honeypot -->
+                <input type="text" name="website" id="website" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute; left:-10000px; opacity:0; height:1px; width:1px;">
+
+                <div class="rc-row-2">
+                    <div>
+                        <label for="name">Name *</label>
+                        <input type="text" id="name" name="name" required>
+                        <div class="rc-error" id="error-name"></div>
+                    </div>
+                    <div>
+                        <label for="media">Media Name *</label>
+                        <input type="text" id="media" name="media" required>
+                        <div class="rc-error" id="error-media"></div>
+                    </div>
+                </div>
+
+                <div class="rc-row-2">
+                    <div>
+                        <label for="link">Main Link *</label>
+                        <input type="url" id="link" name="link" required placeholder="https://example.com">
+                        <div class="rc-error" id="error-link"></div>
+                    </div>
+                    <div>
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="name@example.com">
+                        <div class="rc-error" id="error-email"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="notes">Notes (optional)</label>
+                    <textarea id="notes" name="notes" rows="5" placeholder="Anything you'd like us to know (not stored)"></textarea>
+                </div>
+
+                <div>
+                    <button type="submit" class="secondary-button rc-submit">Join Press List</button>
+                </div>
+
+                <div id="mediaSuccess" class="rc-success" aria-live="polite"></div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <section id="footer-section" class="footer margin-top-120" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+        <div class="footer-content flex-between" style="padding-top: 16px;">
+            <div></div>
+            <div>
+                <span><a href="https://discord.gg/XPyVmS5" target="_blank" rel="noopener"><img class="social-icon" src="../img/discord.png"></a></span>
+                <span><a href="https://twitter.com/restless_corp" target="_blank" rel="noopener"><img class="social-icon" src="../img/twitter.png"></a></span>
+                <span><a href="https://www.youtube.com/channel/UC9Ezr_7LSYVwzpesu3hKJoQ" target="_blank" rel="noopener"><img class="social-icon" src="../img/youtube.png"></a></span>
+                <span><a href="https://www.instagram.com/restlesscorp/" target="_blank" rel="noopener"><img class="social-icon" src="../img/instagram.png"></a></span>
+            </div>
+        </div>
+        <div class="footer-content" style="padding-top: 32px;">
+            <span class="privacy" style="margin-right: 16px;">&copy; 2017-2025 Restless Corp</span>
+            <a href="../privacy-policy.html" class="privacy" target="_blank" rel="noopener">Privacy Policy</a>
+            <a href="mailto:andriy@restlesscorp.com" class="privacy copy-email" style="margin-left: 16px;" data-email="andriy@restlesscorp.com" title="Copy email to clipboard">Contact <span class="email-address">andriy@restlesscorp.com</span></a>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/scroll.js" defer></script>
+    <script src="../js/media.js"></script>
+    <script src="../js/scrollspy-static/dist/scrollspy.min.js"></script>
+</body>
+
+</html>
+

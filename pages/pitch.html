@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Pitch Your Game | Restless Corp</title>
+
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="Pitch Your Game | Restless Corp Games Studio" name="title">
+    <meta content="Indie, Game, Studio, Porting, Publishing, Pitch" name="keywords">
+    <meta content="Submit your game pitch to Restless Corp for Nintendo Switch, Xbox and PlayStation publishing and porting." name="description">
+
+    <!-- Favicons -->
+    <link href="../img/favicon.png" rel="icon">
+    <link href="../img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,600,700,900" rel="stylesheet">
+
+    <!-- AOS CDN (optional, matches site includes) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Main Stylesheet File -->
+    <link href="../css/style.css" rel="stylesheet">
+</head>
+
+<body data-spy="scroll">
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header flex-block">
+            <a class="header-icon-container" href="../index.html">
+                <img class="header-icon" src="../img/LogoSquareBlack.png" />
+            </a>
+            <div class="button-container">
+                <a class="button height-90" href="../index.html">
+                    HOME
+                    <div class="bottom-button"></div>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero / Intro -->
+    <section id="main-section" class="margin-top-120 section" style="padding-top: 24px;">
+        <div class="line">
+            <h2>Pitch Your Game</h2>
+            <div class="underline"></div>
+        </div>
+        <div class="paragraph-gray margin-top-32">
+            Tell us about your project and which consoles you want to target. We'll review submissions and get back to you.
+        </div>
+    </section>
+
+    <!-- Form -->
+    <section id="form-section" class="section margin-top-64">
+        <div class="rc-card">
+        <form id="pitchForm" class="rc-form" method="POST" accept-charset="UTF-8"
+              action="https://script.google.com/macros/s/AKfycbxTg08AZ1aaLE7ihTRor_gZ1ucpIgAHKc3c3blHIxtbHRKxT784jSsCvQ5uoyNtej1W7w/exec" novalidate>
+
+            <!-- Honeypot (spam trap) -->
+            <input type="text" name="website" id="website" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute; left:-10000px; opacity:0; height:1px; width:1px;">
+
+            <div class="rc-row-2">
+                <div>
+                    <label for="name">Name *</label>
+                    <input type="text" id="name" name="name" required>
+                    <div class="rc-error" id="error-name"></div>
+                </div>
+                <div>
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required>
+                    <div class="rc-error" id="error-email"></div>
+                </div>
+            </div>
+
+            <div>
+                <label for="studio">Studio</label>
+                <input type="text" id="studio" name="studio">
+            </div>
+
+            <fieldset class="rc-fieldset">
+                <legend>Requested console ports (select up to 3)</legend>
+                <div class="port-cards" id="portCards">
+                    <label class="port-card">
+                        <input type="checkbox" name="ports" value="Nintendo Switch" class="visually-hidden">
+                        <span class="port-check" aria-hidden="true"></span>
+                        <img src="../img/Icons/Switch.png" class="port-icon" alt="" aria-hidden="true">
+                        <span class="port-name">Nintendo Switch</span>
+                    </label>
+                    <label class="port-card">
+                        <input type="checkbox" name="ports" value="Xbox" class="visually-hidden">
+                        <span class="port-check" aria-hidden="true"></span>
+                        <img src="../img/Icons/Xbox.png" class="port-icon" alt="" aria-hidden="true">
+                        <span class="port-name">Xbox</span>
+                    </label>
+                    <label class="port-card">
+                        <input type="checkbox" name="ports" value="PlayStation" class="visually-hidden">
+                        <span class="port-check" aria-hidden="true"></span>
+                        <img src="../img/Icons/PlayStation.png" class="port-icon" alt="" aria-hidden="true">
+                        <span class="port-name">PlayStation</span>
+                    </label>
+                </div>
+                <div class="rc-help"><span id="portsCount" class="rc-counter" aria-live="polite">0/3 selected</span></div>
+                <div class="rc-error" id="error-ports"></div>
+            </fieldset>
+
+            <div>
+                <label for="links">Links (Steam page, builds, videos, etc.)</label>
+                <textarea id="links" name="links" rows="4" placeholder="Include any helpful links"></textarea>
+            </div>
+
+            <div>
+                <label for="pitch">Pitch *</label>
+                <div class="rc-help">Min 10 characters. <span id="pitchCounter" class="rc-counter" aria-live="polite">0</span></div>
+                <textarea id="pitch" name="pitch" rows="6" minlength="10" required placeholder="Briefly describe your game and goals"></textarea>
+                <div class="rc-error" id="error-pitch"></div>
+            </div>
+
+            <div>
+                <button type="submit" class="secondary-button rc-submit">Submit Pitch</button>
+            </div>
+
+            <div id="pitchSuccess" class="rc-success" aria-live="polite"></div>
+        </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <section id="footer-section" class="footer margin-top-120" data-aos="fade-up"
+        data-aos-anchor-placement="center-bottom">
+        <div class="footer-content flex-between" style="padding-top: 16px;">
+            <div></div>
+            <div class="">
+                <span><a href="https://discord.gg/XPyVmS5" target="_blank" rel="noopener"><img class="social-icon"
+                            src="../img/discord.png"></a></span>
+                <span><a href="https://twitter.com/restless_corp" target="_blank" rel="noopener"><img class="social-icon"
+                            src="../img/twitter.png"></a></span>
+                <span><a href="https://www.youtube.com/channel/UC9Ezr_7LSYVwzpesu3hKJoQ" target="_blank" rel="noopener"><img
+                            class="social-icon" src="../img/youtube.png"></a></span>
+                <span><a href="https://www.instagram.com/restlesscorp/" target="_blank" rel="noopener"><img class="social-icon"
+                            src="../img/instagram.png"></a></span>
+            </div>
+        </div>
+        <div class="footer-content" style="padding-top: 32px;">
+            <span class="privacy" style="margin-right: 16px;">&copy; 2017-2025 Restless Corp</span>
+            <a href="../privacy-policy.html" class="privacy" target="_blank" rel="noopener">Privacy Policy</a>
+            <a href="mailto:andriy@restlesscorp.com" class="privacy copy-email" style="margin-left: 16px;" data-email="andriy@restlesscorp.com" title="Copy email to clipboard">Contact <span class="email-address">andriy@restlesscorp.com</span></a>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/scroll.js" defer></script>
+    <script src="../js/pitch.js"></script>
+    <script src="../js/scrollspy-static/dist/scrollspy.min.js"></script>
+</body>
+
+</html>

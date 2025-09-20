@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+
+    <url>
+        <loc>https://restlesscorp.com</loc>
+
+        <image:image>
+            <image:loc>https://restlesscorp.com/img/photos/photo1.jpg</image:loc>
+        </image:image>
+
+        <image:image>
+            <image:loc>https://restlesscorp.com/img/photos/photo2.jpg</image:loc>
+        </image:image>
+
+        <image:image>
+            <image:loc>https://restlesscorp.com/img/01.png</image:loc>
+        </image:image>
+
+        <image:image>
+            <image:loc>https://restlesscorp.com/img/apple-touch-icon.png</image:loc>
+        </image:image>
+
+        <image:image>
+            <image:loc>https://restlesscorp.com/img/background.png</image:loc>
+        </image:image>
+
+        <image:image>
+            <image:loc>https://restlesscorp.com/img/backgroundJohnny.png</image:loc>
+        </image:image>
+
+        <image:image>
+            <image:loc>https://restlesscorp.com/img/backgroundOne.png</image:loc>
+        </image:image>
+
+        <image:image>
+            <image:loc>https://restlesscorp.com/img/clock.png</image:loc>
+        </image:image>
+
+        <image:image>
+            <image:loc>https://restlesscorp.com/img/discord.png</image:loc>
+        </image:image>
+
+        <image:image>
+            <image:loc>https://restlesscorp.com/img/Download.png</image:loc>
+        </image:image>
+
+        <image:image>
+            <image:loc>https://restlesscorp.com/img/DownloadWindows.png</image:loc>
+        </image:image>
+
+        <image:image>
+            <image:loc>https://restlesscorp.com/img/facebook.png</image:loc>
+        </image:image>
+
+        <image:image>
+            <image:loc>https://restlesscorp.com/img/favicon.png</image:loc>
+        </image:image>
+
+        <image:image>
+            <image:loc>https://restlesscorp.com/img/icon-header.jpg</image:loc>
+        </image:image>
+
+        <image:image>
+            <image:loc>https://restlesscorp.com/img/instagram.png</image:loc>
+        </image:image>
+
+        <image:image>
+            <image:loc>https://restlesscorp.com/img/JohnnyRocket.png</image:loc>
+        </image:image>
+
+        <image:image>
+            <image:loc>https://restlesscorp.com/img/presskit.png</image:loc>
+        </image:image>
+
+        <image:image>
+            <image:loc>https://restlesscorp.com/img/RestlessHero.png</image:loc>
+        </image:image>
+
+        <image:image>
+            <image:loc>https://restlesscorp.com/img/Steam.jpg</image:loc>
+        </image:image>
+
+        <image:image>
+            <image:loc>https://restlesscorp.com/img/twitter.png</image:loc>
+        </image:image>
+
+        <image:image>
+            <image:loc>https://restlesscorp.com/img/youtube.png</image:loc>
+        </image:image>
+
+    </url>
+
+    <url>
+        <loc>https://restlesscorp.com/pages/johnny-rocket.html</loc>
+    </url>
+
+    <url>
+        <loc>https://restlesscorp.com/pages/restless-hero.html</loc>
+    </url>
+
+    <url>
+        <loc>https://restlesscorp.com/pages/tauronos.html</loc>
+    </url>
+
+    <url>
+        <loc>https://restlesscorp.com/pages/little-kite.html</loc>
+    </url>
+
+    <url>
+        <loc>https://restlesscorp.com/pages/thiefs-shelter.html</loc>
+    </url>
+
+    <url>
+        <loc>https://restlesscorp.com/privacy-policy.html</loc>
+    </url>
+</urlset>

@@ -1,127 +1,560 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
+
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Eon Rush: A co-op-action RPG where the thrills of end-game PvE and PvP are immediate and accessible.">
-  <title>Eon Rush</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="icon" type="image/x-icon" href="./Assets/favicon.ico">
+
+    <meta charset="utf-8">
+
+    <title>Restless Corp Games Studio</title>
+
+
+
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <meta content="Restless Corp Games Studio" name="title">
+
+    <meta content="Indie, Game, Studio, Corp, Restless, Hero, Development, Games" name="keywords">
+
+    <meta
+        content="We port and publish standout indie games to consoles. We help developers reach new audiences and handle porting, certification and release."
+        name="description">
+
+
+    <!-- Favicons -->
+
+    <link href="img/favicon.png" rel="icon">
+
+    <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+
+
+
+    <!-- Google Fonts -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,600,700,900" rel="stylesheet">
+
+
+
+    <!-- Main Stylesheet File -->
+
+    <link href="css/style.css" rel="stylesheet">
+
+    <link href="https://cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
+
+
+
+    <!-- AOS CDN -->
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
 </head>
+
+
+
 <body>
-  <div class="hero">
-    <video autoplay muted loop class="hero-video">
-      <source src="./Assets/Eon_Rush_KeyArt_WebHeader_V2_2.webm" type="video/webm">
-      Your browser does not support the video tag.
-    </video>
-    <div class="hero-content">
-      <img src="./Assets/HorizontalLogo.svg" alt="Eon Rush Logo">
-      <div id="mc_embed_shell">
-        <div id="mc_embed_signup">
-          <h2 class="signup-header">Sign up and get notified when you get access to the Playtest!</h2>
-          <form action="https://eonrush.us8.list-manage.com/subscribe/post?u=993e67356647bf8e156834810&amp;id=50beab399e&amp;f_id=00a833e3f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_self" novalidate="">
-            <div id="mc_embed_signup_scroll">
-              <div class="mc-field-group">                
-                <input type="text" name="FNAME" class="text" id="mce-FNAME" placeholder="Enter your Name">
-              </div>
-              <div class="mc-field-group">                
-                <input type="email" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Enter your Email Address" required>
-              </div>
-              <div id="mce-responses" class="clear">
-                <div class="response" id="mce-error-response" style="display: none;"></div>
-                <div class="response" id="mce-success-response" style="display: none;"></div>
-              </div>
-              <div aria-hidden="true" style="position: absolute; left: -5000px;">
-                <input type="text" name="b_993e67356647bf8e156834810_50beab399e" tabindex="-1" value="">
-              </div>
-              <div class="clear">
-                <button type="submit" name="subscribe" id="mc-embedded-subscribe" class="button">Subscribe</button>
-              </div>
-              <p class="disclaimer">
-                🛡 We use <a href="https://mailchimp.com/" target="_blank">Mailchimp</a> as our marketing platform. By clicking below to subscribe, you acknowledge that your information will be transferred to Mailchimp for processing. Learn more about Mailchimp's privacy practices <a href="https://mailchimp.com/legal/terms" target="_blank">here</a>.
-              </p>
+
+    <header class="main-header">
+
+        <div class="header flex-block">
+
+            <a class="header-icon-container" href="index.html">
+                <img class="header-icon" src="img/LogoSquareBlack.png" />
+            </a>
+            <div class="button-container">
+
+                <a class="button height-90" data-scroll href="#home-section">
+
+                    HOME
+
+                    <div class="bottom-button"></div>
+
+                </a>
+
+                <a class="button height-90" data-scroll href="#main-section">
+
+                    GAMES
+
+                    <div class="bottom-button"></div>
+
+                </a>
+
+                <a class="button height-90" data-scroll href="#company-section">
+
+                    COMPANY
+
+                    <div class="bottom-button"></div>
+
+                </a>
+
+                <a class="button height-90" data-scroll href="#media-section">
+
+                    CONTACTS
+
+                    <div class="bottom-button"></div>
+
+                </a>
+
             </div>
-          </form>
+
         </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Steam Wishlist Widget -->
-  <section class="steam-widget">
-    <iframe src="https://store.steampowered.com/widget/2557020/" frameborder="0" width="646" height="190"></iframe>
-  </section>
+    </header>
 
-  <section class="discover-section">
-    <h2>Discover the Time War</h2>
-    <p>Uncover a universe under threat by a beast that devours time itself. Become a Guardian of Time and recruit unique Heroes to fight across the Eras.</p>
-    <div class="trailer-wrapper">
-      <a href="https://www.youtube.com/watch?v=PgSkrx3qZ_8" target="_blank">
-        <img src="./Assets/TrailerCover.jpeg" alt="Trailer Cover">
-        <img src="./Assets/playBTN.png" alt="Play Button" class="play-button">
-      </a>
-    </div>
-  </section>
+    <section id="home-section">
 
-  <section class="features">
-    <h2>Skip to the Fun</h2>
-    <p>Jump into the action quickly and enjoy sessions that are fun and rewarding from the start.</p>
-    <div class="usp-grid">
-      <div class="usp">
-        <video autoplay muted loop class="usp-video">
-          <source src="./Assets/PVP_And_PVE.webm" type="video/webm">
-        </video>
-        <h3>Adventure and Competition</h3>
-        <p>Team up and battle through gauntlets, colossal bosses, and epic MMO-inspired raids, or take on other Guardians in heart-pounding PvP.</p>
-      </div>
-      <div class="usp">
-        <video autoplay muted loop class="usp-video">
-          <source src="./Assets/DEEPER_CO-OP.webm" type="video/webm">
-        </video>
-        <h3>Genre Defining Co-op</h3>
-        <p>Experience true cooperative combat. Maximize your potential by linking abilities and chaining combos, transforming teamwork into your ultimate weapon.</p>
-      </div>
-      <div class="usp">
-        <video autoplay muted loop class="usp-video">
-          <source src="./Assets/Guardians.webm" type="video/webm">
-        </video>
-        <h3>Become a Guardian of Time</h3>
-        <p>Recruit Heroes from across the Eras to fight for the preservation of time. Master their unique abilities and playstyles, adding depth and variety to each session.</p>
-      </div>
-    </div>
-  </section>
+        <div id="video-section" class="hero">
 
-  <footer class="footer">
-    <div class="footer-content">
-      <img src="./Assets/Stone.png" alt="Stone Icon" class="stone-icon">
-      <a href="https://eonrush.com/" target="_blank">
-        <img src="./Assets/HorizontalLogo.svg" alt="Eon Rush Logo" class="footer-logo">
-      </a>
-      <div class="social-links">
-        <a href="https://store.steampowered.com/app/2557020/Eon_Rush/" target="_blank">
-          <img src="./Assets/steam.svg" alt="Steam">
-        </a>
-        <a href="https://x.com/eonrushofficial" target="_blank">
-          <img src="./Assets/twitter.svg" alt="Twitter">
-        </a>
-        <a href="https://discord.com/invite/eonrush" target="_blank">
-          <img src="./Assets/discord.svg" alt="Discord">
-        </a>
-        <a href="https://www.instagram.com/eonrushofficial/" target="_blank">
-          <img src="./Assets/insta.svg" alt="Instagram">
-        </a>
-        <a href="https://www.tiktok.com/@eonrushofficial" target="_blank">
-          <img src="./Assets/tiktok.svg" alt="Discord">
-        </a>
-        <a href="https://www.facebook.com/eonrush" target="_blank">
-          <img src="./Assets/facebook.svg" alt="Facebook">
-        </a>
-      </div>
-      <p class="footer-text">
-        ©2024 Eon Rush Studios Ltd. All logos and trademarks are registered trademarks of Eon Rush Studios Ltd.<br>
-        <a href="https://eonrush.com/accessibility/" target="_blank" class="accessibility-link">Accessibility</a>
-      </p>
-    </div>
-  </footer>
+            <video autoplay muted loop id="video">
+
+                <source src="./video/promo.mov" type="video/mp4" />
+
+            </video>
+
+            <div id="info-container">
+
+                <div id="container">
+
+                    <div id="inner" class="padding-top-300">
+
+                        <h1>Restless Corp</h1>
+
+                        <div class="underline"></div>
+
+                        <!-- Removed fixed width; use responsive .hero-text -->
+                        <div class="paragraph margin-top-32 hero-text">We help indie teams bring great games to consoles worldwide. Restless Corp handles porting, certification and publishing so developers can focus on building memorable experiences for players.</div>
+                        <a class="secondary-button hero-cta" href="pages/pitch.html">Pitch Your Game</a>
+                        <!-- Removed fixed widths/margins; keep hidden and responsive -->
+                        <div class="flex-end margin-top-16 hero-actions" style="display:none;">
+                            <a class="secondary-button align-center" style="text-decoration: none;"
+
+                                href="pages/pitch.html">
+
+                                <div>
+
+                                    Pitch Your Game
+
+                                </div>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="main-section" class="margin-top-32">
+
+        <div class="line">
+
+            <h2>DISCOVER OUR GAMES</h2>
+
+            <div class="underline"></div>
+
+        </div>
+
+        <div id="games" class="margin-top-32">
+
+            <div class="block block-margin margin-top-16" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+
+                <a href="pages/thiefs-shelter.html">
+                    <div class="item-cover-container img-hover-zoom">
+
+                        <img src="img/games/GameTS.png" class="item-cover" />
+
+                    </div>
+
+                    <div>
+
+                        <div class="flex-between">
+
+                            <div>
+
+                                <h3>Thief's Shelter</h3>
+
+                            </div>
+
+                            <div class="flex-block margin-icons">
+                                <img src="img/Icons/Steam.png" class="small-icon" />
+                                <img src="img/Icons/Xbox.png" class="small-icon" />
+                                <img src="img/Icons/Switch.png" class="small-icon" />
+                                <img src="img/Icons/PlayStation.png" class="small-icon" />
+                            </div>
+                        </div>
+
+                        <div class="underline"></div>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+            <div class="block margin-top-16" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+
+                <a href="pages/safe-place.html">
+                    <div class="item-cover-container img-hover-zoom">
+
+                        <img src="img/games/GameSP.jpg" class="item-cover" />
+
+                    </div>
+
+                    <div>
+
+                        <div class="flex-between">
+
+                            <div>
+
+                                <h3>The Safe Place</h3>
+
+                            </div>
+
+                            <div class="flex-block margin-icons">
+                                <img src="img/Icons/Steam.png" class="small-icon" />
+                                <img src="img/Icons/Xbox.png" class="small-icon" />
+                                <img src="img/Icons/Switch.png" class="small-icon" />
+                            </div>
+                        </div>
+
+                        <div class="underline"></div>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+            <div class="block block-margin margin-top-16" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+
+                <a href="pages/little-kite.html">
+                    <div class="item-cover-container img-hover-zoom">
+
+                        <img src="img/games/GameLT.png" class="item-cover" />
+
+                    </div>
+
+                    <div>
+
+                        <div class="flex-between">
+
+                            <div>
+
+                                <h3>Little Kite</h3>
+
+                            </div>
+
+                            <div class="flex-block margin-icons">
+
+                                <img src="img/Icons/Steam.png" class="small-icon" />
+
+                                <img src="img/Icons/Xbox.png" class="small-icon" />
+
+                                <img src="img/Icons/Switch.png" class="small-icon" />
+
+                            </div>
+
+                        </div>
+
+                        <div class="underline"></div>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+            <div class="block margin-top-16" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+
+                <a href="pages/repentant.html">
+                    <div class="item-cover-container img-hover-zoom">
+                        <img src="img/games/GamesR.jpg" class="item-cover" />
+                    </div>
+                    <div>
+                        <div class="flex-between">
+                            <div>
+                                <h3>Repentant</h3>
+                            </div>
+                            <div class="flex-block margin-icons">
+                                <img src="img/Icons/Steam.png" class="small-icon" />
+                                <img src="img/Icons/Xbox.png" class="small-icon" />
+                                <img src="img/Icons/Switch.png" class="small-icon" />
+                            </div>
+                        </div>
+                        <div class="underline"></div>
+                    </div>
+                </a>
+            </div>
+            <div class="block block-margin margin-top-16" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+
+                <a href="pages/tauronos.html">
+                    <div class="item-cover-container img-hover-zoom">
+
+                        <img src="img/games/GameT.png" class="item-cover" />
+
+                    </div>
+
+                    <div>
+
+                        <div class="flex-between">
+
+                            <div>
+
+                                <h3>TAURONOS</h3>
+
+                            </div>
+
+                            <div class="flex-block margin-icons">
+
+                                <img src="img/Icons/Steam.png" class="small-icon" />
+
+                                <img src="img/Icons/Xbox.png" class="small-icon" />
+
+                                <img src="img/Icons/Switch.png" class="small-icon" />
+
+                            </div>
+
+                        </div>
+
+                        <div class="underline"></div>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+            <div class="block margin-top-16" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+
+                <a href="pages/johnny-rocket.html">
+                    <div class="item-cover-container img-hover-zoom">
+
+                        <img src="img/games/GameJR.png" class="item-cover" />
+
+                    </div>
+
+                    <div>
+
+                        <div class="flex-between">
+
+                            <div>
+
+                                <h3>Johnny Rocket</h3>
+
+                            </div>
+
+                            <div class="flex-block margin-icons">
+
+                                <img src="img/Icons/Steam.png" class="small-icon" />
+
+                                <img src="img/Icons/Xbox.png" class="small-icon" />
+
+                                <img src="img/Icons/Switch.png" class="small-icon" />
+
+                            </div>
+
+                        </div>
+
+                        <div class="underline"></div>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+            <div class="block block-margin margin-top-16" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+
+                <a href="pages/restless-hero.html">
+                    <div class="item-cover-container img-hover-zoom">
+
+                        <img src="img/games/GameRH.png" class="item-cover" />
+
+                    </div>
+
+                    <div>
+
+                        <div class="flex-between">
+
+                            <div>
+
+                                <h3>Restless Hero</h3>
+
+                            </div>
+
+                            <div class="flex-block margin-icons">
+
+                                <img src="img/Icons/Steam.png" class="small-icon" />
+
+                                <img src="img/Icons/Xbox.png" class="small-icon" />
+
+                                <img src="img/Icons/Switch.png" class="small-icon" />
+
+                            </div>
+
+                        </div>
+
+                        <div class="underline"></div>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="company-section" class="dual-block margin-top-120 align-center-horizontal">
+
+        <div class="background-image-block" data-aos="fade-up-right" data-aos-anchor-placement="center-bottom">
+
+            <img src="img/backgroundLogo800x450.png" class="image-block" />
+
+        </div>
+
+        <div class="background-content-block" data-aos="fade-left" data-aos-anchor-placement="center-bottom">
+
+            <div class="header-right-corner">
+
+                <h2>ABOUT US</h2>
+
+                <div class="paragraph-gray margin-top-32">We partner with independent studios to bring their games to consoles. Our team manages porting, certification, store submissions and post-launch support, collaborating closely with developers at every step.</div>
+
+                <div class="paragraph-gray margin-top-32">We ship on <span style="color: #107c10;">Xbox</span>, <span style="color: #0072ce;">PlayStation</span> and <span style="color: #e60012;">Nintendo Switch</span>.</div>
+
+                <div class="paragraph-gray margin-top-32">Our goal is simple: reduce risk, accelerate release and maximize results for our partners.</div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="pitch-section" class="margin-top-120 dual-block align-center-horizontal">
+
+        <div class="background-content-block" data-aos="fade-right" data-aos-anchor-placement="center-bottom">
+
+            <div class="header-right-corner">
+
+                <h2>PITCH YOUR GAME</h2>
+
+                <div class="paragraph-gray margin-top-32">Are you a <span style="color: #e60012;">game developer</span> looking to reach more players? Tell us about your project using the <span style="color: #0072ce;">form below</span>. Include a short pitch, platform targets, any build or video links and your timelines. We'll review submissions and get back to you.</div>
+
+                
+
+                <a class="secondary-button align-center margin-top-16" style="text-decoration: none;"
+
+                    href="pages/pitch.html">
+
+                    <div>
+
+                        Pitch Your Game
+
+                    </div>
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="background-image-block" data-aos="fade-up-left" data-aos-anchor-placement="center-bottom">
+
+            <img src="img/backgroundLK.png" class="image-block" />
+
+        </div>
+
+    </section>
+
+    <section id="media-section" class="margin-top-120 dual-block align-center-horizontal">
+
+        <div class="background-image-block" data-aos="fade-up-right" data-aos-anchor-placement="center-bottom">
+
+            <img src="img/backgroundTS.png" class="image-block" />
+
+        </div>
+
+        <div class="background-content-block" data-aos="fade-left" data-aos-anchor-placement="center-bottom">
+
+            <div class="header-right-corner">
+
+                <h2>MEDIA PARTNERSHIP</h2>
+                <div class="paragraph-gray margin-top-32">Press, creators and partners: if you cover games and would like access to assets, keys or interview opportunities, apply to join our <span style="color: #107c10;">press list</span>. We'll keep you posted on news and releases.</div>
+
+                
+
+                
+
+                <a class="secondary-button align-center margin-top-16" style="text-decoration: none;"
+                    href="pages/media-partners.html">
+
+                    <div>
+
+                        BECOME A PARTNER
+
+                    </div>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="footer-section" class="footer margin-top-120" data-aos="fade-up"
+
+        data-aos-anchor-placement="center-bottom">
+
+        <div class="footer-content flex-between" style="padding-top: 16px;">
+            <div></div>
+            <div class="">
+                <span><a href="https://discord.gg/XPyVmS5" target="_blank"><img class="social-icon"
+                            src="./img/discord.png"></a></span>
+                <span><a href="https://twitter.com/restless_corp" target="_blank"><img class="social-icon"
+                            src="./img/twitter.png"></a></span>
+                <span><a href="https://www.youtube.com/channel/UC9Ezr_7LSYVwzpesu3hKJoQ" target="_blank"><img
+
+                            class="social-icon" src="./img/youtube.png"></a></span>
+
+                <span><a href="https://www.instagram.com/restlesscorp/" target="_blank"><img class="social-icon"
+
+                            src="./img/instagram.png"></a></span>
+
+            </div>
+
+        </div>
+
+        <div class="footer-content" style="padding-top: 32px;">
+
+            <span class="privacy" style="margin-right: 16px;">&copy; 2017-2025 Restless Corp</span>
+            <a href="privacy-policy.html" class="privacy" target="_blank">Privacy Policy</a>
+            <a href="mailto:andriy@restlesscorp.com" class="privacy copy-email" style="margin-left: 16px;" data-email="andriy@restlesscorp.com" title="Copy email to clipboard">Contact <span class="email-address">andriy@restlesscorp.com</span></a>
+        </div>
+
+    </section>
+
 </body>
+
+
+
 </html>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="js/main.js"></script>
+<script src="js/scroll.js" defer></script>
+<script src="js/scrollspy-static/dist/scrollspy.min.js"></script>

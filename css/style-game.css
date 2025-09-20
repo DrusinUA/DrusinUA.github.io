@@ -1,0 +1,319 @@
+.title-image {
+    /* Desktop default aligns with original 500px visual */
+    width: 500px;
+    height: auto;
+}
+
+.shop-b {
+    opacity: 0.85;
+}
+
+.shop-b:hover {
+    opacity: 1;
+}
+
+.transform-container:hover .left-button {
+    transform: translate(0, 0)!important;
+}
+
+.transform-container:hover .right-button {
+    transform: translate(0, 0)!important;
+}
+
+.left-button {
+    transform: translate(-50px, 0);
+    transition: transform .5s ease;
+}
+
+.right-button {
+    transform: translate(50px, 0);
+    transition: transform .5s ease;
+}
+
+.ps-button {
+    padding: 8px;
+    background-color: #0072ce;
+}
+
+.ns-button {
+    padding: 8px;
+    background-color: #e60012;
+}
+
+.st-button {
+    padding: 8px;
+    background-color: #1b2838;
+}
+
+.xb-button {
+    padding: 8px;
+    background-color: #107c10;
+}
+
+#developers-section {
+    width: 100%;
+    width: 70%;
+    height: auto;
+    padding-left: 15%;
+    padding-right: 15%;
+}
+
+.dev-icon {
+    height: 40px;
+}
+
+.bullet-points {
+    position: relative;
+}
+
+.bullet-points:before {
+    position: absolute;
+    left: -20px;
+    top: 6px;
+    content: "";
+    height: 10px;
+    width: 10px;
+    background-color: #ffad00;
+}
+
+.left-line {
+    position: relative;
+    line-height: 40px;
+}
+
+.link-icon {
+    fill: #555;
+    color: #555;
+    height: 24px;
+    width: 24px;
+}
+
+.link {
+    position: relative;
+    transition: transform 0.20s ease-in;
+}
+
+.link:after {
+    position: absolute;
+    height: 4px;
+    width: 0px;
+    content: "";
+    bottom: -8px;
+    left: 0;
+    background-color: #ffad00;
+
+    transition: width 0.20s ease-in;
+}
+
+.link:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+}
+
+.link:hover:after {
+    width: 100%!important;
+    transition: width 0.20s ease-in;
+}
+
+.subscribe-button {
+    background-color: #107c10;
+    box-shadow: 1px 1px 1px rgba(0,0,0,.23);
+    border: none;
+
+    padding: 8px 16px 8px 16px;
+    min-width: 420px;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.subscribe-button > span {
+    position: relative;
+    color: white;
+
+    font-family: 'Roboto';
+    font-size: 22px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.subscribe-button:hover {
+    cursor: pointer;
+    outline: none;
+}
+
+.subscribe-button:focus {
+    cursor: pointer;
+    outline: none;
+}
+
+.sub-icon {
+    position: absolute;
+    height: 22px;
+    width: 22px;
+    right: 0;
+    top: 3px;
+}
+
+.sub-icon svg {
+    height: 22px;
+    width: 22px;
+    fill: white;
+    color: white;
+}
+
+.social-icon-inv {
+    width: 43px;
+    height: 43px;
+    box-shadow: 1px 1px 1px rgba(0,0,0,.23);
+
+    transition: all 0.2s ease-in;
+}
+
+.social-icon-inv:hover {
+    background-color: #ffad00;
+}
+
+.radius-anim {
+    border-radius: 0px;
+
+    transition: all 0.2s ease-in;
+}
+
+.radius-anim:hover {
+    border-radius: 20px;
+}
+
+.radius-anim-big {
+    border-radius: 0px;
+
+    transition: all 0.2s ease-in;
+}
+
+.radius-anim-big:hover {
+    border-radius: 23px;
+}
+
+.x-buy-button-widget-game-logo {
+    visibility: hidden;
+}
+
+.x-buy-button-widget {
+    background: transparent!important;
+}
+
+.x-buy-button-widget.x-buy-button-widget__tiny {
+    height: 56px!important;
+    width: 234px!important;
+    border-radius: 0px!important;
+}
+
+.x-buy-button-widget-gradient-block {
+    display: none;
+}
+
+.x-buy-button-widget-game-name {
+    display: none;
+}
+
+.x-buy-button-widget-button-block__dark {
+    padding: 0px!important;
+    border-radius: 0px!important;
+    background: transparent!important;
+}
+
+.x-buy-button-widget-payment-button {
+    border-radius: 0px!important;
+    height: 56px!important;
+}
+
+.xsolla-buy-button-widget {
+    width: 234px!important;
+    height: 56px!important;
+}
+
+/* Responsive adjustments for game pages */
+@media (max-width: 1024px) {
+  #developers-section {
+    width: 90%;
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+}
+@media (max-width: 768px) {
+  /* Prevent overflow on phones and keep hero content visible */
+  .title-image { max-width: 90vw; height: auto; width: auto; }
+  .dev-icon { height: 32px; }
+  .social-icon-inv { width: 36px; height: 36px; }
+  .xsolla-buy-button-widget { width: 200px!important; height: 48px!important; }
+  /* Avoid horizontal overflow if used */
+  .subscribe-button { min-width: auto; width: 100%; }
+
+  /* Game pages: enforce image -> text order per section */
+  #company-section .background-image-block,
+  #pitch-section .background-image-block,
+  #features-section .background-image-block { order: 0; }
+  #company-section .background-content-block,
+  #pitch-section .background-content-block,
+  #features-section .background-content-block { order: 1; }
+}
+
+/* --- Store buttons: make entire bar clickable & touch-friendly --- */
+.gen-button { padding: 0; box-sizing: border-box; }
+.gen-button > a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #fff;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+}
+.st-button > a { background: #1b2838; }
+.ns-button > a { background: #e60012; }
+.xb-button > a { background: #107c10; }
+.ps-button > a { background: #0072ce; }
+.gen-button a:hover { filter: brightness(1.08); }
+
+@media (max-width: 768px) {
+  .left-button, .right-button { transform: none !important; }
+  .transform-container:hover .left-button, .transform-container:hover .right-button { transform: none !important; }
+  .gen-button { width: 100%; }
+  .gen-button > a { min-height: 56px; font-size: 18px; }
+}
+
+/* =============================================================
+   Developers section: row layout (desktop stays unchanged)
+   ============================================================= */
+/* Common row layout for developer item (non-mobile) */
+#developers-section .link, #developers-section a.flex-block { display:flex; align-items:center; text-decoration:none; }
+#developers-section .dev-icon { width:40px; height:40px; object-fit:contain; flex:0 0 auto; }
+#developers-section .left-line { display:flex; align-items:center; gap:8px; flex:1; min-width:0; }
+#developers-section .header-label { margin:0; line-height:1.2; flex:1; min-width:0; }
+#developers-section .link-icon { width:22px; height:22px; flex:0 0 auto; margin:0 !important; }
+
+/* Mobile-only overrides */
+@media (max-width:768px){
+  /* Stack rows vertically, but keep each row inline */
+  #developers-section > .flex-block{flex-direction:column;gap:12px;align-items:stretch}
+  #developers-section .flex-block>div{margin:0!important}
+  /* Each developer row: icon + name + link inline */
+  #developers-section .link,#developers-section a.flex-block{
+    display:flex;align-items:center;gap:8px;flex-direction:row!important;
+    padding:0;border:0;background:transparent;border-radius:0
+  }
+  #developers-section .dev-icon{width:32px;height:32px;flex:0 0 auto}
+  #developers-section .left-line{display:flex;align-items:center;gap:8px;flex:1;min-width:0;flex-direction:row!important}
+  #developers-section .header-label{font-size:18px;margin:0;flex:1;min-width:0}
+  #developers-section .link-icon{width:20px;height:20px;flex:0 0 auto;margin:0!important}
+}
+
+/* Optional: hide the link icon if no real href */
+#developers-section a[href=""], 
+#developers-section a[href="#"] { pointer-events:none; }
+#developers-section a[href=""] .link-icon, 
+#developers-section a[href="#"] .link-icon { display:none; }

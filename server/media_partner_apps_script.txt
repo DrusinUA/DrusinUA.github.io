@@ -1,0 +1,34 @@
+// Google Apps Script: Media Partners Web App backend
+// Steps to deploy:
+// 1) Open https://script.google.com/ and create a new project.
+// 2) Paste the code below into Code.gs and save.
+// 3) From the top menu: Deploy -> New deployment -> Type: Web app
+//    - Execute as: Me
+//    - Who has access: Anyone
+//    - Deploy and authorize if prompted. Copy the Web app URL.
+// 4) In your site code, open `/js/media.js` and replace
+//    REPLACE_WITH_DEPLOYED_APPS_SCRIPT_WEB_APP_URL with the copied URL.
+// 5) Submissions will be appended to the first sheet of the spreadsheet.
+
+const SHEET_ID = "1pSXYYJO6Q5TCEiXmBQojqQc4Jh5KiOvaMsKl7lp3vnA";
+
+function doPost(e){
+  try{
+    var p = e.parameter || {};
+    if (p.website && String(p.website).trim() !== "") return ok_(); // honeypot
+    var ss = SpreadsheetApp.openById(SHEET_ID);
+    var sh = ss.getSheets()[0]; // first sheet
+    sh.appendRow([ new Date(), p.name||"", p.media||"", p.link||"", p.email||"" ]);
+    return ok_();
+  }catch(err){ return ok_(); }
+}
+function ok_(){
+  return ContentService.createTextOutput(JSON.stringify({ok:true}))
+    .setMimeType(ContentService.MimeType.JSON)
+    .setHeader('Access-Control-Allow-Origin','*')
+    .setHeader('Access-Control-Allow-Methods','POST,GET,OPTIONS')
+    .setHeader('Access-Control-Allow-Headers','Content-Type');
+}
+function doGet(e){ return ok_(); }
+function doOptions(e){ return ok_(); }
+

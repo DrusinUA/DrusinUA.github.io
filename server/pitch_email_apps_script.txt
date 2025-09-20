@@ -1,0 +1,83 @@
+// Google Apps Script: Pitch Your Game email handler
+// Paste this into a new script at script.new, then deploy as a Web App.
+
+function doPost(e) {
+  try {
+    var p = e && e.parameter ? e.parameter : {};
+    var params = e && e.parameters ? e.parameters : {};
+
+    // Honeypot: if 'website' is filled, silently accept without sending
+    if (p.website && String(p.website).trim() !== '') {
+      return _ok();
+    }
+
+    function esc(s) {
+      if (s === undefined || s === null) return '';
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    var name = p.name || '';
+    var email = p.email || '';
+    var studio = p.studio || '';
+    var links = p.links || '';
+    var pitch = p.pitch || '';
+
+    var ports = [];
+    if (params && params.ports) {
+      ports = params.ports; // array when multiple checkboxes posted
+    } else if (p.ports) {
+      ports = [p.ports];
+    }
+
+    var subject = 'New Game Pitch: ' + (studio ? esc(studio) : esc(name));
+    var htmlBody = '' +
+      '<div style="font-family:Roboto,Arial,sans-serif; color:#333">' +
+      '<h2 style="margin:0 0 12px 0;">New Game Pitch</h2>' +
+      '<table cellpadding="6" cellspacing="0" border="0" style="border-collapse:collapse">' +
+      '<tr><td><b>Name</b></td><td>' + esc(name) + '</td></tr>' +
+      '<tr><td><b>Email</b></td><td>' + esc(email) + '</td></tr>' +
+      '<tr><td><b>Studio</b></td><td>' + esc(studio) + '</td></tr>' +
+      '<tr><td><b>Requested Ports</b></td><td>' + esc(ports.join(', ')) + '</td></tr>' +
+      '<tr><td valign="top"><b>Links</b></td><td>' + esc(links).replace(/\n/g, '<br>') + '</td></tr>' +
+      '<tr><td valign="top"><b>Pitch</b></td><td>' + esc(pitch).replace(/\n/g, '<br>') + '</td></tr>' +
+      '</table>' +
+      '</div>';
+
+    if (String(email).trim()) {
+      MailApp.sendEmail({
+        to: 'restlessdevcorp@gmail.com',
+        subject: subject,
+        htmlBody: htmlBody
+      });
+    }
+
+    return _ok();
+  } catch (err) {
+    return HtmlService.createHtmlOutput('<html><body>OK</body></html>');
+  }
+}
+
+function _ok(){
+  var html = HtmlService.createHtmlOutput('<html><body>' +
+      '<div style="font-family:Arial,sans-serif;padding:24px;">Thanks! We\'ll review your pitch.</div>' +
+      '</body></html>');
+  html.setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+  return html;
+}
+
+/*
+Deployment steps
+1) Open script.new (Google Apps Script) and paste this file content.
+2) From Deploy > New deployment, choose "Web app". Execute as: Me. Who has access: Anyone.
+3) Click Deploy and copy the Web app URL.
+
+Paste the Web App URL in two places:
+ - js/pitch.js -> PITCH_ENDPOINT constant
+ - pages/pitch.html -> <form action="...">
+*/
+
