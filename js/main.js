@@ -1,6 +1,6 @@
 /**
  * Ravynix — Main JavaScript
- * Handles navigation, mobile menu, and smooth interactions
+ * Handles navigation, mobile menu, audio player, and smooth interactions
  */
 
 (function() {
@@ -15,6 +15,7 @@
     // State
     let isMobileMenuOpen = false;
     let lastScrollY = 0;
+    let currentlyPlaying = null;
 
     /**
      * Initialize the application
@@ -24,6 +25,7 @@
         setupSmoothScroll();
         setupHeaderScroll();
         setupIntersectionObserver();
+        setupAudioPlayers();
     }
 
     /**
@@ -76,6 +78,125 @@
         mobileMenuToggle.classList.remove('is-active');
         mobileMenuToggle.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
+    }
+
+    /**
+     * Audio Player Setup
+     */
+    function setupAudioPlayers() {
+        const songCards = document.querySelectorAll('.song-card[data-track]');
+        
+        songCards.forEach(card => {
+            const playButton = card.querySelector('.play-button');
+            const audioPlayer = card.querySelector('.audio-player');
+            if (!playButton || !audioPlayer) return;
+
+            const audio = audioPlayer.querySelector('audio');
+            const progressBar = audioPlayer.querySelector('.progress-bar');
+            const progressFilled = audioPlayer.querySelector('.progress-filled');
+            const timeCurrent = audioPlayer.querySelector('.time-current');
+            const timeDuration = audioPlayer.querySelector('.time-duration');
+            const volumeButton = audioPlayer.querySelector('.volume-button');
+            const volumeSlider = audioPlayer.querySelector('.volume-slider');
+
+            if (!audio) return;
+
+            // Play/Pause button
+            playButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                
+                if (currentlyPlaying && currentlyPlaying !== audio) {
+                    // Pause other playing audio
+                    currentlyPlaying.pause();
+                    const otherCard = currentlyPlaying.closest('.song-card');
+                    if (otherCard) {
+                        otherCard.classList.remove('is-playing');
+                    }
+                }
+
+                if (audio.paused) {
+                    audio.play();
+                    card.classList.add('is-playing', 'has-played');
+                    currentlyPlaying = audio;
+                } else {
+                    audio.pause();
+                    card.classList.remove('is-playing');
+                    currentlyPlaying = null;
+                }
+            });
+
+            // Update progress bar
+            audio.addEventListener('timeupdate', () => {
+                const percent = (audio.currentTime / audio.duration) * 100;
+                progressFilled.style.width = `${percent}%`;
+                timeCurrent.textContent = formatTime(audio.currentTime);
+            });
+
+            // Load duration
+            audio.addEventListener('loadedmetadata', () => {
+                timeDuration.textContent = formatTime(audio.duration);
+            });
+
+            // Also try to get duration on canplay for Safari
+            audio.addEventListener('canplay', () => {
+                if (audio.duration && !isNaN(audio.duration)) {
+                    timeDuration.textContent = formatTime(audio.duration);
+                }
+            });
+
+            // Click on progress bar to seek
+            progressBar.addEventListener('click', (e) => {
+                const rect = progressBar.getBoundingClientRect();
+                const percent = (e.clientX - rect.left) / rect.width;
+                audio.currentTime = percent * audio.duration;
+            });
+
+            // Volume control
+            if (volumeSlider) {
+                volumeSlider.addEventListener('input', (e) => {
+                    audio.volume = e.target.value;
+                    updateVolumeIcon(volumeButton, audio.volume);
+                });
+            }
+
+            if (volumeButton) {
+                volumeButton.addEventListener('click', () => {
+                    if (audio.volume > 0) {
+                        audio.dataset.previousVolume = audio.volume;
+                        audio.volume = 0;
+                        if (volumeSlider) volumeSlider.value = 0;
+                    } else {
+                        audio.volume = audio.dataset.previousVolume || 1;
+                        if (volumeSlider) volumeSlider.value = audio.volume;
+                    }
+                    updateVolumeIcon(volumeButton, audio.volume);
+                });
+            }
+
+            // Reset when audio ends
+            audio.addEventListener('ended', () => {
+                card.classList.remove('is-playing');
+                progressFilled.style.width = '0%';
+                timeCurrent.textContent = '0:00';
+                currentlyPlaying = null;
+            });
+        });
+    }
+
+    function formatTime(seconds) {
+        if (isNaN(seconds)) return '0:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function updateVolumeIcon(button, volume) {
+        if (!button) return;
+        if (volume === 0) {
+            button.classList.add('is-muted');
+        } else {
+            button.classList.remove('is-muted');
+        }
     }
 
     /**
