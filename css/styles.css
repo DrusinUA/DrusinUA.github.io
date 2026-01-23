@@ -113,6 +113,9 @@ body {
     color: var(--color-text-primary);
     background-color: var(--color-bg);
     min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
 }
 
 img {
@@ -237,6 +240,12 @@ button {
 
 .menu-icon::after {
     top: 6px;
+}
+
+.menu-icon,
+.menu-icon::before,
+.menu-icon::after {
+    transition: all var(--transition-fast);
 }
 
 /* ============================================
@@ -519,50 +528,147 @@ button {
 @media (max-width: 768px) {
     :root {
         --container-padding: var(--space-5);
+        --header-height: 64px;
     }
     
+    /* Mobile Navigation */
     .nav {
-        display: none;
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: var(--color-bg);
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding-top: var(--space-12);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity var(--transition-base), visibility var(--transition-base);
+    }
+    
+    .nav.is-open {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .nav-list {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-8);
+    }
+    
+    .nav-link {
+        font-size: var(--font-size-2xl);
+        font-weight: var(--font-weight-medium);
+        padding: var(--space-3) var(--space-6);
     }
     
     .mobile-menu-toggle {
         display: flex;
     }
     
+    /* Hamburger animation */
+    .mobile-menu-toggle.is-active .menu-icon {
+        background-color: transparent;
+    }
+    
+    .mobile-menu-toggle.is-active .menu-icon::before {
+        top: 0;
+        transform: rotate(45deg);
+    }
+    
+    .mobile-menu-toggle.is-active .menu-icon::after {
+        top: 0;
+        transform: rotate(-45deg);
+    }
+    
+    .logo-image {
+        height: 44px;
+    }
+    
     .hero {
-        min-height: 40vh;
-        padding-top: calc(var(--header-height) + var(--space-12));
-        padding-bottom: var(--space-12);
-    }
-    
-    .music-section,
-    .about-section,
-    .contact-section {
-        padding: var(--space-16) 0;
-    }
-    
-    .music-grid {
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-        gap: var(--space-6);
-    }
-    
-    .footer {
-        padding: var(--space-12) 0;
-    }
-}
-
-/* Mobile */
-@media (max-width: 480px) {
-    :root {
-        --container-padding: var(--space-4);
+        min-height: 35vh;
+        padding-top: calc(var(--header-height) + var(--space-10));
+        padding-bottom: var(--space-10);
     }
     
     .hero-title {
         font-size: var(--font-size-3xl);
     }
     
+    .music-section,
+    .about-section,
+    .contact-section {
+        padding: var(--space-12) 0;
+    }
+    
+    .music-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-4);
+    }
+    
+    .song-info {
+        padding: var(--space-4) var(--space-4) var(--space-2);
+    }
+    
+    .song-title {
+        font-size: var(--font-size-sm);
+    }
+    
+    .song-platforms {
+        padding: var(--space-2) var(--space-4) var(--space-4);
+        gap: var(--space-2);
+    }
+    
+    .platform-link {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .platform-icon {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .about-content p {
+        font-size: var(--font-size-sm);
+    }
+    
+    .contact-email {
+        font-size: var(--font-size-lg);
+        word-break: break-all;
+    }
+    
+    .footer {
+        padding: var(--space-10) 0;
+    }
+    
+    .social-link {
+        width: 44px;
+        height: 44px;
+    }
+}
+
+/* Mobile Small */
+@media (max-width: 480px) {
+    :root {
+        --container-padding: var(--space-4);
+    }
+    
+    .hero {
+        min-height: 30vh;
+        padding-top: calc(var(--header-height) + var(--space-8));
+        padding-bottom: var(--space-8);
+    }
+    
+    .hero-title {
+        font-size: var(--font-size-2xl);
+    }
+    
     .hero-tagline {
-        font-size: var(--font-size-base);
+        font-size: var(--font-size-sm);
     }
     
     .music-grid {
@@ -570,12 +676,87 @@ button {
         gap: var(--space-5);
     }
     
+    .song-info {
+        padding: var(--space-5) var(--space-5) var(--space-3);
+    }
+    
+    .song-title {
+        font-size: var(--font-size-base);
+    }
+    
+    .song-platforms {
+        padding: var(--space-3) var(--space-5) var(--space-5);
+        gap: var(--space-3);
+    }
+    
+    .platform-link {
+        width: 44px;
+        height: 44px;
+    }
+    
+    .platform-icon {
+        width: 20px;
+        height: 20px;
+    }
+    
     .section-title {
-        margin-bottom: var(--space-8);
+        margin-bottom: var(--space-6);
+    }
+    
+    .about-content p {
+        font-size: var(--font-size-base);
     }
     
     .contact-email {
-        font-size: var(--font-size-lg);
+        font-size: var(--font-size-base);
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .song-card:hover {
+        transform: none;
+        background-color: var(--color-bg-card);
+    }
+    
+    .song-card:active {
+        background-color: var(--color-bg-elevated);
+    }
+    
+    .song-card:hover .song-cover img {
+        transform: none;
+    }
+    
+    .platform-link:hover {
+        background-color: transparent;
+    }
+    
+    .platform-link:active {
+        background-color: var(--color-hover);
+    }
+    
+    .platform-link:hover .platform-icon {
+        fill: var(--color-text-secondary);
+    }
+    
+    .platform-link:active .platform-icon {
+        fill: var(--color-text-primary);
+    }
+    
+    .social-link:hover {
+        background-color: transparent;
+    }
+    
+    .social-link:active {
+        background-color: var(--color-hover);
+    }
+    
+    .nav-link:hover {
+        color: var(--color-text-secondary);
+    }
+    
+    .nav-link:active {
+        color: var(--color-text-primary);
     }
 }
 
@@ -597,6 +778,11 @@ button {
 /* Smooth scroll offset for fixed header */
 html {
     scroll-padding-top: calc(var(--header-height) + var(--space-8));
+}
+
+/* Prevent horizontal scroll on mobile */
+html, body {
+    max-width: 100%;
 }
 
 /* Selection color */
