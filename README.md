@@ -70,3 +70,4 @@ npm run preview
 
 - `docs/ui-guidelines.md` - токени, брейкпоінти, правила компонентів.
 - `docs/asset-requirements.md` - вимоги до графічних ресурсів і favicon.
+- `docs/viber-automation.md` - покрокове налаштування автоматичної відправки замовлень у Viber через webhook.

@@ -49,6 +49,13 @@ document.querySelector('#app').innerHTML = `
 
   <nav class="category-nav" id="categoryNav" aria-label="Категорії"></nav>
 
+  <section class="selected-summary" id="selectedSummary" hidden>
+    <p class="selected-summary-text">
+      Обрано позицій: <strong id="selectedCount">0</strong>
+    </p>
+    <button class="selected-summary-btn" id="selectedSummaryBtn" type="button">Редагувати</button>
+  </section>
+
   <main class="menu-list" id="menuList">
     <div class="loader-container">
       <div class="loader-spinner" aria-hidden="true"></div>
@@ -86,7 +93,6 @@ const state = {
   cart: [],
 };
 
-const addFeedbackTimers = new WeakMap();
 let toastTimer;
 
 const categoryNavEl = document.getElementById('categoryNav');
@@ -101,6 +107,9 @@ const submitOrderBtn = document.getElementById('submitOrderBtn');
 const priceDisclaimer = document.getElementById('priceDisclaimer');
 const navTabs = document.querySelectorAll('.nav-tab');
 const statusToast = document.getElementById('statusToast');
+const selectedSummary = document.getElementById('selectedSummary');
+const selectedCount = document.getElementById('selectedCount');
+const selectedSummaryBtn = document.getElementById('selectedSummaryBtn');
 
 async function init() {
   setupEventListeners();
@@ -203,11 +212,33 @@ function renderMenu() {
           ${item.description ? `<div class="item-desc">${item.description}</div>` : ''}
           <div class="item-meta-row">
             ${item.weight || item.volume ? `<span class="item-weight">${item.weight || item.volume}</span>` : '<span></span>'}
-            <button class="btn-add" data-add-id="${item.id}" type="button">+ В банкет</button>
+            ${renderMenuRowControls(item.id)}
           </div>
         </article>
       `).join('')}
     </section>
+  `;
+}
+
+function getCartQuantity(id) {
+  return state.cart.find((item) => item.id === id)?.quantity ?? 0;
+}
+
+function renderMenuRowControls(itemId) {
+  const qty = getCartQuantity(itemId);
+  if (qty <= 0) {
+    return `<button class="btn-add" data-add-id="${itemId}" type="button">+ В банкет</button>`;
+  }
+
+  return `
+    <div class="inline-qty-wrap">
+      <span class="inline-qty-label">Обрано:</span>
+      <div class="inline-qty-controls" role="group" aria-label="Керування кількістю позиції">
+        <button class="btn-menu-qty" data-menu-qty-id="${itemId}" data-change="-1" type="button" aria-label="Зменшити кількість">-</button>
+        <span class="menu-qty-value">${qty}</span>
+        <button class="btn-menu-qty" data-menu-qty-id="${itemId}" data-change="1" type="button" aria-label="Збільшити кількість">+</button>
+      </div>
+    </div>
   `;
 }
 
@@ -246,6 +277,8 @@ function updateCartUI() {
   const totalItems = state.cart.reduce((sum, item) => sum + item.quantity, 0);
   cartBadgeEl.textContent = totalItems;
   cartBadgeEl.hidden = totalItems === 0;
+  selectedCount.textContent = totalItems;
+  selectedSummary.hidden = totalItems === 0;
 
   if (state.cart.length === 0) {
     cartBody.innerHTML = `
@@ -345,27 +378,9 @@ function addToCart(id, sourceButton) {
     state.cart.push({ id, quantity: 1 });
   }
 
+  renderMenu();
   updateCartUI();
-
-  if (sourceButton) {
-    const originalText = sourceButton.dataset.originalText || sourceButton.textContent;
-    sourceButton.dataset.originalText = originalText;
-    sourceButton.textContent = 'Додано';
-    sourceButton.classList.add('is-added');
-
-    const existingTimer = addFeedbackTimers.get(sourceButton);
-    if (existingTimer) {
-      clearTimeout(existingTimer);
-    }
-
-    const timer = setTimeout(() => {
-      sourceButton.textContent = originalText;
-      sourceButton.classList.remove('is-added');
-      addFeedbackTimers.delete(sourceButton);
-    }, 900);
-
-    addFeedbackTimers.set(sourceButton, timer);
-  }
+  if (sourceButton) sourceButton.blur();
 }
 
 function updateQuantity(id, change) {
@@ -379,6 +394,7 @@ function updateQuantity(id, change) {
     state.cart.splice(idx, 1);
   }
 
+  renderMenu();
   updateCartUI();
 }
 
@@ -449,7 +465,32 @@ function buildOrderMessage(formData) {
   return message;
 }
 
-function submitOrder() {
+const ORDER_WEBHOOK_URL = import.meta.env.VITE_ORDER_WEBHOOK_URL?.trim() || '';
+
+async function sendOrderWebhook(payload) {
+  if (!ORDER_WEBHOOK_URL) {
+    return { status: 'disabled' };
+  }
+
+  try {
+    const res = await fetch(ORDER_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      return { status: 'failed', code: res.status };
+    }
+
+    return { status: 'sent' };
+  } catch (error) {
+    console.error('Webhook send failed:', error);
+    return { status: 'failed', code: null };
+  }
+}
+
+async function submitOrder() {
   const formData = {
     name: document.getElementById('orderName')?.value.trim() || '',
     phone: document.getElementById('orderPhone')?.value.trim() || '',
@@ -464,6 +505,38 @@ function submitOrder() {
   }
 
   const message = buildOrderMessage(formData);
+  const payload = {
+    customer: {
+      name: formData.name,
+      phone: formData.phone,
+      dateTime: formData.dateStr,
+      guests: formData.guests,
+      notes: formData.notes,
+    },
+    cart: state.cart.map((cartItem) => {
+      const itemData = findItemData(cartItem.id);
+      return {
+        id: cartItem.id,
+        quantity: cartItem.quantity,
+        name: itemData?.name || null,
+        price: itemData?.price ?? null,
+        weight: itemData?.weight || itemData?.volume || null,
+      };
+    }),
+    message,
+    source: 'github-pages-menu',
+    createdAt: new Date().toISOString(),
+  };
+
+  submitOrderBtn.disabled = true;
+  const webhookResult = await sendOrderWebhook(payload);
+
+  if (webhookResult.status === 'sent') {
+    showStatus('Замовлення автоматично надіслано в Viber бот.', 'success');
+    submitOrderBtn.disabled = false;
+    return;
+  }
+
   const encodedMsg = encodeURIComponent(message);
   const viberUrl = `viber://forward?text=${encodedMsg}`;
   const redirectToViber = () => {
@@ -480,10 +553,12 @@ function submitOrder() {
       })
       .finally(() => {
         setTimeout(redirectToViber, 120);
+        submitOrderBtn.disabled = false;
       });
   } else {
     showStatus('Буфер обміну недоступний. Відкриваємо Viber.', 'error');
     redirectToViber();
+    submitOrderBtn.disabled = false;
   }
 }
 
@@ -535,16 +610,26 @@ function setupEventListeners() {
 
   menuListEl.addEventListener('click', (event) => {
     const addBtn = event.target.closest('.btn-add');
-    if (!addBtn) {
+    if (addBtn) {
+      const itemId = addBtn.dataset.addId;
+      if (itemId) {
+        addToCart(itemId, addBtn);
+      }
       return;
     }
 
-    const itemId = addBtn.dataset.addId;
-    if (!itemId) {
+    const menuQtyButton = event.target.closest('.btn-menu-qty');
+    if (!menuQtyButton) {
       return;
     }
 
-    addToCart(itemId, addBtn);
+    const itemId = menuQtyButton.dataset.menuQtyId;
+    const change = Number(menuQtyButton.dataset.change);
+    if (!itemId || !Number.isFinite(change)) {
+      return;
+    }
+
+    updateQuantity(itemId, change);
   });
 
   cartBody.addEventListener('click', (event) => {
@@ -569,6 +654,7 @@ function setupEventListeners() {
   });
 
   cartBtn.addEventListener('click', openCartModal);
+  selectedSummaryBtn.addEventListener('click', openCartModal);
   closeCartBtn.addEventListener('click', closeCartModal);
 
   cartModal.addEventListener('click', (event) => {
