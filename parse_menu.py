@@ -1,6 +1,59 @@
 import re
 import json
 
+NOISE_KEYWORDS = (
+    "PREVIEW",
+    "@cocos",
+    "ДІТИ ГРАЮТЬ - БАТЬКИ ВІДПОЧИВАЮТЬ",
+    "БАРНЕ МЕНЮ",
+)
+
+
+def is_noise_line(line):
+    text = " ".join(line.strip().split())
+    if not text:
+        return False
+
+    upper = text.upper()
+
+    # OCR artifact blocks from footer/promo pages.
+    if re.fullmatch(r"(PREVIEW\s*){2,}", upper):
+        return True
+    if any(keyword in upper for keyword in NOISE_KEYWORDS):
+        return True
+
+    return False
+
+
+def clean_description_lines(lines):
+    cleaned = []
+    for line in lines:
+        text = " ".join(line.strip().split())
+        if not text:
+            continue
+        if is_noise_line(text):
+            continue
+        cleaned.append(text)
+
+    description = " ".join(cleaned)
+    # Extra safeguard in case noisy tokens are glued into mixed lines.
+    description = re.sub(r"@cocos\S*", "", description, flags=re.IGNORECASE)
+    description = re.sub(r"\bPREVIEW\b(?:\s+\bPREVIEW\b)+", "", description, flags=re.IGNORECASE)
+    description = re.sub(r"\s{2,}", " ", description).strip(" -")
+    return description
+
+
+def has_suspicious_description(description):
+    if not description:
+        return False
+    upper = description.upper()
+    if "PREVIEW" in upper:
+        return True
+    if "@COCOS" in upper:
+        return True
+    return False
+
+
 def parse_kitchen(text_file):
     with open(text_file, 'r', encoding='utf-8') as f:
         lines = f.read().splitlines()
@@ -64,7 +117,7 @@ def parse_kitchen(text_file):
                         "category": current_category,
                         "weight": weight,
                         "price": p,
-                        "description": " ".join(desc)
+                        "description": clean_description_lines(desc)
                     })
                     seen.add(key)
         i += 1
@@ -136,7 +189,7 @@ def parse_bar(text_file):
                         "category": current_category,
                         "volume": volume,
                         "price": p,
-                        "description": " ".join(desc)
+                        "description": clean_description_lines(desc)
                     })
                     seen.add(key)
         i += 1
@@ -146,7 +199,16 @@ def parse_bar(text_file):
 if __name__ == "__main__":
     kitchen = parse_kitchen("kitchen_text.txt")
     bar = parse_bar("bar_text.txt")
-    
-    with open("menu.json", "w", encoding="utf-8") as f:
-        json.dump({"kitchen": kitchen, "bar": bar}, f, ensure_ascii=False, indent=2)
-    print(f"Generated menu.json with {len(kitchen)} kitchen items and {len(bar)} bar items.")
+
+    data = {"kitchen": kitchen, "bar": bar}
+    suspicious = []
+    for item in kitchen + bar:
+        if has_suspicious_description(item.get("description", "")):
+            suspicious.append(item["id"])
+
+    with open("public/menu.json", "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+    print(f"Generated public/menu.json with {len(kitchen)} kitchen items and {len(bar)} bar items.")
+    if suspicious:
+        print(f"Warning: suspicious descriptions found in items: {', '.join(suspicious)}")
