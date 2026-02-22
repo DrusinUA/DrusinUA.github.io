@@ -22,7 +22,7 @@ document.querySelector('#app').innerHTML = `
 
   <main class="menu-list" id="menuList">
     <!-- Items will be rendered here -->
-    <div style="text-align:center; padding: 40px;">Завантаження меню...</div>
+    <div style="text-align:center; padding: 40px; color: var(--color-text-secondary);">Завантаження Вашого смачного меню... 🥥</div>
   </main>
 
   <!-- Banquet Builder Modal -->
