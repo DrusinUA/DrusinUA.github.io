@@ -55,9 +55,9 @@ body {
   font-family: var(--font-body);
   background-color: var(--bg-cream);
   background-image:
-    radial-gradient(920px 920px at -280px -260px, var(--bg-circle) 0 61%, transparent 61.4%),
-    radial-gradient(830px 830px at calc(100% + 260px) 76%, var(--bg-circle) 0 59%, transparent 59.4%),
-    radial-gradient(760px 760px at -240px calc(100% + 200px), var(--bg-circle) 0 57%, transparent 57.4%);
+    radial-gradient(circle at -280px -260px, var(--bg-circle) 0 920px, transparent 921px),
+    radial-gradient(circle at calc(100% + 260px) 76%, var(--bg-circle) 0 830px, transparent 831px),
+    radial-gradient(circle at -240px calc(100% + 200px), var(--bg-circle) 0 760px, transparent 761px);
   background-repeat: no-repeat;
   background-attachment: scroll;
   color: var(--text-dark);
