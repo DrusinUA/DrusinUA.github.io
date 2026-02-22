@@ -120,16 +120,15 @@ function renderMenu() {
     <div class="category-section">
       <h2 class="category-title">${state.currentCategory || ''}</h2>
       ${items.map(item => `
-        <div class="menu-item">
-          <div class="item-info">
-            <h3 class="item-name">${item.name}</h3>
-            ${item.description ? `<p class="item-desc">${item.description}</p>` : ''}
-            <div class="item-meta">
-              ${item.weight || item.volume ? `<span class="item-weight">${item.weight || item.volume}</span>` : ''}
-              <span class="item-price">${item.price !== null ? `${item.price} ₴` : 'Уточнюйте'}</span>
-            </div>
+        <div class="menu-item-row">
+          <div class="menu-item-primary">
+            <span class="item-name">${item.name}</span>
+            <div class="item-leader"></div>
+            <span class="item-price">${item.price !== null ? `${item.price} ₴` : 'Уточнюйте'}</span>
           </div>
-          <div class="item-actions">
+          ${item.description ? `<div class="item-desc">${item.description}</div>` : ''}
+          <div class="item-meta-row">
+            ${item.weight || item.volume ? `<span class="item-weight">${item.weight || item.volume}</span>` : '<span></span>'}
             <button class="btn-add" onclick="addToCart('${item.id}')">+ В банкет</button>
           </div>
         </div>
