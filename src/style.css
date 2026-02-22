@@ -44,6 +44,10 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 html,
 body {
   min-height: 100%;
@@ -110,8 +114,8 @@ textarea:focus-visible {
   justify-content: space-between;
   gap: var(--space-sm);
   padding: calc(var(--space-xs) + env(safe-area-inset-top)) var(--page-gutter) var(--space-xs);
-  background: color-mix(in srgb, var(--bg-cream) 97%, white 3%);
-  box-shadow: 0 8px 18px rgba(239, 236, 224, 0.95);
+  background: var(--bg-cream);
+  border-bottom: 1px solid rgba(90, 75, 66, 0.14);
 }
 
 .logo-container {
@@ -859,9 +863,10 @@ textarea.form-control {
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x proximity;
+    scroll-snap-type: none;
+    overscroll-behavior-x: contain;
     scrollbar-width: none;
-    padding-bottom: calc(var(--space-2xs) + 2px);
+    padding-bottom: var(--space-2xs);
   }
 
   .category-nav::-webkit-scrollbar {
@@ -871,10 +876,12 @@ textarea.form-control {
   .category-pill {
     padding: 8px 13px;
     flex: 0 0 auto;
+    max-width: min(72vw, 260px);
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     overflow-wrap: normal;
     word-break: normal;
-    scroll-snap-align: start;
   }
 
   .selected-summary {

@@ -2,7 +2,7 @@
   <rect width="64" height="64" rx="14" fill="#324426" />
 
   <path
-    d="M45.5 16.5C38 9.5 26 9.5 18.5 18.5C10.5 28.2 14.2 42.6 26.5 47C33.1 49.4 40.1 47.8 45.5 42.5"
+    d="M46 16.5C37.8 9.2 25.9 9.5 18.8 18.7C11.3 28.4 14.8 42.8 26.8 47C33.2 49.2 39.8 47.6 45.2 42.4"
     fill="none"
     stroke="#efece0"
     stroke-width="14"
@@ -10,16 +10,11 @@
     stroke-linejoin="round"
   />
   <path
-    d="M45.5 16.5C38 9.5 26 9.5 18.5 18.5C10.5 28.2 14.2 42.6 26.5 47C33.1 49.4 40.1 47.8 45.5 42.5"
+    d="M46 16.5C37.8 9.2 25.9 9.5 18.8 18.7C11.3 28.4 14.8 42.8 26.8 47C33.2 49.2 39.8 47.6 45.2 42.4"
     fill="none"
     stroke="#2c201a"
     stroke-width="9"
     stroke-linecap="round"
     stroke-linejoin="round"
   />
-
-  <circle cx="45.5" cy="16.5" r="6" fill="#efece0" />
-  <circle cx="45.5" cy="16.5" r="4" fill="#2c201a" />
-  <circle cx="45.5" cy="42.5" r="6" fill="#efece0" />
-  <circle cx="45.5" cy="42.5" r="4" fill="#2c201a" />
 </svg>

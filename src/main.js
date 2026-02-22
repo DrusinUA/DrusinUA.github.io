@@ -174,6 +174,7 @@ function renderCategories() {
       class="category-pill${cat === state.currentCategory ? ' active' : ''}"
       data-category="${cat}"
       type="button"
+      title="${cat}"
       aria-pressed="${cat === state.currentCategory ? 'true' : 'false'}"
     >
       ${cat}
