@@ -28,13 +28,23 @@
 body {
     font-family: var(--font-body);
     background-color: var(--bg-cream);
-    /* Organic circles background matching the PDF aesthetic */
-    background-image:
-        radial-gradient(circle at -10% -10%, var(--bg-cream-darker) 30%, transparent 30.1%),
-        radial-gradient(circle at 110% 80%, var(--bg-cream-darker) 35%, transparent 35.1%);
     color: var(--text-dark);
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background-image:
+        radial-gradient(circle at -10% -10%, var(--bg-cream-darker) 30%, transparent 30.1%),
+        radial-gradient(circle at 110% 80%, var(--bg-cream-darker) 35%, transparent 35.1%);
+    pointer-events: none;
 }
 
 #app {
@@ -146,6 +156,10 @@ body {
     padding: 12px 24px 20px 24px;
     gap: 12px;
     scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    /* Smooth momentum scrolling on iOS */
+    position: relative;
+    z-index: 10;
 }
 
 .category-nav::-webkit-scrollbar {
