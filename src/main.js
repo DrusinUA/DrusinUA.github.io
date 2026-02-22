@@ -3,7 +3,7 @@ import './style.css';
 document.querySelector('#app').innerHTML = `
   <header class="header">
     <div class="logo-container">
-      <img src="/logo.svg" alt="COCOS Cafe" />
+      <img src="./logo.svg" alt="COCOS Cafe" />
     </div>
     <button class="cart-button" id="cartBtn" aria-label="Відкрити банкетне меню">
       <svg viewBox="0 0 24 24">
@@ -22,7 +22,10 @@ document.querySelector('#app').innerHTML = `
 
   <main class="menu-list" id="menuList">
     <!-- Items will be rendered here -->
-    <div style="text-align:center; padding: 40px; color: var(--color-text-secondary);">Завантаження Вашого смачного меню... 🥥</div>
+    <div class="loader-container">
+      <div class="loader-spinner"></div>
+      Завантаження меню...
+    </div>
   </main>
 
   <!-- Banquet Builder Modal -->
@@ -81,7 +84,7 @@ async function init() {
     setupEventListeners();
   } catch (error) {
     console.error('Failed to load menu data:', error);
-    menuListEl.innerHTML = '<div style="text-align:center; padding: 40px; color: red;">Помилка завантаження меню. Спробуйте пізніше.</div>';
+    menuListEl.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--color-danger); font-family: var(--font-serif); font-size: 20px;">Помилка завантаження меню.<br>Будь ласка, спробуйте пізніше.</div>';
   }
 }
 
