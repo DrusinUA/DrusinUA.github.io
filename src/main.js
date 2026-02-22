@@ -232,7 +232,6 @@ function renderMenuRowControls(itemId) {
 
   return `
     <div class="inline-qty-wrap">
-      <span class="inline-qty-label">Обрано:</span>
       <div class="inline-qty-controls" role="group" aria-label="Керування кількістю позиції">
         <button class="btn-menu-qty" data-menu-qty-id="${itemId}" data-change="-1" type="button" aria-label="Зменшити кількість">-</button>
         <span class="menu-qty-value">${qty}</span>

@@ -28,6 +28,7 @@
   --radius-md: 18px;
   --radius-lg: 26px;
   --radius-pill: 999px;
+  --action-control-height: 36px;
 
   --shadow-soft: 0 8px 28px rgba(50, 68, 38, 0.12);
   --shadow-card: 0 10px 22px rgba(44, 32, 26, 0.08);
@@ -408,7 +409,8 @@ textarea:focus-visible {
   border: none;
   border-radius: var(--radius-pill);
   padding: 9px 16px;
-  min-height: 36px;
+  min-height: var(--action-control-height);
+  height: var(--action-control-height);
   font-family: var(--font-heading);
   font-size: 12px;
   font-weight: 800;
@@ -430,32 +432,24 @@ textarea:focus-visible {
 .inline-qty-wrap {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  min-height: var(--action-control-height);
   margin-left: auto;
-}
-
-.inline-qty-label {
-  font-family: var(--font-heading);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.2px;
-  text-transform: uppercase;
-  color: var(--text-muted);
 }
 
 .inline-qty-controls {
   display: inline-flex;
   align-items: center;
+  height: var(--action-control-height);
   border-radius: var(--radius-pill);
   border: 1px solid rgba(90, 75, 66, 0.3);
   background: rgba(255, 255, 255, 0.72);
-  padding: 3px;
+  padding: 2px 3px;
 }
 
 .btn-menu-qty {
   border: none;
-  width: 30px;
-  height: 30px;
+  width: calc(var(--action-control-height) - 8px);
+  height: calc(var(--action-control-height) - 8px);
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
@@ -468,11 +462,12 @@ textarea:focus-visible {
 }
 
 .menu-qty-value {
-  min-width: 28px;
+  min-width: 30px;
   text-align: center;
   font-family: var(--font-heading);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 800;
+  line-height: 1;
 }
 
 .menu-empty,
@@ -912,10 +907,6 @@ textarea.form-control {
   .inline-qty-wrap {
     width: 100%;
     justify-content: flex-end;
-  }
-
-  .inline-qty-label {
-    font-size: 10px;
   }
 
   .modal-content {
