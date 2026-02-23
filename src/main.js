@@ -79,27 +79,48 @@ document.querySelector('#app').innerHTML = `
           * У загальній сумі не враховано позиції без визначеної ціни.
         </p>
         <div class="footer-actions">
-          <button class="btn-secondary" id="copyMessageBtn" type="button" disabled>Copy message</button>
-          <button class="btn-submit" id="submitOrderBtn" type="button" disabled>Order in Viber</button>
+          <button class="btn-secondary" id="copyMessageBtn" type="button" disabled>Скопіювати текст</button>
+          <button class="btn-submit" id="submitOrderBtn" type="button" disabled>
+            <span class="btn-content">
+              <svg class="btn-icon btn-icon-viber" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 3c5.36 0 9 3.23 9 7.71 0 2.83-1.6 5.04-4.28 6.35l.5 3.22-3.33-1.9c-.61.09-1.24.13-1.89.13-5.36 0-9-3.23-9-7.71S6.64 3 12 3zm-2.03 4.17c-.38 0-.72.29-.72.79 0 2.2 1.98 4.19 4.19 4.19.5 0 .79-.34.79-.72 0-.4-.1-.78-.31-1.08-.17-.27-.42-.4-.68-.29l-.79.3a5.08 5.08 0 0 1-2.11-2.11l.3-.79c.1-.26-.02-.51-.3-.69-.29-.2-.67-.3-1.07-.3z"></path>
+              </svg>
+              <span>Скопіювати й відкрити Viber</span>
+            </span>
+          </button>
         </div>
-        <p class="viber-hint">
-          Якщо Viber не відкрився, надішліть повідомлення вручну на:
-          <strong id="viberPhoneText">+380972991794</strong>
-          <button class="btn-inline-link" id="copyPhoneBtn" type="button">Copy phone number</button>
-        </p>
+        <div class="viber-hint">
+          <p class="viber-hint-title">Як відправити замовлення:</p>
+          <ol class="viber-steps">
+            <li>Натисніть <strong>Скопіювати й відкрити Viber</strong>.</li>
+            <li>У чаті Viber вставте текст повідомлення та надішліть.</li>
+          </ol>
+          <p class="viber-hint-fallback">
+            Якщо Viber не відкрився, надішліть вручну на:
+            <strong id="viberPhoneText">+380972991794</strong>
+            <button class="btn-inline-link" id="copyPhoneBtn" type="button">Скопіювати номер</button>
+          </p>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="copy-fallback-modal" id="copyFallbackModal" hidden>
     <div class="copy-fallback-content" role="dialog" aria-modal="true" aria-labelledby="copyFallbackTitle">
-      <h3 id="copyFallbackTitle">Tap Copy, then we’ll open Viber</h3>
+      <h3 id="copyFallbackTitle">Скопіюйте текст і відкрийте Viber</h3>
       <p class="copy-fallback-text">
-        Браузер не дозволив автоматичне копіювання. Натисніть Copy message, потім Open Viber.
+        Браузер заблокував автоматичне копіювання. Натисніть «Скопіювати текст», потім «Відкрити Viber», вставте повідомлення в чат і надішліть.
       </p>
       <div class="copy-fallback-actions">
-        <button class="btn-secondary" id="fallbackCopyBtn" type="button">Copy message</button>
-        <button class="btn-submit" id="fallbackOpenViberBtn" type="button">Open Viber</button>
+        <button class="btn-secondary" id="fallbackCopyBtn" type="button">Скопіювати текст</button>
+        <button class="btn-submit" id="fallbackOpenViberBtn" type="button">
+          <span class="btn-content">
+            <svg class="btn-icon btn-icon-viber" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3c5.36 0 9 3.23 9 7.71 0 2.83-1.6 5.04-4.28 6.35l.5 3.22-3.33-1.9c-.61.09-1.24.13-1.89.13-5.36 0-9-3.23-9-7.71S6.64 3 12 3zm-2.03 4.17c-.38 0-.72.29-.72.79 0 2.2 1.98 4.19 4.19 4.19.5 0 .79-.34.79-.72 0-.4-.1-.78-.31-1.08-.17-.27-.42-.4-.68-.29l-.79.3a5.08 5.08 0 0 1-2.11-2.11l.3-.79c.1-.26-.02-.51-.3-.69-.29-.2-.67-.3-1.07-.3z"></path>
+            </svg>
+            <span>Відкрити Viber</span>
+          </span>
+        </button>
       </div>
       <button class="btn-inline-link close-fallback" id="closeFallbackBtn" type="button">Закрити</button>
     </div>
@@ -118,6 +139,7 @@ const state = {
 let toastTimer;
 const VIBER_PHONE = '+380972991794';
 const VIBER_CHAT_URL = `viber://chat?number=${encodeURIComponent(VIBER_PHONE)}`;
+const ORDER_PREVIEW_HELP_TEXT = 'Скопіюйте текст, потім відкрийте Viber і вставте його в чат перед надсиланням.';
 
 const categoryNavEl = document.getElementById('categoryNav');
 const menuListEl = document.getElementById('menuList');
@@ -394,10 +416,10 @@ function updateCartUI() {
       </div>
     </section>
     <section class="order-preview-section">
-      <h4 class="order-preview-title">Message preview</h4>
+      <h4 class="order-preview-title">Попередній текст замовлення</h4>
       <textarea id="orderPreview" class="order-preview" readonly></textarea>
       <p class="order-preview-note" id="orderPreviewNote">
-        Спочатку перевірте текст, потім натисніть <strong>Order in Viber</strong>.
+        ${ORDER_PREVIEW_HELP_TEXT}
       </p>
     </section>
   `;
@@ -463,7 +485,7 @@ function validateForm() {
       noteEl.textContent = validationError;
       noteEl.classList.add('is-error');
     } else {
-      noteEl.textContent = 'Спочатку перевірте текст, потім натисніть Order in Viber.';
+      noteEl.textContent = ORDER_PREVIEW_HELP_TEXT;
       noteEl.classList.remove('is-error');
     }
   }
@@ -603,14 +625,14 @@ function buildOrderMessage(orderState) {
   ];
 
   orderState.items.forEach((item) => {
-    const priceText = item.unitPrice !== null ? `${item.unitPrice}₴` : 'ціна уточнюється';
-    const totalText = item.lineTotal !== null ? `${item.lineTotal}₴` : '-';
+    const priceText = item.unitPrice !== null ? `${item.unitPrice} грн` : 'ціна уточнюється';
+    const totalText = item.lineTotal !== null ? `${item.lineTotal} грн` : '-';
     const unitLabel = item.unit ? ` (${item.unit})` : '';
     lines.push(`- ${item.name}${unitLabel} — x${item.quantity} — ${priceText} = ${totalText}`);
   });
 
   lines.push('');
-  lines.push(`Разом: ${orderState.total}₴`);
+  lines.push(`Всього до сплати: ${orderState.total} грн`);
   lines.push('');
   lines.push('Коментар:');
   lines.push(orderState.customer.notes || '-');
@@ -704,7 +726,8 @@ function closeCopyFallbackModal() {
   }
 }
 
-async function handleCopyMessage() {
+async function handleCopyMessage(options = {}) {
+  const showSuccessToast = options.showSuccessToast !== false;
   updateOrderPreview();
   const { isValid, validationError, orderState } = validateForm();
   if (!isValid) {
@@ -715,7 +738,9 @@ async function handleCopyMessage() {
   const message = buildOrderMessage(orderState);
   const result = await copyToClipboard(message);
   if (result.ok) {
-    showStatus('Повідомлення скопійовано.', 'success');
+    if (showSuccessToast) {
+      showStatus('Текст скопійовано. Відкрийте Viber, вставте повідомлення і надішліть.', 'success');
+    }
   } else {
     showStatus('Не вдалося скопіювати автоматично. Виділіть текст і скопіюйте вручну.', 'error');
     selectPreviewText(message);
@@ -735,9 +760,9 @@ async function submitOrder() {
   submitOrderBtn.disabled = true;
   copyMessageBtn.disabled = true;
 
-  const copyResult = await handleCopyMessage();
+  const copyResult = await handleCopyMessage({ showSuccessToast: false });
   if (copyResult.ok) {
-    showStatus('Скопійовано. Відкриваємо Viber…', 'success');
+    showStatus('Відкриваємо Viber. У чаті вставте текст і натисніть «Надіслати».', 'success');
     setTimeout(openViberChat, 80);
   } else {
     openCopyFallbackModal();
@@ -853,7 +878,9 @@ function setupEventListeners() {
   cartBtn.addEventListener('click', openCartModal);
   selectedSummaryBtn.addEventListener('click', openCartModal);
   closeCartBtn.addEventListener('click', closeCartModal);
-  copyMessageBtn.addEventListener('click', handleCopyMessage);
+  copyMessageBtn.addEventListener('click', () => {
+    handleCopyMessage();
+  });
   copyPhoneBtn.addEventListener('click', async () => {
     const result = await copyToClipboard(VIBER_PHONE);
     if (result.ok) {
@@ -862,7 +889,9 @@ function setupEventListeners() {
       showStatus('Не вдалося скопіювати номер автоматично.', 'error');
     }
   });
-  fallbackCopyBtn.addEventListener('click', handleCopyMessage);
+  fallbackCopyBtn.addEventListener('click', () => {
+    handleCopyMessage();
+  });
   fallbackOpenViberBtn.addEventListener('click', () => {
     closeCopyFallbackModal();
     openViberChat();
