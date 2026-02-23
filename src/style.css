@@ -218,7 +218,9 @@ textarea:focus-visible {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin: 0 var(--page-gutter) var(--space-sm);
+  margin: var(--space-md) var(--page-gutter) var(--space-xl);
+  padding-top: var(--space-sm);
+  border-top: 1px solid rgba(90, 75, 66, 0.16);
 }
 
 .social-link {
@@ -1169,7 +1171,8 @@ textarea.form-control {
   }
 
   .social-links {
-    margin-bottom: var(--space-md);
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-xl);
   }
 
   .menu-list {

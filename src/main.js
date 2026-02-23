@@ -18,6 +18,22 @@ document.querySelector('#app').innerHTML = `
     <button class="nav-tab" data-tab="bar" type="button">Бар</button>
   </nav>
 
+  <nav class="category-nav" id="categoryNav" aria-label="Категорії"></nav>
+
+  <section class="selected-summary" id="selectedSummary" hidden>
+    <p class="selected-summary-text">
+      Обрано позицій: <strong id="selectedCount">0</strong>
+    </p>
+    <button class="selected-summary-btn" id="selectedSummaryBtn" type="button">Редагувати</button>
+  </section>
+
+  <main class="menu-list" id="menuList">
+    <div class="loader-container">
+      <div class="loader-spinner" aria-hidden="true"></div>
+      Завантаження меню...
+    </div>
+  </main>
+
   <section class="social-links" aria-label="Соціальні мережі">
     <a
       class="social-link instagram"
@@ -46,22 +62,6 @@ document.querySelector('#app').innerHTML = `
       <span>Facebook</span>
     </a>
   </section>
-
-  <nav class="category-nav" id="categoryNav" aria-label="Категорії"></nav>
-
-  <section class="selected-summary" id="selectedSummary" hidden>
-    <p class="selected-summary-text">
-      Обрано позицій: <strong id="selectedCount">0</strong>
-    </p>
-    <button class="selected-summary-btn" id="selectedSummaryBtn" type="button">Редагувати</button>
-  </section>
-
-  <main class="menu-list" id="menuList">
-    <div class="loader-container">
-      <div class="loader-spinner" aria-hidden="true"></div>
-      Завантаження меню...
-    </div>
-  </main>
 
   <div class="modal-overlay" id="cartModal" aria-hidden="true">
     <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="cartModalTitle">
