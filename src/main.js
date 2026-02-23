@@ -78,8 +78,30 @@ document.querySelector('#app').innerHTML = `
         <p class="price-disclaimer" id="priceDisclaimer" hidden>
           * У загальній сумі не враховано позиції без визначеної ціни.
         </p>
-        <button class="btn-submit" id="submitOrderBtn" type="button" disabled>Сформувати замовлення</button>
+        <div class="footer-actions">
+          <button class="btn-secondary" id="copyMessageBtn" type="button" disabled>Copy message</button>
+          <button class="btn-submit" id="submitOrderBtn" type="button" disabled>Order in Viber</button>
+        </div>
+        <p class="viber-hint">
+          Якщо Viber не відкрився, надішліть повідомлення вручну на:
+          <strong id="viberPhoneText">+380972991794</strong>
+          <button class="btn-inline-link" id="copyPhoneBtn" type="button">Copy phone number</button>
+        </p>
       </div>
+    </div>
+  </div>
+
+  <div class="copy-fallback-modal" id="copyFallbackModal" hidden>
+    <div class="copy-fallback-content" role="dialog" aria-modal="true" aria-labelledby="copyFallbackTitle">
+      <h3 id="copyFallbackTitle">Tap Copy, then we’ll open Viber</h3>
+      <p class="copy-fallback-text">
+        Браузер не дозволив автоматичне копіювання. Натисніть Copy message, потім Open Viber.
+      </p>
+      <div class="copy-fallback-actions">
+        <button class="btn-secondary" id="fallbackCopyBtn" type="button">Copy message</button>
+        <button class="btn-submit" id="fallbackOpenViberBtn" type="button">Open Viber</button>
+      </div>
+      <button class="btn-inline-link close-fallback" id="closeFallbackBtn" type="button">Закрити</button>
     </div>
   </div>
 
@@ -94,6 +116,8 @@ const state = {
 };
 
 let toastTimer;
+const VIBER_PHONE = '+380972991794';
+const VIBER_CHAT_URL = `viber://chat?number=${encodeURIComponent(VIBER_PHONE)}`;
 
 const categoryNavEl = document.getElementById('categoryNav');
 const menuListEl = document.getElementById('menuList');
@@ -104,14 +128,22 @@ const cartTotal = document.getElementById('cartTotal');
 const cartBtn = document.getElementById('cartBtn');
 const closeCartBtn = document.getElementById('closeCartBtn');
 const submitOrderBtn = document.getElementById('submitOrderBtn');
+const copyMessageBtn = document.getElementById('copyMessageBtn');
+const copyPhoneBtn = document.getElementById('copyPhoneBtn');
 const priceDisclaimer = document.getElementById('priceDisclaimer');
 const navTabs = document.querySelectorAll('.nav-tab');
 const statusToast = document.getElementById('statusToast');
 const selectedSummary = document.getElementById('selectedSummary');
 const selectedCount = document.getElementById('selectedCount');
 const selectedSummaryBtn = document.getElementById('selectedSummaryBtn');
+const copyFallbackModal = document.getElementById('copyFallbackModal');
+const fallbackCopyBtn = document.getElementById('fallbackCopyBtn');
+const fallbackOpenViberBtn = document.getElementById('fallbackOpenViberBtn');
+const closeFallbackBtn = document.getElementById('closeFallbackBtn');
+const viberPhoneText = document.getElementById('viberPhoneText');
 
 async function init() {
+  viberPhoneText.textContent = VIBER_PHONE;
   setupEventListeners();
 
   try {
@@ -289,6 +321,7 @@ function updateCartUI() {
       </div>
     `;
     submitOrderBtn.disabled = true;
+    copyMessageBtn.disabled = true;
     cartTotal.textContent = '0 ₴';
     priceDisclaimer.hidden = true;
     return;
@@ -352,11 +385,19 @@ function updateCartUI() {
         <textarea id="orderNotes" class="form-control" rows="3" placeholder="Особливі побажання..."></textarea>
       </div>
     </section>
+    <section class="order-preview-section">
+      <h4 class="order-preview-title">Message preview</h4>
+      <textarea id="orderPreview" class="order-preview" readonly></textarea>
+      <p class="order-preview-note" id="orderPreviewNote">
+        Спочатку перевірте текст, потім натисніть <strong>Order in Viber</strong>.
+      </p>
+    </section>
   `;
 
   restoreOrderFormValues(savedForm);
   cartTotal.textContent = `${totalSum} ₴`;
   priceDisclaimer.hidden = !hasMissingPrices;
+  updateOrderPreview();
   validateForm();
 }
 
@@ -399,9 +440,25 @@ function updateQuantity(id, change) {
 }
 
 function validateForm() {
-  const name = document.getElementById('orderName')?.value.trim();
-  const phone = document.getElementById('orderPhone')?.value.trim();
-  submitOrderBtn.disabled = !(name && phone && state.cart.length > 0);
+  const orderState = getOrderState();
+  const validationError = getOrderValidationError(orderState);
+  const isValid = !validationError;
+
+  submitOrderBtn.disabled = !isValid;
+  copyMessageBtn.disabled = !isValid;
+
+  const noteEl = document.getElementById('orderPreviewNote');
+  if (noteEl) {
+    if (validationError) {
+      noteEl.textContent = validationError;
+      noteEl.classList.add('is-error');
+    } else {
+      noteEl.textContent = 'Спочатку перевірте текст, потім натисніть Order in Viber.';
+      noteEl.classList.remove('is-error');
+    }
+  }
+
+  return { isValid, validationError, orderState };
 }
 
 function showStatus(message, tone = 'success') {
@@ -416,153 +473,216 @@ function showStatus(message, tone = 'success') {
   }, 3200);
 }
 
-function buildOrderMessage(formData) {
-  let message = 'Нове замовлення на банкет\\n\\n';
-  message += `Клієнт: ${formData.name}\\n`;
-  message += `Телефон: ${formData.phone}\\n`;
-
-  if (formData.dateStr) {
-    message += `Дата/Час: ${formData.dateStr}\\n`;
-  }
-  if (formData.guests) {
-    message += `Гостей: ${formData.guests}\\n`;
-  }
-
-  message += '\\nЗАМОВЛЕННЯ:\\n';
-
-  let totalSum = 0;
-  let missingPriceCount = 0;
-
-  state.cart.forEach((cartItem, idx) => {
-    const itemData = findItemData(cartItem.id);
-    if (!itemData) {
-      return;
-    }
-
-    let priceText;
-    if (itemData.price !== null) {
-      const lineTotal = itemData.price * cartItem.quantity;
-      totalSum += lineTotal;
-      priceText = `${itemData.price} = ${lineTotal} ₴`;
-    } else {
-      missingPriceCount += 1;
-      priceText = 'Ціну уточнювати';
-    }
-
-    const unit = itemData.weight || itemData.volume || '';
-    message += `${idx + 1}. ${itemData.name} - ${cartItem.quantity}шт ${unit ? `(${unit})` : ''} - ${priceText}\\n`;
-  });
-
-  message += `\\nЗАГАЛЬНА СУМА: ${totalSum} ₴`;
-  if (missingPriceCount > 0) {
-    message += '*\\n*без урахування позицій без ціни';
-  }
-
-  if (formData.notes) {
-    message += `\\n\\nКоментар: ${formData.notes}`;
-  }
-
-  return message;
-}
-
-const ORDER_WEBHOOK_URL = import.meta.env.VITE_ORDER_WEBHOOK_URL?.trim() || '';
-
-async function sendOrderWebhook(payload) {
-  if (!ORDER_WEBHOOK_URL) {
-    return { status: 'disabled' };
-  }
-
-  try {
-    const res = await fetch(ORDER_WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-
-    if (!res.ok) {
-      return { status: 'failed', code: res.status };
-    }
-
-    return { status: 'sent' };
-  } catch (error) {
-    console.error('Webhook send failed:', error);
-    return { status: 'failed', code: null };
-  }
-}
-
-async function submitOrder() {
-  const formData = {
+function getOrderFormData() {
+  return {
     name: document.getElementById('orderName')?.value.trim() || '',
     phone: document.getElementById('orderPhone')?.value.trim() || '',
-    dateStr: document.getElementById('orderDate')?.value.trim() || '',
+    dateTime: document.getElementById('orderDate')?.value.trim() || '',
     guests: document.getElementById('orderGuests')?.value.trim() || '',
     notes: document.getElementById('orderNotes')?.value.trim() || '',
   };
+}
 
-  if (!formData.name || !formData.phone || state.cart.length === 0) {
-    showStatus('Заповніть ім\'я, телефон та додайте позиції.', 'error');
+function getOrderState() {
+  const form = getOrderFormData();
+  let total = 0;
+
+  const items = state.cart.map((cartItem) => {
+    const itemData = findItemData(cartItem.id);
+    const unitPrice = itemData?.price ?? null;
+    const lineTotal = unitPrice !== null ? unitPrice * cartItem.quantity : null;
+    if (lineTotal !== null) {
+      total += lineTotal;
+    }
+
+    return {
+      id: cartItem.id,
+      name: itemData?.name || 'Невідома позиція',
+      quantity: cartItem.quantity,
+      unitPrice,
+      lineTotal,
+      unit: itemData?.weight || itemData?.volume || '',
+    };
+  });
+
+  return {
+    customer: form,
+    items,
+    total,
+  };
+}
+
+function getOrderValidationError(orderState) {
+  if (!orderState.customer.name) {
+    return 'Вкажіть імʼя клієнта.';
+  }
+  if (!orderState.customer.phone) {
+    return 'Вкажіть телефон клієнта.';
+  }
+  if (orderState.items.length === 0) {
+    return 'Додайте хоча б одну позицію в замовлення.';
+  }
+  return '';
+}
+
+function buildOrderMessage(orderState) {
+  const lines = [
+    '🥥 COCOS — Банкетне замовлення',
+    '',
+    `Імʼя: ${orderState.customer.name || '-'}`,
+    `Телефон: ${orderState.customer.phone || '-'}`,
+    `Дата/час: ${orderState.customer.dateTime || '-'}`,
+    `Гостей: ${orderState.customer.guests || '-'}`,
+    '',
+    'Позиції:',
+  ];
+
+  orderState.items.forEach((item) => {
+    const priceText = item.unitPrice !== null ? `${item.unitPrice}₴` : 'ціна уточнюється';
+    const totalText = item.lineTotal !== null ? `${item.lineTotal}₴` : '-';
+    const unitLabel = item.unit ? ` (${item.unit})` : '';
+    lines.push(`- ${item.name}${unitLabel} — x${item.quantity} — ${priceText} = ${totalText}`);
+  });
+
+  lines.push('');
+  lines.push(`Разом: ${orderState.total}₴`);
+  lines.push('');
+  lines.push('Коментар:');
+  lines.push(orderState.customer.notes || '-');
+
+  return lines.join('\n');
+}
+
+function updateOrderPreview() {
+  const previewEl = document.getElementById('orderPreview');
+  if (!previewEl) {
     return;
   }
 
-  const message = buildOrderMessage(formData);
-  const payload = {
-    customer: {
-      name: formData.name,
-      phone: formData.phone,
-      dateTime: formData.dateStr,
-      guests: formData.guests,
-      notes: formData.notes,
-    },
-    cart: state.cart.map((cartItem) => {
-      const itemData = findItemData(cartItem.id);
-      return {
-        id: cartItem.id,
-        quantity: cartItem.quantity,
-        name: itemData?.name || null,
-        price: itemData?.price ?? null,
-        weight: itemData?.weight || itemData?.volume || null,
-      };
-    }),
-    message,
-    source: 'github-pages-menu',
-    createdAt: new Date().toISOString(),
-  };
+  const orderState = getOrderState();
+  previewEl.value = buildOrderMessage(orderState);
+}
 
-  submitOrderBtn.disabled = true;
-  const webhookResult = await sendOrderWebhook(payload);
-
-  if (webhookResult.status === 'sent') {
-    showStatus('Замовлення автоматично надіслано в Viber бот.', 'success');
-    submitOrderBtn.disabled = false;
-    return;
+function selectPreviewText(text = '') {
+  const previewEl = document.getElementById('orderPreview');
+  if (!previewEl) {
+    return false;
   }
 
-  const encodedMsg = encodeURIComponent(message);
-  const viberUrl = `viber://forward?text=${encodedMsg}`;
-  const redirectToViber = () => {
-    window.location.href = viberUrl;
-  };
+  if (text) {
+    previewEl.value = text;
+  }
 
-  if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
-    navigator.clipboard.writeText(message)
-      .then(() => {
-        showStatus('Текст замовлення скопійовано. Відкриваємо Viber.', 'success');
-      })
-      .catch(() => {
-        showStatus('Не вдалося скопіювати текст. Відкриваємо Viber.', 'error');
-      })
-      .finally(() => {
-        setTimeout(redirectToViber, 120);
-        submitOrderBtn.disabled = false;
-      });
-  } else {
-    showStatus('Буфер обміну недоступний. Відкриваємо Viber.', 'error');
-    redirectToViber();
-    submitOrderBtn.disabled = false;
+  previewEl.focus({ preventScroll: true });
+  previewEl.select();
+  previewEl.setSelectionRange(0, previewEl.value.length);
+  return true;
+}
+
+async function copyToClipboard(text) {
+  try {
+    if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+      await navigator.clipboard.writeText(text);
+      return { ok: true, method: 'navigator.clipboard' };
+    }
+  } catch (error) {
+    // Continue to legacy fallback.
+  }
+
+  let tempTextarea = null;
+  try {
+    const selectedPreview = selectPreviewText(text);
+    if (!selectedPreview) {
+      tempTextarea = document.createElement('textarea');
+      tempTextarea.value = text;
+      tempTextarea.readOnly = true;
+      tempTextarea.style.position = 'fixed';
+      tempTextarea.style.opacity = '0';
+      tempTextarea.style.pointerEvents = 'none';
+      tempTextarea.style.left = '-9999px';
+      document.body.appendChild(tempTextarea);
+      tempTextarea.focus({ preventScroll: true });
+      tempTextarea.select();
+      tempTextarea.setSelectionRange(0, tempTextarea.value.length);
+    }
+
+    if (typeof document.execCommand === 'function') {
+      const copied = document.execCommand('copy');
+      if (copied) {
+        if (tempTextarea) tempTextarea.remove();
+        return { ok: true, method: 'execCommand' };
+      }
+    }
+  } catch (error) {
+    if (tempTextarea) tempTextarea.remove();
+    return { ok: false, method: 'manual', error: error?.message || 'execCommand failed' };
+  }
+
+  if (tempTextarea) tempTextarea.remove();
+
+  return { ok: false, method: 'manual', error: 'Clipboard API unavailable' };
+}
+
+function openViberChat() {
+  window.location.href = VIBER_CHAT_URL;
+}
+
+function openCopyFallbackModal() {
+  copyFallbackModal.hidden = false;
+  document.body.classList.add('modal-open');
+}
+
+function closeCopyFallbackModal() {
+  copyFallbackModal.hidden = true;
+  if (!cartModal.classList.contains('active')) {
+    document.body.classList.remove('modal-open');
   }
 }
 
+async function handleCopyMessage() {
+  updateOrderPreview();
+  const { isValid, validationError, orderState } = validateForm();
+  if (!isValid) {
+    showStatus(validationError, 'error');
+    return { ok: false };
+  }
+
+  const message = buildOrderMessage(orderState);
+  const result = await copyToClipboard(message);
+  if (result.ok) {
+    showStatus('Повідомлення скопійовано.', 'success');
+  } else {
+    showStatus('Не вдалося скопіювати автоматично. Виділіть текст і скопіюйте вручну.', 'error');
+    selectPreviewText(message);
+  }
+
+  return result;
+}
+
+async function submitOrder() {
+  updateOrderPreview();
+  const { isValid, validationError } = validateForm();
+  if (!isValid) {
+    showStatus(validationError, 'error');
+    return;
+  }
+
+  submitOrderBtn.disabled = true;
+  copyMessageBtn.disabled = true;
+
+  const copyResult = await handleCopyMessage();
+  if (copyResult.ok) {
+    showStatus('Скопійовано. Відкриваємо Viber…', 'success');
+    setTimeout(openViberChat, 80);
+  } else {
+    openCopyFallbackModal();
+  }
+
+  validateForm();
+}
+
 function openCartModal() {
+  closeCopyFallbackModal();
   cartModal.classList.add('active');
   cartModal.setAttribute('aria-hidden', 'false');
   document.body.classList.add('modal-open');
@@ -572,6 +692,7 @@ function openCartModal() {
 function closeCartModal() {
   cartModal.classList.remove('active');
   cartModal.setAttribute('aria-hidden', 'true');
+  closeCopyFallbackModal();
   document.body.classList.remove('modal-open');
 }
 
@@ -649,6 +770,7 @@ function setupEventListeners() {
 
   cartBody.addEventListener('input', (event) => {
     if (event.target.classList.contains('form-control')) {
+      updateOrderPreview();
       validateForm();
     }
   });
@@ -656,6 +778,26 @@ function setupEventListeners() {
   cartBtn.addEventListener('click', openCartModal);
   selectedSummaryBtn.addEventListener('click', openCartModal);
   closeCartBtn.addEventListener('click', closeCartModal);
+  copyMessageBtn.addEventListener('click', handleCopyMessage);
+  copyPhoneBtn.addEventListener('click', async () => {
+    const result = await copyToClipboard(VIBER_PHONE);
+    if (result.ok) {
+      showStatus('Номер телефону скопійовано.', 'success');
+    } else {
+      showStatus('Не вдалося скопіювати номер автоматично.', 'error');
+    }
+  });
+  fallbackCopyBtn.addEventListener('click', handleCopyMessage);
+  fallbackOpenViberBtn.addEventListener('click', () => {
+    closeCopyFallbackModal();
+    openViberChat();
+  });
+  closeFallbackBtn.addEventListener('click', closeCopyFallbackModal);
+  copyFallbackModal.addEventListener('click', (event) => {
+    if (event.target === copyFallbackModal) {
+      closeCopyFallbackModal();
+    }
+  });
 
   cartModal.addEventListener('click', (event) => {
     if (event.target === cartModal) {
@@ -664,6 +806,9 @@ function setupEventListeners() {
   });
 
   window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !copyFallbackModal.hidden) {
+      closeCopyFallbackModal();
+    }
     if (event.key === 'Escape' && cartModal.classList.contains('active')) {
       closeCartModal();
     }
