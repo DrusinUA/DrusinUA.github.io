@@ -708,6 +708,17 @@ textarea:focus-visible {
   margin-bottom: var(--space-sm);
 }
 
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.form-row .form-group {
+  margin-bottom: 0;
+}
+
 .form-group-last {
   margin-bottom: 0;
 }
@@ -735,6 +746,11 @@ textarea:focus-visible {
   transition: border-color var(--transition-fast), background var(--transition-fast);
 }
 
+.form-control[type="date"],
+.form-control[type="time"] {
+  min-height: 48px;
+}
+
 .form-control::placeholder {
   color: color-mix(in srgb, var(--text-muted) 72%, transparent);
 }
@@ -743,6 +759,11 @@ textarea:focus-visible {
   border-color: var(--brand-green-mid);
   background: white;
   outline: none;
+}
+
+.form-control:disabled {
+  opacity: 0.66;
+  cursor: not-allowed;
 }
 
 textarea.form-control {
@@ -1059,6 +1080,10 @@ textarea.form-control {
 }
 
 @media (min-width: 481px) and (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .footer-actions {
     grid-template-columns: 1fr 1fr;
   }
@@ -1103,6 +1128,10 @@ textarea.form-control {
 
   .menu-list {
     padding-bottom: var(--space-xl);
+  }
+
+  .form-row {
+    grid-template-columns: 1fr 1fr;
   }
 
   .menu-item-row {

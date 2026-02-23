@@ -278,7 +278,8 @@ function getOrderFormValues() {
   return {
     name: document.getElementById('orderName')?.value || '',
     phone: document.getElementById('orderPhone')?.value || '',
-    date: document.getElementById('orderDate')?.value || '',
+    eventDate: document.getElementById('orderEventDate')?.value || '',
+    eventTime: document.getElementById('orderEventTime')?.value || '',
     guests: document.getElementById('orderGuests')?.value || '',
     notes: document.getElementById('orderNotes')?.value || '',
   };
@@ -292,7 +293,8 @@ function restoreOrderFormValues(values) {
   const mappings = [
     ['orderName', values.name],
     ['orderPhone', values.phone],
-    ['orderDate', values.date],
+    ['orderEventDate', values.eventDate],
+    ['orderEventTime', values.eventTime],
     ['orderGuests', values.guests],
     ['orderNotes', values.notes],
   ];
@@ -372,9 +374,15 @@ function updateCartUI() {
         <label for="orderPhone">Телефон *</label>
         <input type="tel" id="orderPhone" class="form-control" placeholder="+380..." required>
       </div>
-      <div class="form-group">
-        <label for="orderDate">Дата та час банкету (опціонально)</label>
-        <input type="text" id="orderDate" class="form-control" placeholder="Наприклад: 15 травня, 16:00">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="orderEventDate">Дата банкету (опціонально)</label>
+          <input type="date" id="orderEventDate" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="orderEventTime">Час банкету (опціонально)</label>
+          <input type="time" id="orderEventTime" class="form-control" step="300">
+        </div>
       </div>
       <div class="form-group">
         <label for="orderGuests">Кількість гостей (опціонально)</label>
@@ -394,7 +402,9 @@ function updateCartUI() {
     </section>
   `;
 
+  setDateTimeInputConstraints();
   restoreOrderFormValues(savedForm);
+  syncTimeInputState();
   cartTotal.textContent = `${totalSum} ₴`;
   priceDisclaimer.hidden = !hasMissingPrices;
   updateOrderPreview();
@@ -473,11 +483,66 @@ function showStatus(message, tone = 'success') {
   }, 3200);
 }
 
+function formatOrderDateTime(eventDate, eventTime) {
+  if (!eventDate && !eventTime) {
+    return '';
+  }
+
+  let formattedDate = eventDate;
+  if (eventDate) {
+    const [year, month, day] = eventDate.split('-');
+    if (year && month && day) {
+      formattedDate = `${day}.${month}.${year}`;
+    }
+  }
+
+  if (formattedDate && eventTime) {
+    return `${formattedDate}, ${eventTime}`;
+  }
+
+  return formattedDate || eventTime;
+}
+
+function setDateTimeInputConstraints() {
+  const dateInput = document.getElementById('orderEventDate');
+  if (dateInput) {
+    const now = new Date();
+    const localIsoDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+      .toISOString()
+      .slice(0, 10);
+    dateInput.min = localIsoDate;
+  }
+
+  const timeInput = document.getElementById('orderEventTime');
+  if (timeInput) {
+    timeInput.step = '300';
+  }
+}
+
+function syncTimeInputState() {
+  const dateInput = document.getElementById('orderEventDate');
+  const timeInput = document.getElementById('orderEventTime');
+  if (!timeInput) {
+    return;
+  }
+
+  const hasDate = Boolean(dateInput?.value);
+  timeInput.disabled = !hasDate;
+  if (!hasDate) {
+    timeInput.value = '';
+  }
+}
+
 function getOrderFormData() {
+  const eventDate = document.getElementById('orderEventDate')?.value || '';
+  const eventTime = document.getElementById('orderEventTime')?.value || '';
+
   return {
     name: document.getElementById('orderName')?.value.trim() || '',
     phone: document.getElementById('orderPhone')?.value.trim() || '',
-    dateTime: document.getElementById('orderDate')?.value.trim() || '',
+    eventDate,
+    eventTime,
+    dateTime: formatOrderDateTime(eventDate, eventTime),
     guests: document.getElementById('orderGuests')?.value.trim() || '',
     notes: document.getElementById('orderNotes')?.value.trim() || '',
   };
@@ -696,6 +761,20 @@ function closeCartModal() {
   document.body.classList.remove('modal-open');
 }
 
+function handleOrderFormFieldChange(event) {
+  const formControl = event.target.closest('.form-control');
+  if (!formControl) {
+    return;
+  }
+
+  if (formControl.id === 'orderEventDate') {
+    syncTimeInputState();
+  }
+
+  updateOrderPreview();
+  validateForm();
+}
+
 function setupEventListeners() {
   navTabs.forEach((tab) => {
     tab.addEventListener('click', () => {
@@ -768,12 +847,8 @@ function setupEventListeners() {
     updateQuantity(itemId, change);
   });
 
-  cartBody.addEventListener('input', (event) => {
-    if (event.target.classList.contains('form-control')) {
-      updateOrderPreview();
-      validateForm();
-    }
-  });
+  cartBody.addEventListener('input', handleOrderFormFieldChange);
+  cartBody.addEventListener('change', handleOrderFormFieldChange);
 
   cartBtn.addEventListener('click', openCartModal);
   selectedSummaryBtn.addEventListener('click', openCartModal);
