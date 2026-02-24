@@ -63,7 +63,7 @@ body {
     radial-gradient(circle at calc(100% + 260px) 76%, var(--bg-circle) 0 830px, transparent 831px),
     radial-gradient(circle at -240px calc(100% + 200px), var(--bg-circle) 0 760px, transparent 761px);
   background-repeat: no-repeat;
-  background-attachment: scroll;
+  background-attachment: fixed;
   color: var(--text-dark);
   line-height: 1.45;
   -webkit-font-smoothing: antialiased;
