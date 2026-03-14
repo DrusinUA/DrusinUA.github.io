@@ -1,274 +1,1174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calamity Lottery Demos</title>
-  <meta
-    name="description"
-    content="A simple landing page linking to three AI-generated Calamity Dragon Lottery demos."
-  >
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  >
-  <style>
-    :root {
-      --bg: #0c0a12;
-      --panel: #15111f;
-      --card: #1d182a;
-      --card-hover: #262036;
-      --border: #312846;
-      --border-strong: #8d73c8;
-      --text: #f3f0f8;
-      --muted: #b8b1c7;
-      --accent: #f0c36a;
-      --shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
-      --radius-lg: 24px;
-      --radius-md: 16px;
-      --width: 980px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calamity Online — Play Test Lotteries</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;700&family=Suez+One&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Calamity Online — Lottery Popup
+   All classes prefixed .cl-lottery- to avoid conflicts
+   CSS values extracted from Calamity_news_admin theme
+   ============================================================ */
 
-    * {
-      box-sizing: border-box;
-    }
+:root {
+  --cl-bg: #231e41;
+  --cl-bg-darker: #1a1530;
+  --cl-surface: #302852;
+  --cl-panel: #2e2551;
+  --cl-panel-hover: #3f2e66;
+  --cl-border: #613c94;
+  --cl-border-dim: #4a357a;
+  --cl-border-subtle: #503980;
+  --cl-accent: #844acb;
+  --cl-accent-bright: #9559d8;
+  --cl-pink: #ff6bda;
+  --cl-cyan: #8b90ff;
+  --cl-text: #f9fefd;
+  --cl-text-dim: #d9d3ea;
+  --cl-text-muted: #c6b3e3;
+  --cl-gold: #c8a832;
+  --cl-gold-bright: #e7c84f;
+  --cl-radius-panel: 16px;
+  --cl-radius-control: 12px;
+  --cl-shadow-panel: 0 2px 4px rgba(0,0,0,0.18), 0 8px 24px rgba(0,0,0,0.22);
+  --cl-shadow-panel-lg: 0 4px 8px rgba(0,0,0,0.22), 0 16px 48px rgba(0,0,0,0.30);
+  --cl-glow: 0 0 20px rgba(166,107,255,0.35);
+  --cl-glow-lg: 0 0 40px rgba(166,107,255,0.5);
+  --cl-glow-gold: 0 0 20px rgba(200,168,50,0.35);
+  --cl-glow-gold-lg: 0 0 40px rgba(200,168,50,0.45);
+  --cl-font-body: 'Noto Sans', system-ui, sans-serif;
+  --cl-font-display: 'Suez One', serif;
+}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: "Inter", sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at top, rgba(141, 115, 200, 0.18), transparent 28%),
-        linear-gradient(180deg, #100d18 0%, var(--bg) 100%);
-    }
+/* --- Scoped reset --- */
+.cl-lottery-wrapper,
+.cl-lottery-wrapper *,
+.cl-lottery-wrapper *::before,
+.cl-lottery-wrapper *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+/* --- Demo page body (standalone testing) --- */
+body.cl-lottery-demo {
+  background: var(--cl-bg-darker);
+  font-family: var(--cl-font-body);
+  color: var(--cl-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-    .page {
-      width: min(calc(100% - 32px), var(--width));
-      margin: 0 auto;
-      padding: 48px 0 56px;
-    }
+/* --- Trigger button --- */
+.cl-lottery-trigger-btn {
+  font-family: var(--cl-font-display);
+  font-size: 1.1rem;
+  color: var(--cl-text);
+  background: linear-gradient(135deg, var(--cl-accent) 0%, var(--cl-accent-bright) 100%);
+  border: 1px solid rgba(97,60,148,0.5);
+  border-radius: 10px;
+  padding: 14px 32px;
+  cursor: pointer;
+  transition: box-shadow 0.3s, transform 0.2s;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.cl-lottery-trigger-btn:hover {
+  filter: brightness(1.15);
+}
+.cl-lottery-trigger-btn:active {
+  filter: brightness(0.9);
+}
 
-    .hero,
-    .links {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow);
-    }
+/* --- Overlay --- */
+.cl-lottery-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.cl-lottery-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
 
-    .hero {
-      padding: 40px;
-      margin-bottom: 20px;
-    }
+/* --- Modal --- */
+.cl-lottery-modal {
+  position: relative;
+  width: 95%;
+  max-width: 650px;
+  max-height: 90vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  background: var(--cl-bg);
+  border: 1px solid rgba(97,60,148,0.5);
+  border-radius: 12px;
+  box-shadow: var(--cl-shadow-panel-lg);
+  transform: translateY(20px) scale(0.97);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  padding: 0;
+}
+.cl-lottery-overlay.is-open .cl-lottery-modal {
+  transform: translateY(0) scale(1);
+}
 
-    .eyebrow {
-      margin: 0 0 10px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--accent);
-    }
+/* Scrollbar styling (matching Calamity theme) */
+.cl-lottery-modal::-webkit-scrollbar { width: 8px; }
+.cl-lottery-modal::-webkit-scrollbar-track { background: rgba(10,6,20,0.5); border-radius: 8px; }
+.cl-lottery-modal::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(132,74,203,0.72), rgba(139,144,255,0.55));
+  border-radius: 8px;
+}
 
-    h1,
-    h2 {
-      margin: 0;
-      font-family: "Cinzel", serif;
-      line-height: 1.05;
-    }
+/* --- Close button --- */
+.cl-lottery-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cl-surface);
+  border: 1px solid rgba(97,60,148,0.4);
+  border-radius: 50%;
+  color: var(--cl-text-dim);
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  line-height: 1;
+}
+.cl-lottery-close:hover {
+  background: var(--cl-panel-hover);
+  color: var(--cl-text);
+  border-color: var(--cl-accent);
+}
 
-    h1 {
-      font-size: clamp(2.2rem, 6vw, 4rem);
-      text-transform: uppercase;
-    }
+/* --- Header --- */
+.cl-lottery-header {
+  text-align: center;
+  padding: 32px 24px 20px;
+  border-bottom: 1px solid rgba(97,60,148,0.25);
+}
+.cl-lottery-title {
+  font-family: var(--cl-font-display);
+  font-size: 1.6rem;
+  color: var(--cl-gold-bright);
+  text-shadow: 0 0 20px rgba(200,168,50,0.4);
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+.cl-lottery-subtitle {
+  font-family: var(--cl-font-body);
+  font-size: 0.9rem;
+  color: var(--cl-text-muted);
+  font-style: italic;
+  font-weight: 300;
+}
 
-    .hero p {
-      max-width: 680px;
-      margin: 16px 0 0;
-      color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.7;
-    }
+/* --- Tabs --- */
+.cl-lottery-tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(97,60,148,0.25);
+}
+.cl-lottery-tab {
+  flex: 1;
+  padding: 12px 8px;
+  background: transparent;
+  border: none;
+  color: var(--cl-text-dim);
+  font-family: var(--cl-font-body);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  position: relative;
+}
+.cl-lottery-tab:hover {
+  background: var(--cl-panel-hover);
+  color: var(--cl-text);
+}
+.cl-lottery-tab.is-active {
+  background: rgba(132,74,203,0.2);
+  color: var(--cl-text);
+  box-shadow: inset 0 -3px 0 0 var(--cl-accent);
+}
 
-    .links {
-      padding: 28px;
-    }
+/* --- Content area --- */
+.cl-lottery-content {
+  padding: 20px 24px 24px;
+  position: relative;
+  min-height: 320px;
+}
 
-    .links-head {
-      margin-bottom: 18px;
-    }
+/* --- Tab panes --- */
+.cl-lottery-pane {
+  display: none;
+}
+.cl-lottery-pane.is-active {
+  display: block;
+  animation: clFadeUp 0.3s ease-out;
+}
 
-    .links-head h2 {
-      font-size: 1.6rem;
-      margin-bottom: 8px;
-    }
+/* --- Prize grid --- */
+.cl-lottery-prizes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+  transition: opacity 0.4s, filter 0.4s;
+}
+.cl-lottery-prize-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 8px;
+  background: rgba(48,40,82,0.6);
+  border: 1px solid rgba(97,60,148,0.35);
+  border-radius: 8px;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+.cl-lottery-prize-item:hover {
+  border-color: var(--cl-accent);
+  box-shadow: var(--cl-glow);
+}
+.cl-lottery-prize-item img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+.cl-lottery-prize-name {
+  font-size: 0.72rem;
+  color: var(--cl-text-dim);
+  text-align: center;
+  line-height: 1.3;
+}
+.cl-lottery-prize-qty {
+  font-family: var(--cl-font-display);
+  font-size: 0.85rem;
+  color: var(--cl-gold);
+}
 
-    .links-head p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.6;
-    }
+/* Pulsing state during buildup */
+.cl-lottery-prize-item.is-pulsing {
+  animation: clPulseGlow 0.5s ease-in-out infinite alternate;
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
-    }
+/* Prize items shrink to center during buildup */
+.cl-lottery-prizes.is-collapsing .cl-lottery-prize-item {
+  animation: clShrinkToCenter 0.6s ease-in forwards;
+}
 
-    .card {
-      display: grid;
-      gap: 14px;
-      padding: 22px;
-      border-radius: var(--radius-md);
-      background: var(--card);
-      border: 1px solid var(--border);
-      transition: border-color 180ms ease, transform 180ms ease, background 180ms ease;
-    }
+/* --- Reveal button --- */
+.cl-lottery-action {
+  text-align: center;
+  margin: 20px 0 8px;
+  transition: opacity 0.3s;
+}
+.cl-lottery-reveal-btn {
+  position: relative;
+  font-family: var(--cl-font-display);
+  font-size: 1.05rem;
+  color: var(--cl-text);
+  background: linear-gradient(135deg, var(--cl-accent) 0%, #6b3fa0 50%, var(--cl-accent-bright) 100%);
+  border: 1px solid rgba(97,60,148,0.5);
+  border-radius: 10px;
+  padding: 14px 36px;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: filter 0.2s;
+  overflow: hidden;
+}
+.cl-lottery-reveal-btn:hover:not(:disabled) {
+  filter: brightness(1.15);
+}
+.cl-lottery-reveal-btn:active:not(:disabled) {
+  filter: brightness(0.9);
+}
+.cl-lottery-reveal-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+/* Shimmer sweep on hover */
+.cl-lottery-reveal-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transition: left 0.5s ease;
+}
+.cl-lottery-reveal-btn:hover:not(:disabled)::before {
+  left: 120%;
+}
 
-    .card:hover,
-    .card:focus-visible {
-      transform: translateY(-2px);
-      background: var(--card-hover);
-      border-color: var(--border-strong);
-      outline: none;
-    }
+.cl-lottery-spinner {
+  display: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: var(--cl-text);
+  border-radius: 50%;
+  animation: clSpin 0.7s linear infinite;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+.cl-lottery-reveal-btn.is-loading .cl-lottery-btn-text {
+  opacity: 0.7;
+}
+.cl-lottery-reveal-btn.is-loading .cl-lottery-spinner {
+  display: inline-block;
+}
 
-    .card-top {
-      display: grid;
-      gap: 6px;
-    }
+/* --- Reveal stage (replaces prize grid) --- */
+.cl-lottery-stage {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 240px;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--cl-radius-control);
+}
+.cl-lottery-stage.is-visible {
+  display: flex;
+  animation: clFadeUp 0.4s ease-out;
+}
 
-    .card-label {
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--accent);
-    }
+/* Spinning reel */
+.cl-lottery-reel-wrapper {
+  width: 140px;
+  height: 140px;
+  overflow: hidden;
+  border: 1px solid rgba(97,60,148,0.45);
+  border-radius: 10px;
+  background: var(--cl-surface);
+  position: relative;
+  box-shadow: var(--cl-shadow-panel);
+}
+/* Top/bottom fade masks */
+.cl-lottery-reel-wrapper::before,
+.cl-lottery-reel-wrapper::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 35px;
+  z-index: 2;
+  pointer-events: none;
+}
+.cl-lottery-reel-wrapper::before {
+  top: 0;
+  background: linear-gradient(to bottom, var(--cl-surface), transparent);
+}
+.cl-lottery-reel-wrapper::after {
+  bottom: 0;
+  background: linear-gradient(to top, var(--cl-surface), transparent);
+}
 
-    .card-title {
-      font-size: 1.32rem;
-      font-family: "Cinzel", serif;
-      line-height: 1.15;
-    }
+.cl-lottery-reel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  will-change: transform;
+}
+.cl-lottery-reel img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  flex-shrink: 0;
+}
 
-    .card p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.6;
-    }
+/* Glow ring around reel during spin */
+.cl-lottery-reel-wrapper.is-spinning {
+  box-shadow: 0 0 30px rgba(132,74,203,0.6), 0 0 60px rgba(132,74,203,0.3);
+  border-color: var(--cl-accent-bright);
+}
+.cl-lottery-reel-wrapper.is-landing {
+  transition: box-shadow 0.5s, border-color 0.5s;
+}
 
-    .card-path {
-      font-size: 0.9rem;
-      color: #d9d1eb;
-      word-break: break-word;
-    }
+/* Result display (after reel stops) */
+.cl-lottery-result {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  padding: 20px;
+}
+.cl-lottery-result.is-visible {
+  display: flex;
+  animation: clRevealPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.cl-lottery-result-icon {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+.cl-lottery-result-name {
+  font-family: var(--cl-font-display);
+  font-size: 1.1rem;
+  line-height: 1.3;
+}
+.cl-lottery-result-sub {
+  font-size: 0.8rem;
+  color: var(--cl-text-muted);
+}
 
-    .card-cta {
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: var(--text);
-    }
+/* Win state */
+.cl-lottery-result.is-win .cl-lottery-result-icon {
+  animation: clFloat 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 12px rgba(200,168,50,0.6));
+}
+.cl-lottery-result.is-win .cl-lottery-result-name {
+  color: var(--cl-gold-bright);
+  text-shadow: 0 0 16px rgba(200,168,50,0.5);
+}
 
-    .footer-note {
-      margin: 18px 4px 0;
-      color: var(--muted);
-      font-size: 0.95rem;
-      line-height: 1.6;
-    }
+/* Lose state */
+.cl-lottery-result.is-lose .cl-lottery-result-name {
+  color: var(--cl-text-dim);
+}
+.cl-lottery-result.is-lose .cl-lottery-result-sub {
+  font-style: italic;
+}
 
-    @media (max-width: 860px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-    }
+/* --- Confetti --- */
+.cl-lottery-confetti-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 3;
+}
+.cl-lottery-confetti {
+  position: absolute;
+  top: -10px;
+  opacity: 0;
+  animation: clConfettiFall linear forwards;
+}
 
-    @media (max-width: 640px) {
-      .page {
-        width: calc(100% - 20px);
-        padding-top: 24px;
-        padding-bottom: 32px;
-      }
+/* --- Particle burst (radial explosion on reveal) --- */
+.cl-lottery-particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: clParticleBurst 0.8s ease-out forwards;
+}
 
-      .hero,
-      .links {
-        padding-left: 18px;
-        padding-right: 18px;
-      }
+/* --- Footer / Disclaimer --- */
+.cl-lottery-footer {
+  padding: 12px 24px 16px;
+  border-top: 1px solid rgba(97,60,148,0.25);
+  text-align: center;
+}
+.cl-lottery-disclaimer {
+  font-size: 0.7rem;
+  color: var(--cl-text-muted);
+  opacity: 0.7;
+  line-height: 1.5;
+}
 
-      .hero {
-        padding-top: 28px;
-        padding-bottom: 28px;
-      }
+/* ============================================================
+   Keyframes
+   ============================================================ */
 
-      .links {
-        padding-top: 22px;
-        padding-bottom: 22px;
-      }
-    }
-  </style>
+@keyframes clFadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes clSpin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes clPulseGlow {
+  from {
+    border-color: var(--cl-border-dim);
+    box-shadow: 0 0 0 rgba(166,107,255,0);
+  }
+  to {
+    border-color: var(--cl-accent-bright);
+    box-shadow: 0 0 16px rgba(166,107,255,0.4);
+  }
+}
+
+@keyframes clShrinkToCenter {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0) rotate(10deg); opacity: 0; }
+}
+
+@keyframes clFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes clRevealPop {
+  0% { transform: scale(0.3); opacity: 0; }
+  60% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes clConfettiFall {
+  0% {
+    transform: translateY(-10px) rotate(0deg) translateX(0);
+    opacity: 1;
+  }
+  20% {
+    transform: translateY(50px) rotate(72deg) translateX(18px);
+    opacity: 1;
+  }
+  40% {
+    transform: translateY(110px) rotate(144deg) translateX(-12px);
+    opacity: 0.9;
+  }
+  60% {
+    transform: translateY(170px) rotate(216deg) translateX(10px);
+    opacity: 0.6;
+  }
+  80% {
+    transform: translateY(230px) rotate(288deg) translateX(-6px);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(300px) rotate(360deg) translateX(3px);
+    opacity: 0;
+  }
+}
+
+@keyframes clParticleBurst {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--px), var(--py)) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes clShimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* Shimmer overlay on lose result */
+.cl-lottery-result.is-lose::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, transparent 30%, rgba(255,255,255,0.03) 50%, transparent 70%);
+  background-size: 200% 100%;
+  animation: clShimmer 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Golden ring pulse on win reveal */
+@keyframes clGoldRingPulse {
+  0% { box-shadow: 0 0 0 0 rgba(200,168,50,0.6); }
+  70% { box-shadow: 0 0 0 20px rgba(200,168,50,0); }
+  100% { box-shadow: 0 0 0 0 rgba(200,168,50,0); }
+}
+
+.cl-lottery-reel-wrapper.is-win-glow {
+  border-color: var(--cl-gold);
+  box-shadow: var(--cl-glow-gold-lg);
+  animation: clGoldRingPulse 1s ease-out;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+@media (max-width: 600px) {
+  .cl-lottery-modal {
+    max-width: 98%;
+    max-height: 95vh;
+  }
+  .cl-lottery-header {
+    padding: 24px 48px 16px 16px;
+  }
+  .cl-lottery-title {
+    font-size: 1.2rem;
+  }
+  .cl-lottery-tabs {
+    flex-direction: column;
+  }
+  .cl-lottery-tab {
+    text-align: left;
+    padding: 12px 16px;
+    min-height: 44px;
+  }
+  .cl-lottery-tab.is-active {
+    box-shadow: inset 3px 0 0 0 var(--cl-accent);
+  }
+  .cl-lottery-content {
+    padding: 16px;
+  }
+  .cl-lottery-prizes {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .cl-lottery-reveal-btn {
+    font-size: 0.95rem;
+    padding: 12px 24px;
+    width: 100%;
+  }
+  .cl-lottery-close {
+    top: 12px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+  }
+  .cl-lottery-prize-item img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 360px) {
+  .cl-lottery-title {
+    font-size: 1.05rem;
+  }
+  .cl-lottery-prizes {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .cl-lottery-prize-item {
+    padding: 10px 6px;
+  }
+  .cl-lottery-prize-name {
+    font-size: 0.65rem;
+  }
+}
+</style>
 </head>
-<body>
-  <main class="page">
-    <section class="hero">
-      <p class="eyebrow">Calamity Demo Pack</p>
-      <h1>Lottery Demo Selector</h1>
-      <p>
-        This page is only a selector. Each card below opens one standalone static experiment for the
-        Calamity Dragon Lottery concept.
-      </p>
-    </section>
+<body class="cl-lottery-demo">
 
-    <section class="links" aria-labelledby="demo-links-title">
-      <div class="links-head">
-        <h2 id="demo-links-title">Choose a version</h2>
-        <p>All three demos are kept separate. Open whichever version you want to show.</p>
+<!-- Trigger button (minimal — production will wire to sidebar/nav) -->
+<button class="cl-lottery-trigger-btn" id="clLotteryTrigger">View Lottery Results</button>
+
+<!-- ============================================================
+     Lottery Popup — extractable from here
+     ============================================================ -->
+<div class="cl-lottery-wrapper">
+  <div class="cl-lottery-overlay" id="clLotteryOverlay" role="dialog" aria-modal="true" aria-labelledby="clLotteryTitle">
+    <div class="cl-lottery-modal">
+
+      <!-- Close button -->
+      <button class="cl-lottery-close" id="clLotteryClose" aria-label="Close lottery popup">&times;</button>
+
+      <!-- Header -->
+      <div class="cl-lottery-header">
+        <h2 class="cl-lottery-title" id="clLotteryTitle">PLAY TEST LOTTERIES</h2>
+        <p class="cl-lottery-subtitle">"Will the odds be in your favor?"</p>
       </div>
 
-      <div class="grid">
-        <a class="card" href="claude-opus-4-6.html">
-          <div class="card-top">
-            <span class="card-label">Anthropic</span>
-            <span class="card-title">Claude Opus 4.6</span>
-          </div>
-          <p>A darker gothic-styled lottery page with a focused orb, reel, and result flow.</p>
-          <span class="card-path">claude-opus-4-6.html</span>
-          <span class="card-cta">Open demo</span>
-        </a>
+      <!-- Tabs -->
+      <nav class="cl-lottery-tabs" role="tablist" aria-label="Lottery categories">
+        <button class="cl-lottery-tab is-active" role="tab" aria-selected="true" aria-controls="clPaneHoard" id="clTabHoard" data-target="clPaneHoard">Dragon's Hoard</button>
+        <button class="cl-lottery-tab" role="tab" aria-selected="false" aria-controls="clPaneCache" id="clTabCache" data-target="clPaneCache">Bestiary Cache</button>
+        <button class="cl-lottery-tab" role="tab" aria-selected="false" aria-controls="clPaneForge" id="clTabForge" data-target="clPaneForge">Forgemaster's Fortune</button>
+      </nav>
 
-        <a class="card" href="gemini-3-1-pro.html">
-          <div class="card-top">
-            <span class="card-label">Google</span>
-            <span class="card-title">Gemini 3.1 Pro</span>
-          </div>
-          <p>A more theatrical version with a bigger portal-spin presentation and stronger spectacle.</p>
-          <span class="card-path">gemini-3-1-pro.html</span>
-          <span class="card-cta">Open demo</span>
-        </a>
+      <!-- Content -->
+      <div class="cl-lottery-content">
 
-        <a class="card" href="codex-5-4.html">
-          <div class="card-top">
-            <span class="card-label">OpenAI</span>
-            <span class="card-title">Codex 5.4</span>
+        <!-- Tab A: Dragon's Hoard -->
+        <div class="cl-lottery-pane is-active" id="clPaneHoard" role="tabpanel" aria-labelledby="clTabHoard">
+          <div class="cl-lottery-prizes" id="clPrizesHoard">
+            <div class="cl-lottery-prize-item" data-prize="Dragon Ring NFT">
+              <!-- Unity: Game/UI/Images/icon_rings.png -->
+              <img src="assets/icon_rings.png" alt="Dragon Ring">
+              <span class="cl-lottery-prize-name">Dragon Ring NFT</span>
+              <span class="cl-lottery-prize-qty">&times;3</span>
+            </div>
+            <div class="cl-lottery-prize-item" data-prize="Factory NFT">
+              <!-- Unity: Game/Art/Sprites/Factories/factoryTier1_Icon.png -->
+              <img src="assets/factoryTier1_Icon.png" alt="Factory">
+              <span class="cl-lottery-prize-name">Factory NFT</span>
+              <span class="cl-lottery-prize-qty">&times;9</span>
+            </div>
+            <div class="cl-lottery-prize-item" data-prize="Jin's Katana NFT">
+              <!-- Unity: Game/Art/Sprites/Armor/Artifacts/KatanaRonin_Icon.png -->
+              <img src="assets/KatanaRonin_Icon.png" alt="Jin's Katana">
+              <span class="cl-lottery-prize-name">Jin's Katana NFT</span>
+              <span class="cl-lottery-prize-qty">&times;10</span>
+            </div>
+            <div class="cl-lottery-prize-item" data-prize="Circle of Flame NFT">
+              <!-- Unity: Game/Art/Sprites/Armor/Artifacts/BlazingShackles_icon.png -->
+              <img src="assets/BlazingShackles_icon.png" alt="Circle of Flame">
+              <span class="cl-lottery-prize-name">Circle of Flame NFT</span>
+              <span class="cl-lottery-prize-qty">&times;5</span>
+            </div>
+            <div class="cl-lottery-prize-item" data-prize="50 RON Voucher">
+              <!-- Unity: Game/UI/Images/RonCoin.png -->
+              <img src="assets/RonCoin.png" alt="50 RON Voucher">
+              <span class="cl-lottery-prize-name">50 RON Voucher</span>
+              <span class="cl-lottery-prize-qty">&times;100</span>
+            </div>
           </div>
-          <p>A more systemized implementation with clearer state handling and a more structured UI shell.</p>
-          <span class="card-path">codex-5-4.html</span>
-          <span class="card-cta">Open demo</span>
-        </a>
+        </div>
+
+        <!-- Tab B: Bestiary Cache -->
+        <div class="cl-lottery-pane" id="clPaneCache" role="tabpanel" aria-labelledby="clTabCache">
+          <div class="cl-lottery-prizes" id="clPrizesCache">
+            <div class="cl-lottery-prize-item" data-prize="Mythical Beast Cosmetic NFT">
+              <!-- Unity: Game/Art/Sprites/Armor/Artifacts/VoidBeast_icon.png -->
+              <img src="assets/VoidBeast_icon.png" alt="Mythical Beast">
+              <span class="cl-lottery-prize-name">Mythical Beast Cosmetic NFT</span>
+              <span class="cl-lottery-prize-qty">&times;20</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab C: Forgemaster's Fortune -->
+        <div class="cl-lottery-pane" id="clPaneForge" role="tabpanel" aria-labelledby="clTabForge">
+          <div class="cl-lottery-prizes" id="clPrizesForge">
+            <div class="cl-lottery-prize-item" data-prize="Factory-themed NFT">
+              <!-- Unity: Game/Art/Sprites/Armor/Artifacts/FactoryUnit_icon.png -->
+              <img src="assets/FactoryUnit_icon.png" alt="Factory-themed NFT">
+              <span class="cl-lottery-prize-name">Factory-themed NFT</span>
+              <span class="cl-lottery-prize-qty">&times;20</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reveal button -->
+        <div class="cl-lottery-action" id="clAction">
+          <button class="cl-lottery-reveal-btn" id="clRevealBtn">
+            <span class="cl-lottery-btn-text">REVEAL MY FATE</span>
+            <span class="cl-lottery-spinner"></span>
+          </button>
+        </div>
+
+        <!-- Animation stage (replaces prize grid when active) -->
+        <div class="cl-lottery-stage" id="clStage">
+          <div class="cl-lottery-reel-wrapper" id="clReelWrapper">
+            <div class="cl-lottery-reel" id="clReel"></div>
+          </div>
+          <div class="cl-lottery-result" id="clResult">
+            <img class="cl-lottery-result-icon" id="clResultImg" src="" alt="">
+            <span class="cl-lottery-result-name" id="clResultName"></span>
+            <span class="cl-lottery-result-sub" id="clResultSub"></span>
+          </div>
+          <div class="cl-lottery-confetti-container" id="clConfetti"></div>
+        </div>
+
+      </div><!-- .cl-lottery-content -->
+
+      <!-- Footer / Disclaimer -->
+      <div class="cl-lottery-footer">
+        <p class="cl-lottery-disclaimer">Prizes are not guaranteed — winners are drawn randomly. This is a preview. Official results will be announced after the Play Test.</p>
       </div>
-    </section>
 
-    <p class="footer-note">
-      Publish the repository root to GitHub Pages and this file becomes the initial selector page.
-    </p>
-  </main>
+    </div><!-- .cl-lottery-modal -->
+  </div><!-- .cl-lottery-overlay -->
+</div><!-- .cl-lottery-wrapper -->
+
+<script>
+/* ============================================================
+   Calamity Online — Lottery Popup Logic
+   Vanilla JS, no dependencies
+   ============================================================ */
+(function() {
+  'use strict';
+
+  // --- Lottery data ---
+  var LOTTERY_DATA = {
+    clPaneHoard: {
+      title: "The Dragon's Hoard",
+      prizes: [
+        { name: 'Dragon Ring NFT',      qty: 3,   icon: 'assets/icon_rings.png' },
+        { name: 'Factory NFT',          qty: 9,   icon: 'assets/factoryTier1_Icon.png' },
+        { name: "Jin's Katana NFT",     qty: 10,  icon: 'assets/KatanaRonin_Icon.png' },
+        { name: 'Circle of Flame NFT',  qty: 5,   icon: 'assets/BlazingShackles_icon.png' },
+        { name: '50 RON Voucher',       qty: 100, icon: 'assets/RonCoin.png' }
+      ]
+    },
+    clPaneCache: {
+      title: "The Bestiary Cache",
+      prizes: [
+        { name: 'Mythical Beast Cosmetic NFT', qty: 20, icon: 'assets/VoidBeast_icon.png' }
+      ]
+    },
+    clPaneForge: {
+      title: "Forgemaster's Fortune",
+      prizes: [
+        { name: 'Factory-themed NFT', qty: 20, icon: 'assets/FactoryUnit_icon.png' }
+      ]
+    }
+  };
+
+  // --- DOM refs ---
+  var overlay     = document.getElementById('clLotteryOverlay');
+  var triggerBtn  = document.getElementById('clLotteryTrigger');
+  var closeBtn    = document.getElementById('clLotteryClose');
+  var revealBtn   = document.getElementById('clRevealBtn');
+  var btnText     = revealBtn.querySelector('.cl-lottery-btn-text');
+  var actionDiv   = document.getElementById('clAction');
+  var stage       = document.getElementById('clStage');
+  var reelWrapper = document.getElementById('clReelWrapper');
+  var reel        = document.getElementById('clReel');
+  var resultDiv   = document.getElementById('clResult');
+  var resultImg   = document.getElementById('clResultImg');
+  var resultName  = document.getElementById('clResultName');
+  var resultSub   = document.getElementById('clResultSub');
+  var confettiEl  = document.getElementById('clConfetti');
+  var tabs        = Array.from(document.querySelectorAll('.cl-lottery-tab'));
+  var panes       = Array.from(document.querySelectorAll('.cl-lottery-pane'));
+
+  var previouslyFocused = null;
+
+  // --- State machine ---
+  var STATE = { IDLE: 0, BUILDUP: 1, SPINNING: 2, RESULT: 3 };
+  var animState = STATE.IDLE;
+
+  function getActiveTabId() {
+    var active = tabs.find(function(t) { return t.classList.contains('is-active'); });
+    return active ? active.dataset.target : 'clPaneHoard';
+  }
+
+  function getActivePrizeGrid() {
+    var pane = document.getElementById(getActiveTabId());
+    return pane.querySelector('.cl-lottery-prizes');
+  }
+
+  // --- Modal open / close ---
+  function openModal() {
+    previouslyFocused = document.activeElement;
+    overlay.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+    resetToIdle();
+  }
+
+  function closeModal() {
+    if (animState !== STATE.IDLE) return;
+    overlay.classList.remove('is-open');
+    document.body.style.overflow = '';
+    if (previouslyFocused) previouslyFocused.focus();
+  }
+
+  triggerBtn.addEventListener('click', openModal);
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) closeModal();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeModal();
+  });
+
+  // --- Focus trap ---
+  overlay.addEventListener('keydown', function(e) {
+    if (e.key !== 'Tab') return;
+    var focusable = overlay.querySelectorAll(
+      'button:not([disabled]), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (focusable.length === 0) return;
+    var first = focusable[0];
+    var last  = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      last.focus(); e.preventDefault();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      first.focus(); e.preventDefault();
+    }
+  });
+
+  // --- Tab switching ---
+  tabs.forEach(function(tab, index) {
+    tab.addEventListener('click', function() {
+      if (animState !== STATE.IDLE) return;
+      tabs.forEach(function(t) {
+        t.classList.remove('is-active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      panes.forEach(function(p) { p.classList.remove('is-active'); });
+      tab.classList.add('is-active');
+      tab.setAttribute('aria-selected', 'true');
+      document.getElementById(tab.dataset.target).classList.add('is-active');
+      resetToIdle();
+    });
+    tab.addEventListener('keydown', function(e) {
+      var ni;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') ni = (index + 1) % tabs.length;
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') ni = (index - 1 + tabs.length) % tabs.length;
+      else return;
+      tabs[ni].click(); tabs[ni].focus(); e.preventDefault();
+    });
+  });
+
+  // --- Reset to idle (show prizes, hide stage) ---
+  function resetToIdle() {
+    animState = STATE.IDLE;
+    // Show prize grid + button
+    var grid = getActivePrizeGrid();
+    if (grid) {
+      grid.style.display = '';
+      grid.style.opacity = '1';
+      grid.classList.remove('is-collapsing');
+    }
+    actionDiv.style.display = '';
+    stage.classList.remove('is-visible');
+    reelWrapper.classList.remove('is-spinning', 'is-landing', 'is-win-glow');
+    resultDiv.classList.remove('is-visible', 'is-win', 'is-lose');
+    reel.innerHTML = '';
+    confettiEl.innerHTML = '';
+    btnText.textContent = 'REVEAL MY FATE';
+    revealBtn.classList.remove('is-loading');
+    revealBtn.disabled = false;
+    // Remove leftover particles
+    stage.querySelectorAll('.cl-lottery-particle').forEach(function(p) { p.remove(); });
+    // Remove pulsing
+    document.querySelectorAll('.cl-lottery-prize-item.is-pulsing').forEach(function(el) {
+      el.classList.remove('is-pulsing');
+    });
+  }
+
+  // --- Pick result ---
+  function pickResult() {
+    var tabId = getActiveTabId();
+    var prizes = LOTTERY_DATA[tabId].prizes;
+    if (Math.random() < 0.2) return { won: false };
+    var totalQty = prizes.reduce(function(s, p) { return s + p.qty; }, 0);
+    var roll = Math.random() * totalQty;
+    for (var i = 0; i < prizes.length; i++) {
+      roll -= prizes[i].qty;
+      if (roll <= 0) return { won: true, prize: prizes[i] };
+    }
+    return { won: true, prize: prizes[0] };
+  }
+
+  // "No prize" marker
+  var NO_PRIZE = '__none__';
+
+  function createReelItem(src) {
+    if (src === NO_PRIZE) {
+      // Create an "X" / skull icon for no prize
+      var span = document.createElement('span');
+      span.className = 'cl-lottery-reel-empty';
+      span.textContent = '\u2716'; // heavy X mark
+      span.style.cssText = 'display:flex;align-items:center;justify-content:center;width:64px;height:64px;font-size:32px;color:rgba(198,179,227,0.4);flex-shrink:0;';
+      return span;
+    }
+    var img = document.createElement('img');
+    img.src = src;
+    img.alt = '';
+    return img;
+  }
+
+  // --- Build reel with randomized prize icons + empty slots ---
+  function buildReel(prizes, finalPrize) {
+    reel.innerHTML = '';
+    var items = [];
+    // Mix prizes and empty slots (~25% empty)
+    for (var i = 0; i < 28; i++) {
+      if (Math.random() < 0.25) {
+        items.push(NO_PRIZE);
+      } else {
+        var p = prizes[Math.floor(Math.random() * prizes.length)];
+        items.push(p.icon);
+      }
+    }
+    // Last 2 items: the final result
+    if (finalPrize) {
+      items.push(finalPrize.icon);
+      items.push(finalPrize.icon);
+    } else {
+      items.push(NO_PRIZE);
+      items.push(NO_PRIZE);
+    }
+
+    items.forEach(function(src) {
+      reel.appendChild(createReelItem(src));
+    });
+
+    return items.length;
+  }
+
+  // --- Animate reel spin ---
+  function spinReel(itemCount, duration, callback) {
+    var itemHeight = 80; // 64px img + 16px gap
+    var totalHeight = itemCount * itemHeight;
+    // We want to stop at the second-to-last item (centered)
+    var stopAt = totalHeight - itemHeight * 2 - (140 / 2) + (itemHeight / 2);
+
+    reel.style.transition = 'none';
+    reel.style.transform = 'translateY(0)';
+
+    // Force reflow
+    reel.offsetHeight;
+
+    // Spin with easing
+    reel.style.transition = 'transform ' + duration + 'ms cubic-bezier(0.15, 0.6, 0.35, 1)';
+    reel.style.transform = 'translateY(-' + stopAt + 'px)';
+
+    setTimeout(callback, duration);
+  }
+
+  // --- Particle burst ---
+  function spawnParticleBurst() {
+    var colors = ['#c8a832', '#e7c84f', '#fff', '#844acb', '#ff6bda', '#9559d8'];
+    var count = 24;
+    var cx = stage.offsetWidth / 2;
+    var cy = stage.offsetHeight / 2;
+
+    for (var i = 0; i < count; i++) {
+      var el = document.createElement('div');
+      el.className = 'cl-lottery-particle';
+      var angle = (Math.PI * 2 / count) * i + (Math.random() * 0.3);
+      var dist = 60 + Math.random() * 80;
+      el.style.setProperty('--px', Math.cos(angle) * dist + 'px');
+      el.style.setProperty('--py', Math.sin(angle) * dist + 'px');
+      el.style.left = cx + 'px';
+      el.style.top = cy + 'px';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      el.style.width = (4 + Math.random() * 4) + 'px';
+      el.style.height = el.style.width;
+      stage.appendChild(el);
+    }
+    setTimeout(function() {
+      stage.querySelectorAll('.cl-lottery-particle').forEach(function(p) { p.remove(); });
+    }, 1000);
+  }
+
+  // --- Confetti ---
+  function spawnConfetti() {
+    var colors = ['#c8a832', '#e7c84f', '#fff', '#844acb', '#ff6bda', '#9559d8'];
+    for (var i = 0; i < 40; i++) {
+      var el = document.createElement('div');
+      el.className = 'cl-lottery-confetti';
+      el.style.left = (Math.random() * 100) + '%';
+      el.style.width = (4 + Math.random() * 6) + 'px';
+      el.style.height = (6 + Math.random() * 8) + 'px';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      el.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+      el.style.animationDelay = (Math.random() * 0.5) + 's';
+      el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      confettiEl.appendChild(el);
+    }
+    setTimeout(function() { confettiEl.innerHTML = ''; }, 4000);
+  }
+
+  // --- Main reveal sequence ---
+  revealBtn.addEventListener('click', function() {
+    if (animState !== STATE.IDLE) return;
+
+    var result = pickResult();
+    var tabId = getActiveTabId();
+    var prizes = LOTTERY_DATA[tabId].prizes;
+    var grid = getActivePrizeGrid();
+
+    // === PHASE 1: BUILDUP — pulse prizes, then collapse them ===
+    animState = STATE.BUILDUP;
+    revealBtn.disabled = true;
+    revealBtn.classList.add('is-loading');
+
+    // Pulse prize items
+    var prizeItems = grid.querySelectorAll('.cl-lottery-prize-item');
+    prizeItems.forEach(function(item) { item.classList.add('is-pulsing'); });
+
+    setTimeout(function() {
+      // Collapse prizes
+      prizeItems.forEach(function(item) { item.classList.remove('is-pulsing'); });
+      grid.classList.add('is-collapsing');
+
+      setTimeout(function() {
+        // Hide prize grid + button, show stage
+        grid.style.display = 'none';
+        actionDiv.style.display = 'none';
+        stage.classList.add('is-visible');
+
+        // === PHASE 2: SPIN REEL ===
+        animState = STATE.SPINNING;
+        var finalPrize = result.won ? result.prize : null;
+        var itemCount = buildReel(prizes, finalPrize);
+        reelWrapper.classList.add('is-spinning');
+        reelWrapper.style.display = '';
+        resultDiv.classList.remove('is-visible', 'is-win', 'is-lose');
+
+        spinReel(itemCount, 2500, function() {
+          // === PHASE 3: REVEAL RESULT ===
+          animState = STATE.RESULT;
+          reelWrapper.classList.remove('is-spinning');
+          reelWrapper.classList.add('is-landing');
+
+          // Particle burst
+          spawnParticleBurst();
+
+          setTimeout(function() {
+            // Hide reel, show result
+            reelWrapper.style.display = 'none';
+
+            if (result.won) {
+              resultImg.src = result.prize.icon;
+              resultImg.alt = result.prize.name;
+              resultImg.style.display = '';
+              resultName.textContent = result.prize.name;
+              resultSub.textContent = 'Congratulations, adventurer!';
+              resultDiv.classList.add('is-visible', 'is-win');
+              reelWrapper.classList.add('is-win-glow');
+              spawnConfetti();
+            } else {
+              resultImg.style.display = 'none';
+              resultName.textContent = 'No prize this time';
+              resultSub.textContent = 'The dragons were not generous today...';
+              resultDiv.classList.add('is-visible', 'is-lose');
+            }
+
+            // After result display, allow tab switching / close
+            setTimeout(function() {
+              animState = STATE.IDLE;
+              revealBtn.classList.remove('is-loading');
+            }, 1500);
+          }, 400);
+        });
+
+      }, 600); // collapse duration
+    }, 800); // pulse duration
+  });
+
+
+})();
+</script>
+
 </body>
 </html>
