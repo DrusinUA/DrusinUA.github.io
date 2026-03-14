@@ -615,6 +615,215 @@ body.cl-lottery-demo {
 }
 
 /* ============================================================
+   Demo row — two trigger buttons side by side
+   ============================================================ */
+
+.cl-demo-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.cl-demo-label {
+  font-family: var(--cl-font-body);
+  font-size: 0.72rem;
+  color: var(--cl-text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 10px;
+  display: block;
+  opacity: 0.7;
+}
+.cl-gift-trigger-btn {
+  font-family: var(--cl-font-display);
+  font-size: 1.1rem;
+  color: #0d2230;
+  background: linear-gradient(135deg, #29bfc6 0%, #5afefe 100%);
+  border: 1px solid rgba(90,254,254,0.4);
+  border-radius: 10px;
+  padding: 14px 32px;
+  cursor: pointer;
+  transition: filter 0.2s;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.cl-gift-trigger-btn:hover { filter: brightness(1.12); }
+.cl-gift-trigger-btn:active { filter: brightness(0.9); }
+
+/* ============================================================
+   Gift Box element (inside gift popup stage)
+   ============================================================ */
+
+.cl-gb-gift-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  height: 160px;
+}
+.cl-gb-box {
+  position: relative;
+  width: 120px;
+}
+.cl-gb-lid {
+  position: relative;
+  width: 132px;
+  height: 44px;
+  margin-left: -6px;
+  background: linear-gradient(160deg, #5a3a9a 0%, #2e1e6a 100%);
+  border: 2px solid var(--cl-gold);
+  border-radius: 8px 8px 3px 3px;
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12);
+  transform-origin: center bottom;
+  overflow: visible;
+}
+/* Horizontal gold stripe on lid */
+.cl-gb-lid::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 0; right: 0;
+  height: 8px;
+  margin-top: -4px;
+  background: linear-gradient(90deg, var(--cl-gold), var(--cl-gold-bright), var(--cl-gold));
+  opacity: 0.9;
+}
+/* Bow (two lobes via pseudo + child) */
+.cl-gb-bow {
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 22px;
+  z-index: 3;
+}
+.cl-gb-bow::before,
+.cl-gb-bow::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 18px;
+  height: 20px;
+  background: var(--cl-gold);
+  box-shadow: 0 0 8px rgba(231,200,79,0.6);
+  border-radius: 50% 50% 0 0 / 70% 70% 0 0;
+}
+.cl-gb-bow::before { left: 1px; transform: rotate(-22deg); transform-origin: right bottom; }
+.cl-gb-bow::after  { right: 1px; transform: rotate(22deg);  transform-origin: left bottom; }
+.cl-gb-bow-knot {
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 10px; height: 10px;
+  background: var(--cl-gold-bright);
+  border-radius: 50%;
+  z-index: 4;
+  box-shadow: 0 0 6px rgba(231,200,79,0.8);
+}
+.cl-gb-body {
+  position: relative;
+  width: 120px;
+  height: 100px;
+  background: linear-gradient(160deg, #3d2878 0%, #231e4f 100%);
+  border: 2px solid var(--cl-border);
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+  overflow: hidden;
+}
+/* Vertical gold ribbon on body */
+.cl-gb-body::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%; width: 8px;
+  margin-left: -4px;
+  background: linear-gradient(180deg, var(--cl-gold-bright), var(--cl-gold));
+  opacity: 0.9;
+}
+/* Shine gloss */
+.cl-gb-body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.09) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+/* --- Gift box animations --- */
+@keyframes clGiftShake {
+  0%   { transform: translateX(0) rotate(0deg); }
+  10%  { transform: translateX(-7px) rotate(-4.5deg); }
+  20%  { transform: translateX(6px) rotate(3.5deg); }
+  30%  { transform: translateX(-6px) rotate(-3deg); }
+  40%  { transform: translateX(5px) rotate(2.5deg); }
+  50%  { transform: translateX(-4px) rotate(-2deg); }
+  60%  { transform: translateX(4px) rotate(1.5deg); }
+  70%  { transform: translateX(-3px) rotate(-1deg); }
+  80%  { transform: translateX(2px) rotate(0.5deg); }
+  90%  { transform: translateX(-1px) rotate(-0.3deg); }
+  100% { transform: translateX(0) rotate(0deg); }
+}
+.cl-gb-box.is-shaking {
+  animation: clGiftShake 0.45s ease-in-out infinite;
+}
+
+@keyframes clGiftLidFly {
+  0%   { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+  25%  { transform: translateY(-50px) rotate(-12deg) scale(1.05); opacity: 1; }
+  65%  { transform: translateY(-160px) rotate(22deg) scale(0.85); opacity: 0.5; }
+  100% { transform: translateY(-300px) rotate(35deg) scale(0.5); opacity: 0; }
+}
+.cl-gb-lid.is-flying {
+  animation: clGiftLidFly 0.55s cubic-bezier(0.2, 0, 0.85, 1) forwards;
+  z-index: 10;
+}
+
+@keyframes clGiftBodyGlow {
+  0%   { box-shadow: 0 6px 20px rgba(0,0,0,0.5); border-color: var(--cl-border); }
+  50%  { box-shadow: 0 0 50px rgba(200,168,50,0.75), 0 6px 20px rgba(0,0,0,0.4); border-color: var(--cl-gold); }
+  100% { box-shadow: 0 0 24px rgba(200,168,50,0.3), 0 6px 20px rgba(0,0,0,0.4); border-color: var(--cl-gold); }
+}
+.cl-gb-body.is-glowing {
+  animation: clGiftBodyGlow 0.7s ease-out forwards;
+}
+
+/* Gift box reveal button (cyan accent) */
+.cl-gb-reveal-btn {
+  position: relative;
+  font-family: var(--cl-font-display);
+  font-size: 1.05rem;
+  color: #0d2230;
+  background: linear-gradient(135deg, #1a8a92 0%, #29bfc6 50%, #5afefe 100%);
+  border: 1px solid rgba(90,254,254,0.4);
+  border-radius: 10px;
+  padding: 14px 36px;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: filter 0.2s;
+  overflow: hidden;
+}
+.cl-gb-reveal-btn:hover:not(:disabled) { filter: brightness(1.12); }
+.cl-gb-reveal-btn:active:not(:disabled) { filter: brightness(0.9); }
+.cl-gb-reveal-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+.cl-gb-reveal-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+}
+.cl-gb-reveal-btn:hover:not(:disabled)::before { left: 120%; }
+.cl-gb-reveal-btn.is-loading .cl-gb-btn-text { opacity: 0.7; }
+.cl-gb-reveal-btn.is-loading .cl-lottery-spinner { display: inline-block; }
+
+/* ============================================================
    Responsive
    ============================================================ */
 
@@ -683,8 +892,12 @@ body.cl-lottery-demo {
 </head>
 <body class="cl-lottery-demo">
 
-<!-- Trigger button (minimal — production will wire to sidebar/nav) -->
-<button class="cl-lottery-trigger-btn" id="clLotteryTrigger">View Lottery Results</button>
+<!-- Demo: two popup trigger buttons for comparison -->
+<span class="cl-demo-label">Choose your reveal experience</span>
+<div class="cl-demo-row">
+  <button class="cl-lottery-trigger-btn" id="clLotteryTrigger">🎰 Spinning Wheel</button>
+  <button class="cl-gift-trigger-btn" id="clGiftTrigger">🎁 Gift Box</button>
+</div>
 
 <!-- ============================================================
      Lottery Popup — extractable from here
@@ -803,6 +1016,126 @@ body.cl-lottery-demo {
     </div><!-- .cl-lottery-modal -->
   </div><!-- .cl-lottery-overlay -->
 </div><!-- .cl-lottery-wrapper -->
+
+<!-- ============================================================
+     Gift Box Popup — full separate modal for demo comparison
+     ============================================================ -->
+<div class="cl-lottery-wrapper" id="clGbWrapper">
+  <div class="cl-lottery-overlay" id="clGbOverlay" role="dialog" aria-modal="true" aria-labelledby="clGbTitle">
+    <div class="cl-lottery-modal">
+
+      <!-- Close button -->
+      <button class="cl-lottery-close" id="clGbClose" aria-label="Close gift box popup">&times;</button>
+
+      <!-- Header -->
+      <div class="cl-lottery-header">
+        <h2 class="cl-lottery-title" id="clGbTitle">🎁 GIFT BOX REVEAL</h2>
+        <p class="cl-lottery-subtitle">"Shake it, open it, claim your prize!"</p>
+      </div>
+
+      <!-- Tabs -->
+      <nav class="cl-lottery-tabs" role="tablist" aria-label="Lottery categories">
+        <button class="cl-lottery-tab is-active" role="tab" aria-selected="true" aria-controls="clGbPaneHoard" id="clGbTabHoard" data-target="clGbPaneHoard">Dragon's Hoard</button>
+        <button class="cl-lottery-tab" role="tab" aria-selected="false" aria-controls="clGbPaneCache" id="clGbTabCache" data-target="clGbPaneCache">Bestiary Cache</button>
+        <button class="cl-lottery-tab" role="tab" aria-selected="false" aria-controls="clGbPaneForge" id="clGbTabForge" data-target="clGbPaneForge">Forgemaster's Fortune</button>
+      </nav>
+
+      <!-- Content -->
+      <div class="cl-lottery-content">
+
+        <!-- Tab A: Dragon's Hoard -->
+        <div class="cl-lottery-pane is-active" id="clGbPaneHoard" role="tabpanel" aria-labelledby="clGbTabHoard">
+          <div class="cl-lottery-prizes" id="clGbPrizesHoard">
+            <div class="cl-lottery-prize-item" data-prize="Dragon Ring NFT">
+              <img src="assets/icon_rings.png" alt="Dragon Ring">
+              <span class="cl-lottery-prize-name">Dragon Ring NFT</span>
+              <span class="cl-lottery-prize-qty">&times;3</span>
+            </div>
+            <div class="cl-lottery-prize-item" data-prize="Factory NFT">
+              <img src="assets/factoryTier1_Icon.png" alt="Factory">
+              <span class="cl-lottery-prize-name">Factory NFT</span>
+              <span class="cl-lottery-prize-qty">&times;9</span>
+            </div>
+            <div class="cl-lottery-prize-item" data-prize="Jin's Katana NFT">
+              <img src="assets/KatanaRonin_Icon.png" alt="Jin's Katana">
+              <span class="cl-lottery-prize-name">Jin's Katana NFT</span>
+              <span class="cl-lottery-prize-qty">&times;10</span>
+            </div>
+            <div class="cl-lottery-prize-item" data-prize="Circle of Flame NFT">
+              <img src="assets/BlazingShackles_icon.png" alt="Circle of Flame">
+              <span class="cl-lottery-prize-name">Circle of Flame NFT</span>
+              <span class="cl-lottery-prize-qty">&times;5</span>
+            </div>
+            <div class="cl-lottery-prize-item" data-prize="50 RON Voucher">
+              <img src="assets/RonCoin.png" alt="50 RON Voucher">
+              <span class="cl-lottery-prize-name">50 RON Voucher</span>
+              <span class="cl-lottery-prize-qty">&times;100</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab B: Bestiary Cache -->
+        <div class="cl-lottery-pane" id="clGbPaneCache" role="tabpanel" aria-labelledby="clGbTabCache">
+          <div class="cl-lottery-prizes" id="clGbPrizesCache">
+            <div class="cl-lottery-prize-item" data-prize="Mythical Beast Cosmetic NFT">
+              <img src="assets/VoidBeast_icon.png" alt="Mythical Beast">
+              <span class="cl-lottery-prize-name">Mythical Beast Cosmetic NFT</span>
+              <span class="cl-lottery-prize-qty">&times;20</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab C: Forgemaster's Fortune -->
+        <div class="cl-lottery-pane" id="clGbPaneForge" role="tabpanel" aria-labelledby="clGbTabForge">
+          <div class="cl-lottery-prizes" id="clGbPrizesForge">
+            <div class="cl-lottery-prize-item" data-prize="Factory-themed NFT">
+              <img src="assets/FactoryUnit_icon.png" alt="Factory-themed NFT">
+              <span class="cl-lottery-prize-name">Factory-themed NFT</span>
+              <span class="cl-lottery-prize-qty">&times;20</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reveal button -->
+        <div class="cl-lottery-action" id="clGbAction">
+          <button class="cl-gb-reveal-btn" id="clGbRevealBtn">
+            <span class="cl-gb-btn-text">🎁 REVEAL MY GIFT</span>
+            <span class="cl-lottery-spinner"></span>
+          </button>
+        </div>
+
+        <!-- Animation stage (replaces prize grid when active) -->
+        <div class="cl-lottery-stage" id="clGbStage">
+          <!-- Gift box -->
+          <div class="cl-gb-gift-wrap" id="clGbGiftWrap">
+            <div class="cl-gb-box" id="clGbBox">
+              <div class="cl-gb-lid" id="clGbLid">
+                <div class="cl-gb-bow">
+                  <div class="cl-gb-bow-knot"></div>
+                </div>
+              </div>
+              <div class="cl-gb-body" id="clGbBody"></div>
+            </div>
+          </div>
+          <!-- Result display (same layout as spinning wheel) -->
+          <div class="cl-lottery-result" id="clGbResult">
+            <img class="cl-lottery-result-icon" id="clGbResultImg" src="" alt="">
+            <span class="cl-lottery-result-name" id="clGbResultName"></span>
+            <span class="cl-lottery-result-sub" id="clGbResultSub"></span>
+          </div>
+          <div class="cl-lottery-confetti-container" id="clGbConfetti"></div>
+        </div>
+
+      </div><!-- .cl-lottery-content -->
+
+      <!-- Footer / Disclaimer -->
+      <div class="cl-lottery-footer">
+        <p class="cl-lottery-disclaimer">Prizes are not guaranteed — winners are drawn randomly. This is a preview. Official results will be announced after the Play Test.</p>
+      </div>
+
+    </div><!-- .cl-lottery-modal -->
+  </div><!-- .cl-lottery-overlay -->
+</div><!-- .cl-lottery-wrapper (gift box) -->
 
 <script>
 /* ============================================================
@@ -1166,6 +1499,294 @@ body.cl-lottery-demo {
     }, 800); // pulse duration
   });
 
+
+})();
+
+/* ============================================================
+   Calamity Online — Gift Box Popup Logic
+   Vanilla JS, no dependencies
+   ============================================================ */
+(function() {
+  'use strict';
+
+  // --- Lottery data (same prizes) ---
+  var GB_DATA = {
+    clGbPaneHoard: {
+      prizes: [
+        { name: 'Dragon Ring NFT',      qty: 3,   icon: 'assets/icon_rings.png' },
+        { name: 'Factory NFT',          qty: 9,   icon: 'assets/factoryTier1_Icon.png' },
+        { name: "Jin's Katana NFT",     qty: 10,  icon: 'assets/KatanaRonin_Icon.png' },
+        { name: 'Circle of Flame NFT',  qty: 5,   icon: 'assets/BlazingShackles_icon.png' },
+        { name: '50 RON Voucher',       qty: 100, icon: 'assets/RonCoin.png' }
+      ]
+    },
+    clGbPaneCache: {
+      prizes: [
+        { name: 'Mythical Beast Cosmetic NFT', qty: 20, icon: 'assets/VoidBeast_icon.png' }
+      ]
+    },
+    clGbPaneForge: {
+      prizes: [
+        { name: 'Factory-themed NFT', qty: 20, icon: 'assets/FactoryUnit_icon.png' }
+      ]
+    }
+  };
+
+  // --- DOM refs ---
+  var gbOverlay    = document.getElementById('clGbOverlay');
+  var gbTrigger    = document.getElementById('clGiftTrigger');
+  var gbClose      = document.getElementById('clGbClose');
+  var gbRevealBtn  = document.getElementById('clGbRevealBtn');
+  var gbBtnText    = gbRevealBtn.querySelector('.cl-gb-btn-text');
+  var gbAction     = document.getElementById('clGbAction');
+  var gbStage      = document.getElementById('clGbStage');
+  var gbGiftWrap   = document.getElementById('clGbGiftWrap');
+  var gbBox        = document.getElementById('clGbBox');
+  var gbLid        = document.getElementById('clGbLid');
+  var gbBody       = document.getElementById('clGbBody');
+  var gbResult     = document.getElementById('clGbResult');
+  var gbResultImg  = document.getElementById('clGbResultImg');
+  var gbResultName = document.getElementById('clGbResultName');
+  var gbResultSub  = document.getElementById('clGbResultSub');
+  var gbConfetti   = document.getElementById('clGbConfetti');
+  var gbTabs       = Array.from(gbOverlay.querySelectorAll('.cl-lottery-tab'));
+  var gbPanes      = Array.from(gbOverlay.querySelectorAll('.cl-lottery-pane'));
+
+  var gbPrevFocus = null;
+
+  // --- State ---
+  var GBS = { IDLE: 0, BUILDUP: 1, EXPLODING: 2, RESULT: 3 };
+  var gbState = GBS.IDLE;
+
+  function gbActiveTabId() {
+    var active = gbTabs.find(function(t) { return t.classList.contains('is-active'); });
+    return active ? active.dataset.target : 'clGbPaneHoard';
+  }
+  function gbActivePrizeGrid() {
+    return document.getElementById(gbActiveTabId()).querySelector('.cl-lottery-prizes');
+  }
+
+  // --- Open / Close ---
+  function openGb() {
+    gbPrevFocus = document.activeElement;
+    gbOverlay.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    gbClose.focus();
+    gbResetToIdle();
+  }
+  function closeGb() {
+    if (gbState !== GBS.IDLE) return;
+    gbOverlay.classList.remove('is-open');
+    document.body.style.overflow = '';
+    if (gbPrevFocus) gbPrevFocus.focus();
+  }
+
+  gbTrigger.addEventListener('click', openGb);
+  gbClose.addEventListener('click', closeGb);
+  gbOverlay.addEventListener('click', function(e) {
+    if (e.target === gbOverlay) closeGb();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && gbOverlay.classList.contains('is-open')) closeGb();
+  });
+
+  // --- Focus trap ---
+  gbOverlay.addEventListener('keydown', function(e) {
+    if (e.key !== 'Tab') return;
+    var focusable = gbOverlay.querySelectorAll(
+      'button:not([disabled]), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (!focusable.length) return;
+    var first = focusable[0], last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      last.focus(); e.preventDefault();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      first.focus(); e.preventDefault();
+    }
+  });
+
+  // --- Tab switching ---
+  gbTabs.forEach(function(tab, index) {
+    tab.addEventListener('click', function() {
+      if (gbState !== GBS.IDLE) return;
+      gbTabs.forEach(function(t) { t.classList.remove('is-active'); t.setAttribute('aria-selected', 'false'); });
+      gbPanes.forEach(function(p) { p.classList.remove('is-active'); });
+      tab.classList.add('is-active');
+      tab.setAttribute('aria-selected', 'true');
+      document.getElementById(tab.dataset.target).classList.add('is-active');
+      gbResetToIdle();
+    });
+    tab.addEventListener('keydown', function(e) {
+      var ni;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') ni = (index + 1) % gbTabs.length;
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') ni = (index - 1 + gbTabs.length) % gbTabs.length;
+      else return;
+      gbTabs[ni].click(); gbTabs[ni].focus(); e.preventDefault();
+    });
+  });
+
+  // --- Reset to idle ---
+  function gbResetToIdle() {
+    gbState = GBS.IDLE;
+    var grid = gbActivePrizeGrid();
+    if (grid) {
+      grid.style.display = '';
+      grid.style.opacity = '1';
+      grid.classList.remove('is-collapsing');
+    }
+    gbAction.style.display = '';
+    gbStage.classList.remove('is-visible');
+    gbGiftWrap.style.display = '';
+    gbBox.classList.remove('is-shaking');
+    gbLid.classList.remove('is-flying');
+    gbBody.classList.remove('is-glowing');
+    gbResult.classList.remove('is-visible', 'is-win', 'is-lose');
+    gbConfetti.innerHTML = '';
+    gbBtnText.textContent = '🎁 REVEAL MY GIFT';
+    gbRevealBtn.classList.remove('is-loading');
+    gbRevealBtn.disabled = false;
+    gbStage.querySelectorAll('.cl-lottery-particle').forEach(function(p) { p.remove(); });
+    gbOverlay.querySelectorAll('.cl-lottery-prize-item.is-pulsing').forEach(function(el) {
+      el.classList.remove('is-pulsing');
+    });
+  }
+
+  // --- Pick result (same weighted random) ---
+  function gbPickResult() {
+    var tabId = gbActiveTabId();
+    var prizes = GB_DATA[tabId].prizes;
+    if (Math.random() < 0.2) return { won: false };
+    var total = prizes.reduce(function(s, p) { return s + p.qty; }, 0);
+    var roll = Math.random() * total;
+    for (var i = 0; i < prizes.length; i++) {
+      roll -= prizes[i].qty;
+      if (roll <= 0) return { won: true, prize: prizes[i] };
+    }
+    return { won: true, prize: prizes[0] };
+  }
+
+  // --- Particle burst (from gift box center) ---
+  function gbSpawnParticles() {
+    var colors = ['#c8a832', '#e7c84f', '#fff', '#5afefe', '#ff6bda', '#844acb'];
+    var count = 28;
+    var cx = gbStage.offsetWidth / 2;
+    var cy = gbStage.offsetHeight / 2 + 10;
+    for (var i = 0; i < count; i++) {
+      var el = document.createElement('div');
+      el.className = 'cl-lottery-particle';
+      var angle = (Math.PI * 2 / count) * i + (Math.random() * 0.25);
+      var dist = 55 + Math.random() * 90;
+      el.style.setProperty('--px', Math.cos(angle) * dist + 'px');
+      el.style.setProperty('--py', Math.sin(angle) * dist + 'px');
+      el.style.left = cx + 'px';
+      el.style.top  = cy + 'px';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      var sz = (4 + Math.random() * 5) + 'px';
+      el.style.width = sz; el.style.height = sz;
+      gbStage.appendChild(el);
+    }
+    setTimeout(function() {
+      gbStage.querySelectorAll('.cl-lottery-particle').forEach(function(p) { p.remove(); });
+    }, 900);
+  }
+
+  // --- Confetti ---
+  function gbSpawnConfetti() {
+    var colors = ['#c8a832', '#e7c84f', '#fff', '#5afefe', '#ff6bda', '#844acb'];
+    for (var i = 0; i < 40; i++) {
+      var el = document.createElement('div');
+      el.className = 'cl-lottery-confetti';
+      el.style.left = (Math.random() * 100) + '%';
+      el.style.width  = (4 + Math.random() * 6) + 'px';
+      el.style.height = (6 + Math.random() * 8) + 'px';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      el.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+      el.style.animationDelay = (Math.random() * 0.5) + 's';
+      el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      gbConfetti.appendChild(el);
+    }
+    setTimeout(function() { gbConfetti.innerHTML = ''; }, 4200);
+  }
+
+  // --- Main gift box reveal sequence ---
+  gbRevealBtn.addEventListener('click', function() {
+    if (gbState !== GBS.IDLE) return;
+
+    var result = gbPickResult();
+    var grid = gbActivePrizeGrid();
+
+    // === PHASE 1: BUILDUP — pulse prizes, then collapse ===
+    gbState = GBS.BUILDUP;
+    gbRevealBtn.disabled = true;
+    gbRevealBtn.classList.add('is-loading');
+    gbBtnText.textContent = 'Opening...';
+
+    var prizeItems = grid.querySelectorAll('.cl-lottery-prize-item');
+    prizeItems.forEach(function(item) { item.classList.add('is-pulsing'); });
+
+    setTimeout(function() {
+      prizeItems.forEach(function(item) { item.classList.remove('is-pulsing'); });
+      grid.classList.add('is-collapsing');
+
+      setTimeout(function() {
+        // Hide prize grid + button, show stage with gift box
+        grid.style.display = 'none';
+        gbAction.style.display = 'none';
+        gbStage.classList.add('is-visible');
+        gbGiftWrap.style.display = '';
+        gbResult.classList.remove('is-visible', 'is-win', 'is-lose');
+
+        // Start shaking
+        gbState = GBS.EXPLODING;
+        gbBox.classList.add('is-shaking');
+
+        // === PHASE 2: EXPLODE after shake ===
+        setTimeout(function() {
+          gbBox.classList.remove('is-shaking');
+
+          // Lid flies off
+          gbLid.classList.add('is-flying');
+
+          // Particle burst
+          gbSpawnParticles();
+
+          // Body glows
+          setTimeout(function() {
+            gbBody.classList.add('is-glowing');
+          }, 100);
+
+          // === PHASE 3: REVEAL RESULT ===
+          setTimeout(function() {
+            gbState = GBS.RESULT;
+            gbGiftWrap.style.display = 'none';
+
+            if (result.won) {
+              gbResultImg.src = result.prize.icon;
+              gbResultImg.alt = result.prize.name;
+              gbResultImg.style.display = '';
+              gbResultName.textContent = result.prize.name;
+              gbResultSub.textContent = 'Congratulations, adventurer!';
+              gbResult.classList.add('is-visible', 'is-win');
+              gbSpawnConfetti();
+              gbSpawnParticles();
+            } else {
+              gbResultImg.style.display = 'none';
+              gbResultName.textContent = 'No prize this time';
+              gbResultSub.textContent = 'The gift box was empty this time...';
+              gbResult.classList.add('is-visible', 'is-lose');
+            }
+
+            setTimeout(function() {
+              gbState = GBS.IDLE;
+              gbRevealBtn.classList.remove('is-loading');
+            }, 1500);
+          }, 550); // after lid flies
+
+        }, 1200); // shake duration
+
+      }, 600); // collapse duration
+    }, 800); // pulse duration
+  });
 
 })();
 </script>
