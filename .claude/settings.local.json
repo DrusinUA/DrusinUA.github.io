@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find 'D:\\\\Unity Projects\\\\RektSkullsUnity\\\\Assets' -path *CustomSprites* -name *icon*)",
+      "Bash(cp \"D:/Unity Projects/RektSkullsUnity/Assets/Game/UI/Images/icon_rings.png\" \"D:/Unity Projects/Calamity_lottery/Claude Opus 4.6/assets/icon_rings.png\")",
+      "Bash(cp \"D:/Unity Projects/RektSkullsUnity/Assets/Game/Art/Sprites/Factories/factoryTier1_Icon.png\" \"D:/Unity Projects/Calamity_lottery/Claude Opus 4.6/assets/factoryTier1_Icon.png\")",
+      "Bash(cp \"D:/Unity Projects/RektSkullsUnity/Assets/Game/Art/Sprites/Armor/Artifacts/KatanaRonin_Icon.png\" \"D:/Unity Projects/Calamity_lottery/Claude Opus 4.6/assets/KatanaRonin_Icon.png\")",
+      "Bash(cp \"D:/Unity Projects/RektSkullsUnity/Assets/Game/Art/CustomSprites/DragonsRings/BlazingShackles/BlazingShackles_idle.png\" \"D:/Unity Projects/Calamity_lottery/Claude Opus 4.6/assets/BlazingShackles_idle.png\")",
+      "Bash(cp \"D:/Unity Projects/RektSkullsUnity/Assets/ExternalAssets/Coin_Gems/spr_coin_ama.png\" \"D:/Unity Projects/Calamity_lottery/Claude Opus 4.6/assets/spr_coin_ama.png\")",
+      "Bash(cp \"D:/Unity Projects/RektSkullsUnity/Assets/Game/Art/CustomSprites/DragonsRings/VoidBeast/VoidBeast_idle.png\" \"D:/Unity Projects/Calamity_lottery/Claude Opus 4.6/assets/VoidBeast_idle.png\")",
+      "Bash(cp \"D:/Unity Projects/RektSkullsUnity/Assets/Game/Art/CustomSprites/DragonsRings/FactoryUnit/FactoryUnit_idle.png\" \"D:/Unity Projects/Calamity_lottery/Claude Opus 4.6/assets/FactoryUnit_idle.png\")",
+      "Bash(cp \"D:/Unity Projects/RektSkullsUnity/Assets/Game/Art/Sprites/old_catacombs/Skull_chest_idle.png\" \"D:/Unity Projects/Calamity_lottery/Claude Opus 4.6/assets/Skull_chest_idle.png\")",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(xargs grep:*)",
+      "Bash(find 'D:\\\\Unity Projects\\\\RektSkullsUnity\\\\Assets\\\\Game\\\\UI' -type f -name *.cs)",
+      "Bash(find 'D:\\\\Unity Projects\\\\RektSkullsUnity\\\\Assets\\\\Game\\\\UI' -type f -name *.prefab)",
+      "Bash(find 'D:\\\\Unity Projects\\\\RektSkullsUnity\\\\Assets' -type f -name *.cs)",
+      "Bash(find 'D:\\\\Unity Projects\\\\Calamity_lottery' -type f -name *.png)",
+      "Bash(find 'D:\\\\Unity Projects\\\\RektSkullsUnity\\\\Assets' -type f -name *.png)",
+      "Bash(xargs ls:*)",
+      "Bash(find 'D:\\\\Unity Projects\\\\RektSkullsUnity\\\\Assets\\\\Game\\\\UI\\\\Images' -type f -name *.png)",
+      "Bash(find 'D:\\\\Unity Projects\\\\RektSkullsUnity\\\\Assets' -type f -name *.png -size +50k)",
+      "Bash(find 'D:\\\\Unity Projects\\\\RektSkullsUnity\\\\Assets\\\\UI\\\\Resources\\\\Icons' -type f -name *.png)",
+      "Bash(find 'D:\\\\Unity Projects\\\\RektSkullsUnity\\\\Assets\\\\Game\\\\Art\\\\Sprites\\\\Armor\\\\Artifacts' -type f -name *icon.png -o -name *Icon.png)",
+      "Bash(find 'D:\\\\Unity Projects\\\\RektSkullsUnity\\\\Assets' -path */DragonsRings/* -name *icon.png -o -path */DragonsRings/* -name *Icon.png)",
+      "Bash(find 'D:\\\\Unity Projects\\\\RektSkullsUnity\\\\Assets\\\\Game\\\\Art\\\\CustomSprites\\\\DragonsRings' -name *idle.png)",
+      "Bash(find 'D:\\\\Unity Projects\\\\RektSkullsUnity\\\\Assets' -type f \\\\\\(-path */Artifacts/* -o -path */Icons/* -o -path */Images/* \\\\\\) -name *.png)",
+      "Bash(cp \"D:/Unity Projects/RektSkullsUnity/Assets/Game/Art/Sprites/Armor/Artifacts/FactoryUnit_icon.png\" \"D:/Unity Projects/Calamity_lottery/Claude Opus 4.6/assets/FactoryUnit_icon.png\")",
+      "Bash(cp \"D:/Unity Projects/RektSkullsUnity/Assets/Game/Art/Sprites/Armor/Artifacts/BlazingShackles_icon.png\" \"D:/Unity Projects/Calamity_lottery/Claude Opus 4.6/assets/BlazingShackles_icon.png\")",
+      "Bash(cp \"D:/Unity Projects/RektSkullsUnity/Assets/Game/Art/Sprites/Armor/Artifacts/VoidBeast_icon.png\" \"D:/Unity Projects/Calamity_lottery/Claude Opus 4.6/assets/VoidBeast_icon.png\")",
+      "Bash(cp \"D:/Unity Projects/RektSkullsUnity/Assets/UI/Resources/Icons/GoldCoin.png\" \"D:/Unity Projects/Calamity_lottery/Claude Opus 4.6/assets/GoldCoin.png\")"
+    ]
+  }
+}
