@@ -1,28 +1,274 @@
 <!DOCTYPE html>
-<html lang="uk">
-
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
-    <link rel="manifest" href="./site.webmanifest" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#324426" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Nunito:wght@400;600;700&display=swap"
-        rel="stylesheet">
-    <title>COCOS Cafe - Меню та Банкети</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calamity Lottery Demos</title>
+  <meta
+    name="description"
+    content="A simple landing page linking to three AI-generated Calamity Dragon Lottery demos."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+  <style>
+    :root {
+      --bg: #0c0a12;
+      --panel: #15111f;
+      --card: #1d182a;
+      --card-hover: #262036;
+      --border: #312846;
+      --border-strong: #8d73c8;
+      --text: #f3f0f8;
+      --muted: #b8b1c7;
+      --accent: #f0c36a;
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --width: 980px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Inter", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, rgba(141, 115, 200, 0.18), transparent 28%),
+        linear-gradient(180deg, #100d18 0%, var(--bg) 100%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      width: min(calc(100% - 32px), var(--width));
+      margin: 0 auto;
+      padding: 48px 0 56px;
+    }
+
+    .hero,
+    .links {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 40px;
+      margin-bottom: 20px;
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    h1,
+    h2 {
+      margin: 0;
+      font-family: "Cinzel", serif;
+      line-height: 1.05;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      text-transform: uppercase;
+    }
+
+    .hero p {
+      max-width: 680px;
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .links {
+      padding: 28px;
+    }
+
+    .links-head {
+      margin-bottom: 18px;
+    }
+
+    .links-head h2 {
+      font-size: 1.6rem;
+      margin-bottom: 8px;
+    }
+
+    .links-head p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      display: grid;
+      gap: 14px;
+      padding: 22px;
+      border-radius: var(--radius-md);
+      background: var(--card);
+      border: 1px solid var(--border);
+      transition: border-color 180ms ease, transform 180ms ease, background 180ms ease;
+    }
+
+    .card:hover,
+    .card:focus-visible {
+      transform: translateY(-2px);
+      background: var(--card-hover);
+      border-color: var(--border-strong);
+      outline: none;
+    }
+
+    .card-top {
+      display: grid;
+      gap: 6px;
+    }
+
+    .card-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .card-title {
+      font-size: 1.32rem;
+      font-family: "Cinzel", serif;
+      line-height: 1.15;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .card-path {
+      font-size: 0.9rem;
+      color: #d9d1eb;
+      word-break: break-word;
+    }
+
+    .card-cta {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .footer-note {
+      margin: 18px 4px 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 860px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: calc(100% - 20px);
+        padding-top: 24px;
+        padding-bottom: 32px;
+      }
+
+      .hero,
+      .links {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .hero {
+        padding-top: 28px;
+        padding-bottom: 28px;
+      }
+
+      .links {
+        padding-top: 22px;
+        padding-bottom: 22px;
+      }
+    }
+  </style>
 </head>
-
 <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-</body>
+  <main class="page">
+    <section class="hero">
+      <p class="eyebrow">Calamity Demo Pack</p>
+      <h1>Lottery Demo Selector</h1>
+      <p>
+        This page is only a selector. Each card below opens one standalone static experiment for the
+        Calamity Dragon Lottery concept.
+      </p>
+    </section>
 
+    <section class="links" aria-labelledby="demo-links-title">
+      <div class="links-head">
+        <h2 id="demo-links-title">Choose a version</h2>
+        <p>All three demos are kept separate. Open whichever version you want to show.</p>
+      </div>
+
+      <div class="grid">
+        <a class="card" href="Claude%20Opus%204.6/index.html">
+          <div class="card-top">
+            <span class="card-label">Anthropic</span>
+            <span class="card-title">Claude Opus 4.6</span>
+          </div>
+          <p>A darker gothic-styled lottery page with a focused orb, reel, and result flow.</p>
+          <span class="card-path">Claude Opus 4.6/index.html</span>
+          <span class="card-cta">Open demo</span>
+        </a>
+
+        <a class="card" href="Gemini%203.1%20Pro/index.html">
+          <div class="card-top">
+            <span class="card-label">Google</span>
+            <span class="card-title">Gemini 3.1 Pro</span>
+          </div>
+          <p>A more theatrical version with a bigger portal-spin presentation and stronger spectacle.</p>
+          <span class="card-path">Gemini 3.1 Pro/index.html</span>
+          <span class="card-cta">Open demo</span>
+        </a>
+
+        <a class="card" href="Codex%205.4/lottery.html">
+          <div class="card-top">
+            <span class="card-label">OpenAI</span>
+            <span class="card-title">Codex 5.4</span>
+          </div>
+          <p>A more systemized implementation with clearer state handling and a more structured UI shell.</p>
+          <span class="card-path">Codex 5.4/lottery.html</span>
+          <span class="card-cta">Open demo</span>
+        </a>
+      </div>
+    </section>
+
+    <p class="footer-note">
+      Publish the repository root to GitHub Pages and this file becomes the initial selector page.
+    </p>
+  </main>
+</body>
 </html>
