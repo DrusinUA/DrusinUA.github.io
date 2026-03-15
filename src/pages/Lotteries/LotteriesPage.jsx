@@ -121,10 +121,13 @@ function LotteriesPage() {
     const totalWon = wonResults.length;
     const totalMissed = revealSequence.length - totalWon;
     const summaryTitle = totalWon === 0
-        ? 'No items won this round'
+        ? 'Eligible Lottery Results'
         : totalWon === 1
-            ? 'Item ready to mint'
-            : 'Items ready to mint';
+            ? 'Your Prize'
+            : 'Your Prizes';
+    const summaryText = totalWon === 0
+        ? `No prize was revealed across ${revealSequence.length} eligible lotteries.`
+        : `You won ${totalWon} prize${totalWon === 1 ? '' : 's'} and missed ${totalMissed} ${totalMissed === 1 ? 'lottery' : 'lotteries'}.`;
 
     const handleConnect = () => {
         setStep('select');
@@ -255,7 +258,7 @@ function LotteriesPage() {
                                     result={currentReveal.result}
                                     onComplete={handleRevealComplete}
                                     image={chestImg}
-                                    completeDelayMs={250}
+                                    completeDelayMs={1600}
                                 />
                             </div>
                             <p className={styles.autoAdvanceText}>
@@ -267,17 +270,44 @@ function LotteriesPage() {
                     {/* Step 4: Summary */}
                     {step === 'summary' && (
                         <div className={styles.stepContainer} key="summary">
-                            <h2 className={styles.sectionTitle}>Eligible Lottery Results</h2>
-                            <p className={styles.sectionSubtitle}>
-                                All {revealSequence.length} eligible lotteries were revealed automatically.
-                            </p>
-                            <div className={styles.summaryPanel}>
-                                <div className={styles.summaryCount}>{totalWon}</div>
-                                <h3 className={styles.summaryHeroTitle}>{summaryTitle}</h3>
-                                <p className={styles.summaryHeroText}>
-                                    {totalWon} win{totalWon === 1 ? '' : 's'} and {totalMissed} miss{totalMissed === 1 ? '' : 'es'} across {revealSequence.length} eligible lotteries.
-                                </p>
-                            </div>
+                            <h2 className={styles.sectionTitle}>{summaryTitle}</h2>
+                            <p className={styles.sectionSubtitle}>{summaryText}</p>
+                            {totalWon > 0 ? (
+                                <div className={styles.summaryGrid}>
+                                    {wonResults.map(({ lottery, result }) => (
+                                        <div
+                                            key={lottery.id}
+                                            className={`${styles.summaryCard} ${styles.summaryCardWin}`}
+                                        >
+                                            <div className={styles.summaryHeader}>
+                                                <div className={styles.summaryText}>
+                                                    <h3 className={styles.summaryTitle}>{lottery.label}</h3>
+                                                    <p className={styles.summarySubtitle}>{lottery.subtitle}</p>
+                                                </div>
+                                                <span className={`${styles.summaryStatus} ${styles.summaryStatusWin}`}>
+                                                    Won
+                                                </span>
+                                            </div>
+                                            <div className={styles.summaryPrize}>
+                                                <div className={styles.summaryPrizeIcon}>
+                                                    <img src={result.icon} alt={result.name} />
+                                                </div>
+                                                <div className={styles.summaryPrizeCopy}>
+                                                    <span className={styles.summaryPrizeLabel}>Your prize</span>
+                                                    <span className={styles.summaryPrizeName}>{result.name}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className={styles.summaryPanel}>
+                                    <h3 className={styles.summaryHeroTitle}>No prize this time</h3>
+                                    <p className={styles.summaryHeroText}>
+                                        All {revealSequence.length} eligible lotteries completed without a win.
+                                    </p>
+                                </div>
+                            )}
                             <div className={styles.summaryActions}>
                                 {totalWon > 0 && (
                                     <button
