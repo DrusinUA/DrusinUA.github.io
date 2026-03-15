@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from './LootboxReveal.module.scss';
 import lootboxImg from '../../../PreSale/assets/presale/lootbox.png';
 
-export function LootboxReveal({ result, onComplete, image }) {
+export function LootboxReveal({ result, onComplete, image, completeDelayMs = 800 }) {
     const [phase, setPhase] = useState('idle'); // idle -> shake -> open -> reveal
     const [particles, setParticles] = useState([]);
     const hasStarted = useRef(false);
@@ -39,7 +39,7 @@ export function LootboxReveal({ result, onComplete, image }) {
             setParticles(newParticles);
             setTimeout(() => setParticles([]), 1200);
 
-            setTimeout(() => onComplete(), 800);
+            setTimeout(() => onComplete(), completeDelayMs);
         }, 2800);
     }, []);
 

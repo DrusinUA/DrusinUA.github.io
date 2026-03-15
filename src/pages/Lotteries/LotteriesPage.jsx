@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './LotteriesPage.module.scss';
 import castleBg from '@assets/images/castleBg.png';
 import wavesBottom from '@assets/images/wavesBottom.png';
 import lotteryHeader from './assets/lottery.jpg';
 import chestImg from '../PreSale/assets/presale/chest.png';
 import { LootboxReveal } from './components/LootboxReveal/LootboxReveal.jsx';
+import { TransactionModal } from '@shared/components/ui/TransactionModal/TransactionModal.jsx';
 
 // Prize assets
 import dragonRing from './assets/dragon_ring.png';
@@ -106,33 +107,24 @@ function buildRevealSequence(lotteries, previousSignature = '') {
 }
 
 function LotteriesPage() {
-    const [step, setStep] = useState('connect'); // connect | select | revealing | result | summary
+    const [step, setStep] = useState('connect'); // connect | select | revealing | summary
     const [revealSequence, setRevealSequence] = useState([]);
     const [currentRevealIndex, setCurrentRevealIndex] = useState(0);
     const [revealKey, setRevealKey] = useState(0);
     const [lastSequenceSignature, setLastSequenceSignature] = useState('');
+    const [showTxModal, setShowTxModal] = useState(false);
+    const [txHash, setTxHash] = useState(null);
 
     const eligibleLotteries = LOTTERIES.filter((lottery) => lottery.eligible);
     const currentReveal = revealSequence[currentRevealIndex] ?? null;
-
-    useEffect(() => {
-        if (step !== 'result' || !currentReveal) {
-            return undefined;
-        }
-
-        const nextRevealTimer = setTimeout(() => {
-            if (currentRevealIndex < revealSequence.length - 1) {
-                setCurrentRevealIndex((prev) => prev + 1);
-                setRevealKey((prev) => prev + 1);
-                setStep('revealing');
-                return;
-            }
-
-            setStep('summary');
-        }, 1800);
-
-        return () => clearTimeout(nextRevealTimer);
-    }, [currentReveal, currentRevealIndex, revealSequence.length, step]);
+    const wonResults = revealSequence.filter(({ result }) => Boolean(result));
+    const totalWon = wonResults.length;
+    const totalMissed = revealSequence.length - totalWon;
+    const summaryTitle = totalWon === 0
+        ? 'No items won this round'
+        : totalWon === 1
+            ? 'Item ready to mint'
+            : 'Items ready to mint';
 
     const handleConnect = () => {
         setStep('select');
@@ -149,13 +141,27 @@ function LotteriesPage() {
     };
 
     const handleRevealComplete = () => {
-        setStep('result');
+        if (currentRevealIndex < revealSequence.length - 1) {
+            setCurrentRevealIndex((prev) => prev + 1);
+            setRevealKey((prev) => prev + 1);
+            return;
+        }
+
+        setStep('summary');
+    };
+
+    const handleMint = () => {
+        setShowTxModal(true);
+        setTxHash(null);
+        setTimeout(() => setTxHash(`0x${Math.random().toString(16).slice(2)}`), 2000);
     };
 
     const handleBackToOverview = () => {
         setRevealSequence([]);
         setCurrentRevealIndex(0);
         setRevealKey(0);
+        setShowTxModal(false);
+        setTxHash(null);
         setStep('select');
     };
 
@@ -249,6 +255,7 @@ function LotteriesPage() {
                                     result={currentReveal.result}
                                     onComplete={handleRevealComplete}
                                     image={chestImg}
+                                    completeDelayMs={250}
                                 />
                             </div>
                             <p className={styles.autoAdvanceText}>
@@ -257,86 +264,36 @@ function LotteriesPage() {
                         </div>
                     )}
 
-                    {/* Step 4: Result */}
-                    {step === 'result' && currentReveal && (
-                        <div className={styles.stepContainer} key={`result-${currentReveal.lottery.id}`}>
-                            <p className={styles.progressText}>
-                                Lottery {currentRevealIndex + 1} of {revealSequence.length}
-                            </p>
-                            <h2 className={styles.sectionTitle}>{currentReveal.lottery.label}</h2>
-                            <p className={styles.sectionSubtitle}>{currentReveal.lottery.subtitle}</p>
-
-                            {currentReveal.result ? (
-                                <div className={styles.resultBlock}>
-                                    <div className={styles.winIcon}>
-                                        <img src={currentReveal.result.icon} alt={currentReveal.result.name} />
-                                    </div>
-                                    <h3 className={styles.winTitle}>You Won!</h3>
-                                    <p className={styles.winPrize}>{currentReveal.result.name}</p>
-                                </div>
-                            ) : (
-                                <div className={styles.loseBlock}>
-                                    <div className={styles.loseIcon}>&#10060;</div>
-                                    <h3 className={styles.loseTitle}>No prize this time</h3>
-                                    <p className={styles.loseText}>
-                                        Better luck in the next draw!
-                                    </p>
-                                </div>
-                            )}
-                            <p className={styles.autoAdvanceText}>
-                                {currentRevealIndex < revealSequence.length - 1
-                                    ? 'Opening the next eligible lottery...'
-                                    : 'Preparing your final summary...'}
-                            </p>
-                        </div>
-                    )}
-
-                    {/* Step 5: Summary */}
+                    {/* Step 4: Summary */}
                     {step === 'summary' && (
                         <div className={styles.stepContainer} key="summary">
                             <h2 className={styles.sectionTitle}>Eligible Lottery Results</h2>
                             <p className={styles.sectionSubtitle}>
-                                All {revealSequence.length} eligible lotteries were revealed in sequence.
+                                All {revealSequence.length} eligible lotteries were revealed automatically.
                             </p>
-                            <div className={styles.summaryGrid}>
-                                {revealSequence.map(({ lottery, result }) => (
-                                    <div
-                                        key={lottery.id}
-                                        className={`${styles.summaryCard} ${result ? styles.summaryCardWin : styles.summaryCardLose}`}
-                                    >
-                                        <div className={styles.summaryHeader}>
-                                            <div className={styles.summaryText}>
-                                                <h3 className={styles.summaryTitle}>{lottery.label}</h3>
-                                                <p className={styles.summarySubtitle}>{lottery.subtitle}</p>
-                                            </div>
-                                            <span
-                                                className={`${styles.summaryStatus} ${result ? styles.summaryStatusWin : styles.summaryStatusLose}`}
-                                            >
-                                                {result ? 'Won' : 'No prize'}
-                                            </span>
-                                        </div>
-
-                                        {result ? (
-                                            <div className={styles.summaryPrize}>
-                                                <div className={styles.summaryPrizeIcon}>
-                                                    <img src={result.icon} alt={result.name} />
-                                                </div>
-                                                <span className={styles.summaryPrizeName}>{result.name}</span>
-                                            </div>
-                                        ) : (
-                                            <p className={styles.summaryLoseText}>
-                                                No prize drawn in this lottery.
-                                            </p>
-                                        )}
-                                    </div>
-                                ))}
+                            <div className={styles.summaryPanel}>
+                                <div className={styles.summaryCount}>{totalWon}</div>
+                                <h3 className={styles.summaryHeroTitle}>{summaryTitle}</h3>
+                                <p className={styles.summaryHeroText}>
+                                    {totalWon} win{totalWon === 1 ? '' : 's'} and {totalMissed} miss{totalMissed === 1 ? '' : 'es'} across {revealSequence.length} eligible lotteries.
+                                </p>
                             </div>
-                            <button
-                                className={styles.revealButton}
-                                onClick={handleBackToOverview}
-                            >
-                                Back to lottery overview
-                            </button>
+                            <div className={styles.summaryActions}>
+                                {totalWon > 0 && (
+                                    <button
+                                        className={styles.mintButton}
+                                        onClick={handleMint}
+                                    >
+                                        Mint {totalWon} item{totalWon === 1 ? '' : 's'}
+                                    </button>
+                                )}
+                                <button
+                                    className={styles.secondaryButton}
+                                    onClick={handleBackToOverview}
+                                >
+                                    Back to lottery overview
+                                </button>
+                            </div>
 
                             <div className={styles.disclaimer}>
                                 This is a preview. Official results announced after the Play Test.
@@ -347,6 +304,14 @@ function LotteriesPage() {
             </section>
 
             <img src={wavesBottom} alt="" className={styles.wavesBottom} />
+
+            <TransactionModal
+                isOpen={showTxModal}
+                onClose={() => setShowTxModal(false)}
+                txHash={txHash}
+                step={1}
+                totalSteps={1}
+            />
         </div>
     );
 }
