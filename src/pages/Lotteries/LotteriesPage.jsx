@@ -114,11 +114,6 @@ function LotteriesPage() {
         setStep('select');
     };
 
-    const handleTryAnother = () => {
-        setResult(undefined);
-        setStep('reveal');
-    };
-
     return (
         <div className={styles.lotteriesPage}>
             <div className={styles.castleBgWrapper}>
@@ -262,12 +257,6 @@ function LotteriesPage() {
                                 </div>
                             )}
 
-                            <button
-                                className={styles.secondaryButton}
-                                onClick={handleTryAnother}
-                            >
-                                Try Again
-                            </button>
                             <button
                                 className={styles.secondaryButton}
                                 onClick={handleBackToSelect}
