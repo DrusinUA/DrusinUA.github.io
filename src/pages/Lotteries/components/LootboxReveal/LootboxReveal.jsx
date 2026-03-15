@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from './LootboxReveal.module.scss';
 import lootboxImg from '../../../PreSale/assets/presale/lootbox.png';
 
-export function LootboxReveal({ result, onComplete }) {
+export function LootboxReveal({ result, onComplete, image }) {
     const [phase, setPhase] = useState('idle'); // idle -> shake -> open -> reveal
     const [particles, setParticles] = useState([]);
     const hasStarted = useRef(false);
@@ -50,7 +50,7 @@ export function LootboxReveal({ result, onComplete }) {
 
             {/* Lootbox */}
             <div className={`${styles.lootbox} ${phase === 'shake' ? styles.shaking : ''} ${phase === 'open' || phase === 'reveal' ? styles.opened : ''}`}>
-                <img src={lootboxImg} alt="Lootbox" className={styles.lootboxImg} />
+                <img src={image || lootboxImg} alt="Lootbox" className={styles.lootboxImg} />
             </div>
 
             {/* Particles */}
