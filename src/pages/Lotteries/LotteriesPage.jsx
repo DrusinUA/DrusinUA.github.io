@@ -295,9 +295,6 @@ function LotteriesPage() {
                                 </button>
                             </div>
 
-                            <div className={styles.disclaimer}>
-                                This is a preview. Official results announced after the Play Test.
-                            </div>
                         </div>
                     )}
                 </div>
