@@ -1,0 +1,70 @@
+@use "../abstracts/variables" as v;
+
+.trade-cards {
+  display: flex;
+  gap: v.space(24);
+  margin: v.space(32) 0;
+
+  .trade-card {
+    background-color: v.color(surface-1);
+    border-radius: 4px;
+    padding: v.space(30) v.space(32);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover { background-color: v.color(primary-700); }
+
+    .trade-content { display: flex; align-items: center; gap: v.space(12); }
+    .vector-icon { width: 18px; height: 18px; }
+    .trade-text { font-size: 18px; font-weight: 700; line-height: 20px; }
+
+    .trade-image {
+      position: absolute;
+      right: 0;
+      top: -16px;
+      height: 110px;
+    }
+  }
+}
+
+.section-title {
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 48px;
+  margin: v.space(32) 0;
+}
+
+.info-cards {
+  display: flex;
+  gap: v.space(24);
+  max-height: v.space(152);
+
+  .info-card {
+    background-color: v.color(surface-1);
+    border-radius: 4px;
+    padding: v.space(24);
+    flex: 1;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover { background-color: v.color(primary-700); }
+
+    .info-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: v.space(24);
+
+      h3 { font-size: 24px; font-weight: 700; }
+      .arrow-icon { width: 32px; height: 32px; }
+    }
+
+    .info-text { font-size: 16px; line-height: 24px; color: v.color(text); }
+  }
+}

@@ -1,0 +1,380 @@
+@font-face {
+  font-family: 'Suez One';
+  src: url("/fonts/SuezOne-Regular.ttf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+}
+
+.psPageContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 60px 0;
+}
+
+.psContentContainer {
+  display: flex;
+  flex-direction: row;
+  width: 1096px;
+  height: 548px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, rgba(27, 22, 58, 1) 0%, rgba(75, 45, 111, 1) 100%);
+  box-shadow: 0 5px 20px rgba(40, 40, 54, 0.5);
+  color: white;
+}
+
+.psImageContainer {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.psTierSfactoryImage {
+  margin-left: -50px;
+  height: 120%;
+  object-fit: contain;
+}
+
+.psLabelBanner {
+  text-align: center;
+  font-family: "Suez One";
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 130%;
+  letter-spacing: -0.02em;
+  position: absolute;
+  bottom: -51px;
+  left: 45%;
+  transform: translateX(-50%);
+  background: linear-gradient(to bottom, rgba(244, 232, 135, 1) 0%, rgba(224, 155, 38, 1) 50%);
+  color: rgba(70, 55, 125, 1);
+  padding: 12px 24px;
+  height: 102px;
+  width: 267px;
+  border-radius: 12px;
+}
+
+.psTextContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: 24px;
+}
+
+.psTitle {
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1.2;
+  background: linear-gradient(90deg, rgba(255, 238, 109, 1) 0%, rgba(255, 180, 50, 1) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 32px;
+  text-align: left;
+}
+
+.psDescription {
+  max-width: 387px;
+  font-size: 16px;
+  margin-bottom: 32px;
+
+  p {
+    font-size: 16px;
+    font-weight: 700;
+  }
+}
+
+.psBuyButton {
+  width: 200px;
+  height: 56px;
+  padding: 14px 0;
+  background-color: rgba(132, 74, 203, 1);
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #9559d8;
+  }
+}
+
+.psContentGridContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 19px;
+  justify-content: center;
+  max-width: 1096px;
+  margin: 0 auto;
+}
+
+.psCard {
+  flex: 1 1 calc(50% - 12px);
+  width: 537px;
+  max-height: 569px;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+.psTokenCard {
+  position: relative;
+  background: linear-gradient(to right, rgba(236, 227, 256, 1) 0%, rgba(172, 215, 255, 1) 70%);
+  border-radius: 12px;
+  padding: 40px;
+  overflow: hidden;
+  color: #111;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.psOrbOverlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 3;
+  height: auto;
+  pointer-events: none;
+}
+
+.psYellowBanner {
+  position: absolute;
+  right: -10px;
+  bottom: 24px;
+  width: 180px;
+  height: 347px;
+  padding: 108px 63px 43px 34px;
+  background: linear-gradient(to right, rgba(255, 236, 109, 1) 0%, rgba(255, 180, 50, 1) 100%);
+  color: #2c2067;
+  font-weight: 500;
+  border-radius: 12px;
+  text-align: left;
+  line-height: 1.3;
+  font-size: 20px;
+  z-index: 1;
+}
+
+.psCardContent {
+  position: relative;
+  z-index: 2;
+}
+
+.psCardTitle {
+  font-size: 48px;
+  font-weight: 700;
+  color: rgba(70, 55, 125, 1);
+  margin-bottom: 16px;
+}
+
+.psCardBody {
+  font-size: 16px;
+  color: rgba(70, 55, 125, 1);
+  line-height: 1.5;
+  margin-bottom: 75px;
+  display: flex;
+  flex-direction: column;
+
+  h1 {
+    font-size: 36px;
+  }
+
+  strong {
+    font-weight: 700;
+  }
+
+  p {
+    margin-bottom: 20px;
+  }
+}
+
+.psSupplyCard {
+  position: relative;
+  background: linear-gradient(to right, rgba(210, 33, 86, 1) 50%, rgba(164, 51, 51, 1) 100%);
+  border-radius: 12px;
+  padding: 40px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+  img {
+    z-index: 1;
+    mask-image: linear-gradient(to bottom, transparent 0%, black 15%);
+    -webkit-mask-image: linear-gradient(to top, transparent 0%, black 15%);
+  }
+
+  p {
+    color: white;
+  }
+}
+
+.token {
+  color: rgba(70, 55, 125, 1);
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.psPowerhouseCard {
+  position: relative;
+  background: linear-gradient(to right, rgba(103, 48, 222, 1) 50%, rgba(129, 80, 234, 1) 100%);
+  border-radius: 12px;
+  padding: 40px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+  p {
+    color: white;
+    width: 320px;
+  }
+
+  h1 {
+    color: white;
+  }
+}
+
+.psPreSaleCard {
+  z-index: 2;
+  position: relative;
+  background: linear-gradient(to bottom, rgba(27, 22, 58, 1) 50%, rgba(75, 45, 111, 1) 100%);
+  border-radius: 12px;
+  padding: 40px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+  img {
+    z-index: 1;
+  }
+
+  p {
+    color: white;
+  }
+
+  h1 {
+    color: white;
+  }
+}
+
+.psPageTextContainer {
+  margin-top: 32px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+
+  h1 {
+    font-size: 36px;
+    background: linear-gradient(90deg, rgba(255, 238, 109, 1) 0%, rgba(255, 180, 50, 1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+  }
+
+  p {
+    background: linear-gradient(90deg, rgba(255, 238, 109, 1) 0%, rgba(255, 180, 50, 1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  span {
+    margin-top: 24px;
+    width: 936px;
+    text-align: center;
+    font-weight: 400;
+  }
+}
+
+.psCardRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .psText {
+    flex: 1;
+  }
+}
+
+.psCardImage {
+  width: 38%;
+  margin-bottom: 16px;
+}
+
+.psInfoRow {
+  display: flex;
+  gap: 19px;
+  width: 100%;
+  justify-content: center;
+}
+
+.psInfoCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+  padding-right: 0;
+  padding-left: 24px;
+  padding-bottom: 23px;
+  padding-top: 23px;
+  background: #6730DE;
+  border-radius: 4px;
+  color: white;
+  font-weight: 600;
+  font-size: 20px;
+  max-height: 108px;
+  box-sizing: border-box;
+}
+
+.psInfoContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1096px;
+  margin: 0 auto;
+}
+
+.psInfoText {
+  flex: 3;
+  line-height: 1.3;
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.psInfoImage {
+  flex: 1;
+  object-fit: contain;
+}
+
+.psBottomContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 19px;
+}
+
+.psBottomInfoRow {
+  display: flex;
+  flex-direction: column;
+  width: 537px;
+  max-height: 575px;
+  background-color: rgba(46, 37, 81, 1);
+  border-radius: 12px;
+  padding-right: 40px;
+  padding-left: 40px;
+  padding-top: 31px;
+  padding-bottom: 32px;
+  gap: 8px;
+
+  h1 {
+    background: linear-gradient(90deg, rgba(255, 238, 109, 1) 0%, rgba(255, 180, 50, 1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+.portal {
+  width: 100%;
+  margin-left: 10px;
+}

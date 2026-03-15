@@ -28,7 +28,15 @@
       "Bash(cp \"D:/Unity Projects/RektSkullsUnity/Assets/Game/Art/Sprites/Armor/Artifacts/FactoryUnit_icon.png\" \"D:/Unity Projects/Calamity_lottery/Claude Opus 4.6/assets/FactoryUnit_icon.png\")",
       "Bash(cp \"D:/Unity Projects/RektSkullsUnity/Assets/Game/Art/Sprites/Armor/Artifacts/BlazingShackles_icon.png\" \"D:/Unity Projects/Calamity_lottery/Claude Opus 4.6/assets/BlazingShackles_icon.png\")",
       "Bash(cp \"D:/Unity Projects/RektSkullsUnity/Assets/Game/Art/Sprites/Armor/Artifacts/VoidBeast_icon.png\" \"D:/Unity Projects/Calamity_lottery/Claude Opus 4.6/assets/VoidBeast_icon.png\")",
-      "Bash(cp \"D:/Unity Projects/RektSkullsUnity/Assets/UI/Resources/Icons/GoldCoin.png\" \"D:/Unity Projects/Calamity_lottery/Claude Opus 4.6/assets/GoldCoin.png\")"
+      "Bash(cp \"D:/Unity Projects/RektSkullsUnity/Assets/UI/Resources/Icons/GoldCoin.png\" \"D:/Unity Projects/Calamity_lottery/Claude Opus 4.6/assets/GoldCoin.png\")",
+      "Bash(cp \"D:/Unity Projects/calamity-app/package.json\" .)",
+      "Bash(cp \"D:/Unity Projects/calamity-app/vite.config.js\" .)",
+      "Bash(cp \"D:/Unity Projects/calamity-app/index.html\" .)",
+      "Bash(cp -r \"D:/Unity Projects/calamity-app/src\" .)",
+      "Bash(cp -r \"D:/Unity Projects/calamity-app/public\" .)",
+      "Bash(npm install:*)",
+      "Bash(npx vite:*)",
+      "Bash(npm run:*)"
     ]
   }
 }

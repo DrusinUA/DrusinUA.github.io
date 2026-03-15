@@ -1,0 +1,1311 @@
+@use "../../styles/abstracts/variables" as v;
+
+.testPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: v.space(48) v.space(48) 0;
+  position: relative;
+  min-height: calc(100vh - 90px);
+
+  @media (max-width: v.bp(lg)) {
+    padding: v.space(24) v.space(16) 0;
+    min-height: calc(100vh - 70px);
+  }
+}
+
+.castleBgWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-height: 60vh;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+
+  .castleBackground {
+    width: 100%;
+    height: auto;
+    display: block;
+    opacity: 0.7;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    background: linear-gradient(to bottom, transparent 0%, #{v.color(bg)} 100%);
+    pointer-events: none;
+  }
+}
+
+.wavesBottom {
+  width: calc(100% + #{v.space(48)} * 2);
+  max-width: none;
+  height: auto;
+  margin-left: -#{v.space(48)};
+  margin-right: -#{v.space(48)};
+  margin-top: auto;
+  pointer-events: none;
+  z-index: 1;
+  display: block;
+
+  @media (max-width: v.bp(lg)) {
+    width: calc(100% + #{v.space(16)} * 2);
+    margin-left: -#{v.space(16)};
+    margin-right: -#{v.space(16)};
+  }
+}
+
+// Main card container (same as LinkPage)
+.mainContent {
+  width: clamp(320px, 90%, 920px);
+  background: #2e2550;
+  border-radius: 12px;
+  padding: 44px 48px;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(97, 60, 148, 1) 0%, rgba(46, 37, 81, 1) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  @media (max-width: v.bp(lg)) {
+    width: 343px;
+    max-width: calc(100% - 32px);
+    border-radius: 19px;
+    padding: 24px 17px;
+
+    &::before {
+      border-radius: 19px;
+      background: linear-gradient(180deg, rgba(97, 60, 148, 1) 0%, rgba(97, 60, 148, 0) 100%);
+    }
+  }
+}
+
+// Header image
+.headerImage {
+  width: 100%;
+  max-width: 832px;
+  margin-bottom: v.space(24);
+
+  @media (max-width: v.bp(lg)) {
+    max-width: 100%;
+    margin-bottom: v.space(16);
+  }
+}
+
+.headerDesktop {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+
+  @media (max-width: v.bp(lg)) {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+// Inner frame with gradient border
+.innerFrame {
+  width: 100%;
+  max-width: 696px;
+  background: linear-gradient(90deg, rgba(79, 54, 136, 0.3) 0%, rgba(79, 54, 136, 0.3) 100%);
+  border-radius: 8px;
+  padding: 19px 32px 32px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 21px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: 8px;
+    background: linear-gradient(180deg, rgba(97, 60, 148, 1) 0%, rgba(97, 60, 148, 1) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  @media (max-width: v.bp(lg)) {
+    max-width: 309px;
+    padding: 24px 16px;
+    gap: 16px;
+  }
+}
+
+// Page title
+.pageTitle {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 34px;
+  line-height: 48px;
+  font-weight: 700;
+  color: #f9fefd;
+  text-align: center;
+  margin: 0;
+
+  @media (max-width: v.bp(lg)) {
+    font-size: 32px;
+    line-height: 35px;
+  }
+}
+
+.subtitle {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+  color: #f9fefd;
+  text-align: center;
+  margin: 0;
+
+  @media (max-width: v.bp(lg)) {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+// Description box (like connectBlock in LinkPage)
+.descriptionBox {
+  width: 100%;
+  max-width: 632px;
+  background: linear-gradient(0deg, rgba(63, 46, 102, 1) 0%, rgba(63, 46, 102, 1) 100%);
+  border: 1px solid #844acb;
+  border-radius: 8px;
+  padding: 32px 42px;
+
+  p {
+    font-family: "Work Sans", ui-sans-serif, system-ui;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+    color: #f9fefd;
+    text-align: center;
+    margin: 0;
+
+    @media (max-width: v.bp(lg)) {
+      font-size: 14px;
+      line-height: 20px;
+    }
+  }
+
+  @media (max-width: v.bp(lg)) {
+    padding: 16px;
+    max-width: 309px;
+  }
+}
+
+// Buttons container
+.buttonsRow {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  max-width: 632px;
+  justify-content: center;
+
+  @media (max-width: v.bp(lg)) {
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+  }
+}
+
+// Primary button (connect wallet style)
+.primaryButton {
+  width: 200px;
+  height: 56px;
+  background: #844acb;
+  border: none;
+  border-radius: 4px;
+  color: #f9fefd;
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background: #9559e0;
+  }
+
+  &:active {
+    background: #7341b6;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// Secondary button (outlined)
+.secondaryButton {
+  flex: 1;
+  height: 56px;
+  background: #3f2e66;
+  border: 1px solid #844acb;
+  border-radius: 4px;
+  color: #f9fefd;
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 150ms ease;
+
+  &:hover {
+    background: #4a3775;
+  }
+}
+
+// Support text
+.supportText {
+  margin-top: v.space(24);
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 16px;
+  text-align: center;
+  z-index: 2;
+
+  a {
+    color: #a45afe;
+    text-decoration: underline;
+    transition: color 150ms ease;
+
+    &:hover {
+      color: #c080ff;
+    }
+  }
+
+  @media (max-width: v.bp(lg)) {
+    margin-top: v.space(16);
+    font-size: 14px;
+  }
+}
+
+// ============ MODAL STYLES ============
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: fadeIn 200ms ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modalContainer {
+  width: 420px;
+  max-width: calc(100vw - 32px);
+  background: #332551;
+  border-radius: 8px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  animation: slideUp 250ms ease;
+
+  @media (max-width: v.bp(lg)) {
+    width: 343px;
+    padding: 24px 20px;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modalTitle {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 24px;
+  font-weight: 600;
+  color: #f9fefd;
+  text-align: center;
+  margin: 0 0 8px 0;
+}
+
+.modalSubtitle {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 14px;
+  font-weight: 400;
+  color: #c6b3e3;
+  text-align: center;
+  margin: 0 0 24px 0;
+}
+
+.modalForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inputLabel {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 14px;
+  font-weight: 600;
+  color: #f9fefd;
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 12px;
+  background: #3f2e66;
+  border: 1px solid #844acb;
+  border-radius: 4px;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+
+  &:focus-within {
+    border-color: #a45afe;
+    box-shadow: 0 0 0 3px rgba(164, 90, 254, 0.2);
+  }
+
+  &.hasError {
+    border-color: #ff4444;
+  }
+}
+
+.input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #f9fefd;
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 16px;
+  font-weight: 400;
+  outline: none;
+
+  &::placeholder {
+    color: #8b7aab;
+  }
+}
+
+.inputHint {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 12px;
+  color: #8b7aab;
+  text-align: right;
+  margin-top: 4px;
+}
+
+.inputIcon {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+  transition: opacity 150ms ease;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.forgotLink {
+  align-self: flex-end;
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 13px;
+  color: #a45afe;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-top: -8px;
+  transition: color 150ms ease;
+
+  &:hover {
+    color: #c080ff;
+    text-decoration: underline;
+  }
+}
+
+.modalPrimaryButton {
+  width: 100%;
+  height: 56px;
+  background: #844acb;
+  border: 1px solid #8b90ff;
+  border-radius: 4px;
+  color: #f9fefd;
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 150ms ease;
+
+  &:hover {
+    background: #9560d6;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.modalSecondaryButton {
+  width: 100%;
+  height: 48px;
+  background: #3f2e66;
+  border: 1px solid #844acb;
+  border-radius: 4px;
+  color: #f9fefd;
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 150ms ease;
+
+  &:hover {
+    background: #4a3775;
+  }
+}
+
+.modalDivider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 16px 0;
+  width: 100%;
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #453174;
+  }
+
+  span {
+    font-family: "Work Sans", ui-sans-serif, system-ui;
+    font-size: 12px;
+    color: #6b5a8e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.backLink {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 16px;
+  color: #a45afe;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 16px;
+  transition: color 150ms ease;
+
+  &:hover {
+    color: #c080ff;
+    text-decoration: underline;
+  }
+}
+
+.errorText {
+  color: #ff4444;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.successText {
+  color: #4ade80;
+  font-size: 16px;
+  text-align: center;
+}
+
+// Modal icon large (for confirmation modals)
+.modalIconLarge {
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+
+// Modal actions (buttons row)
+.modalActions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+// Danger button (for destructive actions)
+.dangerButton {
+  width: 100%;
+  height: 56px;
+  background: #dc2626;
+  border: none;
+  border-radius: 4px;
+  color: #f9fefd;
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 150ms ease;
+
+  &:hover {
+    background: #ef4444;
+  }
+}
+
+// Warning note in modals
+.warningNote {
+  width: 100%;
+  background: rgba(234, 179, 8, 0.15);
+  border: 1px solid #eab308;
+  border-radius: 8px;
+  padding: 16px;
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 14px;
+  color: #fef08a;
+  line-height: 20px;
+  margin-bottom: 16px;
+
+  strong {
+    color: #fde047;
+  }
+}
+
+// ============ WALLET MODALS ============
+
+.walletOptions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.walletOption {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: #3f2e66;
+  border: 1px solid #453174;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 150ms ease;
+  text-align: left;
+
+  &:hover {
+    background: #4a3775;
+    border-color: #844acb;
+  }
+}
+
+.walletOptionIcon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.walletOptionInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.walletOptionName {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 18px;
+  font-weight: 600;
+  color: #f9fefd;
+}
+
+.walletOptionDesc {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 14px;
+  font-weight: 400;
+  color: #8b7aab;
+}
+
+.walletOptionArrow {
+  flex-shrink: 0;
+  font-size: 18px;
+  color: #844acb;
+}
+
+// Sign Message Modal
+.signMessageContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .walletPreview {
+    margin-bottom: 0;
+  }
+}
+
+.walletPreview {
+  width: 100%;
+  background: #3f2e66;
+  border: 1px solid #844acb;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.walletPreviewLabel {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 12px;
+  font-weight: 600;
+  color: #8b7aab;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.walletPreviewAddress {
+  code {
+    font-family: "Work Sans", ui-sans-serif, system-ui;
+    font-size: 18px;
+    font-weight: 600;
+    color: #f9fefd;
+  }
+}
+
+.signMessageInfo {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background: rgba(132, 74, 203, 0.15);
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.signMessageIcon {
+  flex-shrink: 0;
+  font-size: 24px;
+}
+
+.signMessageInfo p {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 14px;
+  font-weight: 400;
+  color: #c6b3e3;
+  line-height: 20px;
+  margin: 0;
+}
+
+// ============ ACCOUNT CARD (logged in state) ============
+
+.accountCard {
+  width: 100%;
+  max-width: 632px;
+  background: #453174;
+  border-radius: 8px;
+  padding: 20px 24px;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #613c94 0%, #453174 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  @media (max-width: v.bp(lg)) {
+    max-width: 309px;
+    padding: 16px;
+  }
+}
+
+.accountCardLabel {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 16px;
+  font-weight: 700;
+  color: #f9fefd;
+  margin-bottom: 12px;
+}
+
+.accountCardField {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 20px;
+  background: #2e2550;
+  border-radius: 4px;
+  overflow: hidden;
+
+  code {
+    font-family: "Work Sans", ui-sans-serif, system-ui;
+    font-size: 18px;
+    font-weight: 500;
+    color: #f9fefd;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+
+  @media (max-width: v.bp(lg)) {
+    height: 48px;
+    padding: 0 12px;
+
+    code {
+      font-size: 14px;
+    }
+  }
+}
+
+.eyeButton {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity 150ms ease;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  @media (max-width: v.bp(lg)) {
+    padding: 4px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+// Warning/info box with icon
+.warningBox {
+  width: 100%;
+  max-width: 632px;
+  background: linear-gradient(0deg, rgba(63, 46, 102, 1) 0%, rgba(63, 46, 102, 1) 100%);
+  border: 1px solid #844acb;
+  border-radius: 8px;
+  padding: 24px 28px;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+
+  @media (max-width: v.bp(lg)) {
+    max-width: 309px;
+    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.warningIcon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+}
+
+.warningContent {
+  flex: 1;
+
+  h4 {
+    font-family: "Work Sans", ui-sans-serif, system-ui;
+    font-size: 18px;
+    font-weight: 700;
+    color: #f9fefd;
+    margin: 0 0 8px 0;
+  }
+
+  p {
+    font-family: "Work Sans", ui-sans-serif, system-ui;
+    font-size: 16px;
+    font-weight: 400;
+    color: #c6b3e3;
+    margin: 0;
+    line-height: 24px;
+  }
+}
+
+// Connect Wallet button override
+.connectWalletBtn {
+  width: 200px;
+  height: 56px;
+  background: #844acb !important;
+  border: none !important;
+  border-radius: 4px !important;
+  color: #f9fefd !important;
+  font-family: "Work Sans", ui-sans-serif, system-ui !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+  transition: background-color 0.3s ease !important;
+
+  &:hover {
+    background: #9559e0 !important;
+  }
+
+  &:active {
+    background: #7341b6 !important;
+  }
+}
+
+// Logout link button
+.logoutButton {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 16px;
+  color: #a45afe;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 12px;
+  text-decoration: underline;
+  transition: color 150ms ease;
+
+  &:hover {
+    color: #c080ff;
+  }
+}
+
+// ============ WALLETS SECTION ============
+
+.walletsSection {
+  width: 100%;
+  max-width: 632px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  @media (max-width: v.bp(lg)) {
+    max-width: 309px;
+  }
+}
+
+.walletsSectionTitle {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 24px;
+  font-weight: 700;
+  color: #f9fefd;
+  margin: 0;
+}
+
+.walletCard {
+  width: 100%;
+  background: #453174;
+  border-radius: 8px;
+  padding: 20px 24px;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #613c94 0%, #453174 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  &.primaryWallet::before {
+    background: linear-gradient(180deg, #8ad94b 0%, #4a8c2a 100%);
+  }
+
+  @media (max-width: v.bp(lg)) {
+    padding: 16px;
+  }
+}
+
+.walletCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.crownIcon {
+  width: 32px;
+  height: 32px;
+}
+
+.walletCardLabel {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 18px;
+  font-weight: 700;
+  color: #f9fefd;
+}
+
+.walletCardField {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 20px;
+  background: #2e2550;
+  border-radius: 4px;
+  margin-bottom: 16px;
+
+  code {
+    font-family: "Work Sans", ui-sans-serif, system-ui;
+    font-size: 18px;
+    font-weight: 500;
+    color: #f9fefd;
+  }
+}
+
+.walletCardNote {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 16px;
+  font-weight: 400;
+  color: #8ad94b;
+  margin: 0 0 12px 0;
+  line-height: 24px;
+}
+
+.walletCardActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.actionLink {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 16px;
+  color: #a45afe;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 150ms ease;
+
+  &:hover {
+    color: #c080ff;
+    text-decoration: underline;
+  }
+
+  &:disabled {
+    color: #6b5a8e;
+    cursor: not-allowed;
+    opacity: 0.5;
+
+    &:hover {
+      color: #6b5a8e;
+      text-decoration: none;
+    }
+  }
+}
+
+.unlinkHint {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 13px;
+  color: #6b5a8e;
+  margin: 4px 0 0 0;
+}
+
+.actionDivider {
+  color: #6b5a8e;
+  font-size: 12px;
+}
+
+.unlinkText {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 16px;
+  color: #a45afe;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 150ms ease;
+
+  &:hover {
+    color: #c080ff;
+    text-decoration: underline;
+  }
+}
+
+// Add Wallet Card
+.addWalletCard {
+  width: 100%;
+  border: 2px dashed #453174;
+  border-radius: 8px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  transition: border-color 150ms ease;
+
+  &:hover {
+    border-color: #844acb;
+  }
+}
+
+.addWalletBtn {
+  width: 100%;
+  max-width: 320px;
+  height: 56px;
+  background: #3f2e66;
+  border: 1px solid #844acb;
+  border-radius: 4px;
+  color: #f9fefd;
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 150ms ease;
+
+  &:hover {
+    background: #4a3775;
+  }
+}
+
+.addWalletNote {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 16px;
+  font-weight: 400;
+  color: #8b7aab;
+  margin: 0;
+  text-align: center;
+}
+
+// Max Wallets Notice
+.maxWalletsNotice {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px;
+  background: rgba(138, 217, 75, 0.1);
+  border: 1px solid #8ad94b;
+  border-radius: 8px;
+}
+
+.maxWalletsIcon {
+  flex-shrink: 0;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.maxWalletsContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.maxWalletsTitle {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 18px;
+  font-weight: 600;
+  color: #8ad94b;
+}
+
+.maxWalletsDesc {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 14px;
+  font-weight: 400;
+  color: #c6b3e3;
+  line-height: 20px;
+}
+
+// ============ LOGOUT OPTIONS ============
+
+.logoutOptions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.logoutOption {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px;
+  background: #3f2e66;
+  border: 1px solid #453174;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 150ms ease;
+  text-align: left;
+
+  &:hover {
+    background: #4a3775;
+    border-color: #844acb;
+  }
+
+  &:first-child:hover {
+    border-color: #844acb;
+  }
+
+  &:last-child:hover {
+    border-color: #dc2626;
+    background: rgba(220, 38, 38, 0.1);
+  }
+}
+
+.logoutOptionIcon {
+  flex-shrink: 0;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.logoutOptionInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.logoutOptionTitle {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 18px;
+  font-weight: 600;
+  color: #f9fefd;
+}
+
+.logoutOptionDesc {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 14px;
+  font-weight: 400;
+  color: #8b7aab;
+  line-height: 20px;
+}
+
+// ============ DEV SWITCHER ============
+
+.devSwitcher {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(30, 26, 46, 0.95);
+  border: 1px solid #453174;
+  border-radius: 8px;
+  padding: 12px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 80vh;
+  overflow-y: auto;
+
+  .devTitle {
+    font-family: "Work Sans", monospace;
+    font-size: 11px;
+    color: #6b5a8e;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  button {
+    padding: 6px 12px;
+    background: #2e2550;
+    border: 1px solid #453174;
+    border-radius: 4px;
+    color: #c6b3e3;
+    font-family: "Work Sans", monospace;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 150ms ease;
+    text-align: left;
+    white-space: nowrap;
+
+    &:hover {
+      background: #3e3560;
+      border-color: #844acb;
+    }
+
+    &.active {
+      background: #844acb;
+      border-color: #844acb;
+      color: #fff;
+    }
+  }
+}

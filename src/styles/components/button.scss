@@ -1,0 +1,52 @@
+@use "../abstracts/variables" as v;
+
+.button-text {
+  color: v.color(text);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.select-all-btn,
+.select-all-button {
+  background: v.color(surface-1);
+  border: v.border(primary);
+  border-radius: v.radius(md);
+  color: v.color(text);
+  font-weight: 600;
+  font-size: 16px;
+  padding: 10px 20px;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: v.space(12);
+  transition: background-color v.time(base);
+
+  &:hover { background: v.color(primary-800); }
+}
+
+.approve-button,
+.next-button,
+.close-button,
+.basescan-button {
+  width: 295px;
+  height: 56px;
+  border-radius: v.radius(sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color v.time(base);
+  border: none;
+
+  &.is-outline {
+    background: v.color(surface-1);
+    border: v.border(primary);
+  }
+}
+
+.approve-button { background: v.color(primary); &:hover { background: v.color(primary-glow); } }
+.next-button    { background: v.color(surface-1); border: v.border(primary); &:hover { background: v.color(primary-700); } }
+.close-button   { background: v.color(surface-1); border: v.border(primary); &:hover { background: #4a3775; } }
+.basescan-button{ background: v.color(primary); border: 1px solid #{v.color(link)}; &:hover { background: #9355d8; } }

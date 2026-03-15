@@ -2,9 +2,9 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "lottery-preview",
-      "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "3847", "-d", "D:/Unity Projects/Calamity_lottery/Claude Opus 4.6"],
+      "name": "dev",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["node_modules/vite/bin/vite.js", "--port", "3847"],
       "port": 3847
     }
   ]

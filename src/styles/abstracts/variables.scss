@@ -1,0 +1,88 @@
+@use "sass:map";
+
+$colors: (
+        bg: #231E41,
+        header: #2e2551,
+        surface-1: #3f2e66,
+        surface-2: #332551,
+        surface-3: #241b39,
+        primary: #844acb,
+        primary-600: #5a4588,
+        primary-650: #4d3877,
+        primary-700: #4a3777,
+        primary-800: #4a357a,
+        primary-border: #613c94,
+        primary-glow: #9559d8,
+        primary-alt: #9559d6,
+        text: #f9fefd,
+        text-strong: #ffffff,
+        text-muted-1: #c6b3e3,
+        text-muted-2: #d9d3ea,
+        link: #8B90FF,
+        grad-hero-from: #fdfd80,
+        grad-hero-to: #f97f2e,
+        selection: #e5e7ff
+);
+@function color($k) {
+  @return map.get($colors, $k);
+}
+
+$space: (
+        0: 0, 4: 4px, 6: 6px, 7: 7px, 8: 8px, 10: 10px, 12: 12px, 14: 14px, 16: 16px,
+        18: 18px, 20: 20px, 22: 22px, 24: 24px, 25: 25px, 30: 30px, 32: 32px,
+        40: 40px, 48: 48px, 56: 56px, 72: 72px
+);
+@function space($k) {
+  @return map.get($space, $k);
+}
+
+$radii: (sm: 4px, md: 8px);
+@function radius($k) {
+  @return map.get($radii, $k);
+}
+
+$shadows: (
+        glow: 0 0 20px rgba(139, 144, 255, .7),
+        card: 0 10px 18px rgba(0, 0, 0, .25),
+        sidebar: 0 5px 20px rgba(39, 29, 58, .3),
+        inset-amber: 0 0 0 3px rgba(255, 199, 77, .28) inset
+);
+@function shadow($k) {
+  @return map.get($shadows, $k);
+}
+
+$borders: (
+        hairline: 1px solid #{color(primary-border)},
+        primary: 1px solid #{color(primary)}
+);
+@function border($k) {
+  @return map.get($borders, $k);
+}
+
+$timings: (fast: .2s, base: .3s);
+$easings: (base: ease, in-out: ease-in-out);
+@function time($k) {
+  @return map.get($timings, $k);
+}
+
+@function easing($k) {
+  @return map.get($easings, $k);
+}
+
+$breakpoints: (xs: 400px, sm: 480px, md: 768px, lg: 1024px, xl: 1280px);
+@function bp($k) {
+  @return map.get($breakpoints, $k);
+}
+
+$z: (modal: 10000);
+@function z($k) {
+  @return map.get($z, $k);
+}
+
+@mixin gradient-hero {
+  background: linear-gradient(90deg, #{color(grad-hero-from)} 0%, #{color(grad-hero-to)} 100%);
+}
+
+@mixin gradient-active {
+  background: linear-gradient(90deg, #844acb 0%, #4a357a 100%);
+}

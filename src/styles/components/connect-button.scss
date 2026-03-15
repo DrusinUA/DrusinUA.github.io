@@ -1,0 +1,27 @@
+@use "../abstracts/variables" as v;
+@use "../abstracts/fonts" as *;
+
+.connect {
+  width: auto;
+  height: 40px;
+  background-color: v.color(surface-1);
+  border: 1px solid v.color(primary);
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: $font-family-retro;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  color: v.color(link);
+  margin-right: v.space(20);
+
+  &:hover {
+    color: v.color(text);
+    box-shadow: 0 0 20px rgba(139, 144, 255, 0.7);
+  }
+
+  .con-img { margin-right: v.space(12); width: 32px; }
+}

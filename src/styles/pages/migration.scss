@@ -1,0 +1,47 @@
+@use "../abstracts/variables" as v;
+
+.crafting-block {
+  .crafting-title {
+    font-weight: 600;
+    font-size: 36px;
+    letter-spacing: -1.5px;
+    text-align: left;
+    margin-top: 25px;
+    background: v.color(gradient-gold-orange);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .supporting-text {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 120%;
+    color: v.color(text);
+    text-align: left;
+    max-width: 567px;
+    margin-top: 30px;
+  }
+
+  .card-title {
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 48px;
+    color: #ffffff;
+    letter-spacing: -1.5px;
+    margin-bottom: v.space(16);
+  }
+
+  .reveal-text {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    color: v.color(text);
+    margin-bottom: v.space(24);
+  }
+
+  .dragon-ring-container {
+    width: 224px;
+    height: 224px;
+    margin-bottom: v.space(40);
+  }
+}

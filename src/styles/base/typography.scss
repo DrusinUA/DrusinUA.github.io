@@ -1,0 +1,113 @@
+@use "sass:map";
+@use "../abstracts/fonts" as *;
+
+$font-sizes: (
+        xs: 0.875rem,
+        sm: 1rem,
+        md: 1.125rem,
+        lg: 1.25rem,
+        xl: 1.5rem,
+        "2xl": 2rem,
+        "2_5xl": 2.25rem,
+        "3xl": 2.5rem
+);
+$font-weights: (
+        regular: 400,
+        medium: 500,
+        semibold: 600,
+        bold: 700,
+);
+
+$line-heights: (
+        normal: 1.5,
+);
+
+@function fs($key) {
+  @return map.get($font-sizes, $key);
+}
+
+@function lh($key) {
+  @return map.get($line-heights, $key);
+}
+
+@function fw($k) {
+  @return map.get($font-weights, $k);
+}
+
+$color-text: #f9fefd;
+$color-heading: #ffffff;
+$color-bg: #231E41;
+$color-link: #8b90ff;
+
+html {
+  font-size: 100%;
+}
+
+body {
+  font-family: $font-family-base;
+  font-weight: fw(regular);
+  font-size: fs(sm);
+  line-height: lh(lh-24);
+  color: $color-text;
+  background-color: #231E41;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-family-base;
+  font-weight: fw(bold);
+  color: $color-heading;
+  letter-spacing: 0;
+}
+
+h1 { font-size: fs("3xl"); line-height: lh(tight); }
+h2 { font-size: fs("2xl"); line-height: lh(lh-48); }
+h3 { font-size: fs(xl); line-height: lh(normal); }
+h4 { font-size: fs(lg); line-height: lh(normal); }
+h5 { font-size: fs(md); line-height: lh(normal); }
+h6 { font-size: fs(sm); line-height: lh(normal); }
+
+p {
+  font-size: fs(sm);
+  line-height: lh(lh-24);
+}
+
+ul, ol {
+  margin: 0 0 1em 1.25em;
+  line-height: lh(lh-24);
+}
+li { margin: 0.25em 0; }
+
+a {
+  color: $color-link;
+  text-decoration: none;
+  text-underline-offset: 0.12em;
+  transition: color 0.2s;
+
+  &:hover { text-decoration: underline; }
+  &:focus-visible { outline: 2px solid $color-link; outline-offset: 2px; }
+}
+
+strong { font-weight: fw(bold); }
+em { font-style: italic; }
+
+.retro {
+  font-family: $font-family-retro;
+}
+
+.text-sm { font-size: fs(xs); line-height: lh(lh-20); }
+.text-md { font-size: fs(sm); line-height: lh(lh-24); }
+.text-lg { font-size: fs(md); line-height: lh(lh-30); }
+.text-xl { font-size: fs(xl); line-height: lh(lh-48); }
+.semibold { font-weight: fw(semibold); }
+
+
+::selection { background: rgba(139,144,255,0.25); }
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

@@ -1,0 +1,58 @@
+@use "../abstracts/variables" as v;
+
+.hero-banner {
+  background-color: v.color(bg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  // background-image is set via inline style in HomePage.jsx
+  border-radius: 4px;
+  padding: v.space(40);
+  min-height: 400px;
+
+  .hero-content {
+    max-width: 400px;
+    z-index: 2;
+
+    .hero-title {
+      font-size: 40px;
+      font-weight: 600;
+      letter-spacing: -1px;
+      @include v.gradient-hero;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 50px;
+    }
+
+    .hero-text {
+      font-size: 16px;
+      line-height: 24px;
+      margin-bottom: 50px;
+    }
+
+    .migrate-btn {
+      background-color: v.color(primary);
+      color: v.color(text);
+      border: none;
+      border-radius: 4px;
+      padding: 16px 24px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover { background-color: v.color(primary-700); }
+    }
+  }
+
+  .hero-images { position: relative; }
+  .main-image { height: 340px; object-fit: cover; }
+
+  .logo-image {
+    position: absolute;
+    top: 6px;
+    right: 0;
+    width: 227px;
+    height: 128px;
+  }
+}

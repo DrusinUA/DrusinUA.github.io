@@ -1,0 +1,103 @@
+@use "../abstracts/variables" as v;
+
+.cm-connected{
+  width: 100%;
+  --bg: #{v.color(surface-1)};
+  --surface:#2a1f4b;
+  --title:#8FF85A;
+  --amber:#FFC74D;
+  --amber-weak:rgba(255,199,77,.28);
+  --amber-strong:rgba(255,199,77,.65);
+  --muted:#d9d3ea;
+  --link: #{v.color(link)};
+
+  background: var(--bg);
+  color: #fff;
+  padding: 56px 0;
+
+  .cm-wrap{
+    width:100%;
+    max-width:832px;
+    margin:0 auto;
+    padding:0 v.space(24);
+  }
+
+  .cm-title{
+    color:var(--title);
+    font-weight:700;
+    font-size:20px;
+    line-height:1.2;
+    text-shadow:0 1px 0 rgba(0,0,0,.25);
+    text-align:left;
+  }
+
+  .cm-pill{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:v.space(12);
+    margin-top:22px;
+    background:var(--surface);
+    border-radius:4px;
+    padding:v.space(8);
+    box-shadow: 0 0 0 3px var(--amber-weak) inset, 0 10px 18px rgba(0,0,0,.25);
+    border:1px solid var(--amber-strong);
+    width:100%;
+    box-sizing:border-box;
+
+    &::before{
+      content:""; position:absolute; inset:-3px; z-index:-1;
+      border-radius:4px;
+      background:linear-gradient(90deg, rgba(255,199,77,.85), rgba(255,199,77,.55), rgba(255,199,77,.85));
+      filter:blur(2px);
+    }
+  }
+
+  .cm-address{
+    flex:1; min-width:0;
+    font-size:20px; letter-spacing:.02em;
+    color:#d7c9ff;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+
+  .cm-eye{ display:grid; place-items:center; background:var(--surface); }
+
+  .cm-head{ display:flex; align-items:center; gap:v.space(8); margin-top:v.space(32); }
+  .cm-crown{ font-size:30px; line-height:1; }
+
+  .cm-subtitle{
+    color:#FFD25A;
+    font-weight:400;
+    font-size:30px;
+    line-height:1.25;
+    text-align:left;
+  }
+
+  .cm-copy{
+    margin-top:14px; max-width:78ch;
+    color:var(--muted); font-size:18px; line-height:1.6;
+    text-align:left;
+  }
+
+  .cm-support{ margin-top:26px; }
+  .cm-support a{
+    color:var(--link);
+    font-size:22px;
+    text-decoration:underline;
+    text-underline-offset:6px;
+    text-align:left;
+  }
+}
+
+.cm-connectedWith{
+  --bg: #{v.color(surface-1)};
+  --surface:#2a1f4b;
+  --title:#8FF85A;
+  --amber:#FFC74D;
+  --amber-weak:rgba(255,199,77,.28);
+  --amber-strong:rgba(255,199,77,.65);
+  --muted:#d9d3ea;
+  --link: #{v.color(link)};
+  background:var(--bg);
+  width: 97%;
+}

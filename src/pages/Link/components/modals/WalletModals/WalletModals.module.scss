@@ -1,0 +1,104 @@
+// ============ SIGN MESSAGE MODAL ============
+
+.signMessageContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.signMessageInfo {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background: rgba(132, 74, 203, 0.15);
+  border-radius: 8px;
+}
+
+.signMessageIcon {
+  flex-shrink: 0;
+  font-size: 24px;
+}
+
+.signMessageInfo p {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 14px;
+  font-weight: 400;
+  color: #c6b3e3;
+  line-height: 20px;
+  margin: 0;
+}
+
+// ============ LOGOUT OPTIONS ============
+
+.logoutOptions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.logoutOption {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px;
+  background: #3f2e66;
+  border: 1px solid #453174;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 150ms ease;
+  text-align: left;
+
+  &:hover {
+    background: #4a3775;
+    border-color: #844acb;
+  }
+
+  &:first-child:hover {
+    border-color: #844acb;
+  }
+
+  &:last-child:hover {
+    border-color: #dc2626;
+    background: rgba(220, 38, 38, 0.1);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.logoutOptionIcon {
+  flex-shrink: 0;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.logoutOptionInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.logoutOptionTitle {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 18px;
+  font-weight: 600;
+  color: #f9fefd;
+}
+
+.logoutOptionDesc {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 14px;
+  font-weight: 400;
+  color: #8b7aab;
+  line-height: 20px;
+}

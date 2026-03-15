@@ -1,0 +1,24 @@
+.connect-btn {
+    width: 200px;
+    height: 56px;
+    background-color: #844acb;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.connect-btn:hover {
+    background-color: #9559e0;
+}
+
+.connect-btn:active {
+    background-color: #7341b6;
+}
+
+.btn-text {
+    color: #f9fefd;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+}
