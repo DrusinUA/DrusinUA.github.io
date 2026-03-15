@@ -500,34 +500,27 @@
 .revealButton {
   width: 260px;
   height: 56px;
-  background: linear-gradient(135deg, #844acb 0%, #6b3aa5 100%);
-  border: 2px solid rgba(231, 200, 79, 0.3);
+  background: linear-gradient(135deg, #b67a1e 0%, #e7c84f 52%, #c28a2d 100%);
+  border: none;
   border-radius: 8px;
-  color: #f9fefd;
+  color: #2b1b07;
   font-family: "Work Sans", ui-sans-serif, system-ui;
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 200ms ease;
+  transition: background 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
   letter-spacing: 0.5px;
-  box-shadow: 0 4px 20px rgba(132, 74, 203, 0.4);
+  box-shadow: 0 6px 22px rgba(231, 200, 79, 0.28);
 
   &:hover {
-    background: linear-gradient(135deg, #9559d8 0%, #7d44bf 100%);
-    border-color: rgba(231, 200, 79, 0.5);
-    box-shadow: 0 4px 28px rgba(132, 74, 203, 0.6);
-    transform: translateY(-1px);
-  }
-
-  &:active {
-    transform: scale(0.98) translateY(0);
+    background: linear-gradient(135deg, #be8324 0%, #efd765 52%, #cb9433 100%);
+    box-shadow: 0 6px 22px rgba(231, 200, 79, 0.34);
   }
 
   &:disabled {
     opacity: 0.55;
     cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
+    box-shadow: 0 4px 14px rgba(231, 200, 79, 0.16);
   }
 
   @media (max-width: v.bp(lg)) {
