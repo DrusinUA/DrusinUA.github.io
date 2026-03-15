@@ -62,43 +62,46 @@ const LOTTERIES = [
 ];
 
 function selectPrize(lottery) {
-    const totalWeight = lottery.prizes.reduce((sum, p) => sum + p.quantity, 0);
-    const prizeRoll = Math.random() * totalWeight;
-    let cumulative = 0;
-    for (const prize of lottery.prizes) {
-        cumulative += prize.quantity;
-        if (prizeRoll < cumulative) return prize;
-    }
-    return lottery.prizes[lottery.prizes.length - 1];
+    return lottery.prizes[Math.floor(Math.random() * lottery.prizes.length)];
 }
 
-function shuffle(items) {
-    const shuffled = [...items];
-
-    for (let i = shuffled.length - 1; i > 0; i -= 1) {
-        const randomIndex = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[i]];
-    }
-
-    return shuffled;
+function createSequenceSignature(sequence) {
+    return sequence
+        .map(({ lottery, result }) => `${lottery.id}:${result?.id ?? 'lose'}`)
+        .join('|');
 }
 
-function buildRevealSequence(lotteries) {
+function buildRevealSequence(lotteries, previousSignature = '') {
     const eligibleLotteries = lotteries.filter((lottery) => lottery.eligible);
 
     if (!eligibleLotteries.length) {
         return [];
     }
 
-    const maxWins = eligibleLotteries.length > 1 ? eligibleLotteries.length - 1 : 1;
-    const winCount = Math.floor(Math.random() * maxWins) + 1;
-    const winnerIds = new Set(
-        shuffle(eligibleLotteries.map((lottery) => lottery.id)).slice(0, winCount),
-    );
+    for (let attempt = 0; attempt < 8; attempt += 1) {
+        const winStates = eligibleLotteries.map(() => Math.random() >= 0.45);
 
-    return eligibleLotteries.map((lottery) => ({
+        if (!winStates.some(Boolean)) {
+            winStates[Math.floor(Math.random() * winStates.length)] = true;
+        }
+
+        if (eligibleLotteries.length > 1 && winStates.every(Boolean)) {
+            winStates[Math.floor(Math.random() * winStates.length)] = false;
+        }
+
+        const nextSequence = eligibleLotteries.map((lottery, index) => ({
+            lottery,
+            result: winStates[index] ? selectPrize(lottery) : null,
+        }));
+
+        if (createSequenceSignature(nextSequence) !== previousSignature) {
+            return nextSequence;
+        }
+    }
+
+    return eligibleLotteries.map((lottery, index) => ({
         lottery,
-        result: winnerIds.has(lottery.id) ? selectPrize(lottery) : null,
+        result: index === 0 ? selectPrize(lottery) : null,
     }));
 }
 
@@ -107,6 +110,7 @@ function LotteriesPage() {
     const [revealSequence, setRevealSequence] = useState([]);
     const [currentRevealIndex, setCurrentRevealIndex] = useState(0);
     const [revealKey, setRevealKey] = useState(0);
+    const [lastSequenceSignature, setLastSequenceSignature] = useState('');
 
     const eligibleLotteries = LOTTERIES.filter((lottery) => lottery.eligible);
     const currentReveal = revealSequence[currentRevealIndex] ?? null;
@@ -135,9 +139,10 @@ function LotteriesPage() {
     };
 
     const handleStartRevealSequence = () => {
-        const nextSequence = buildRevealSequence(LOTTERIES);
+        const nextSequence = buildRevealSequence(LOTTERIES, lastSequenceSignature);
 
         setRevealSequence(nextSequence);
+        setLastSequenceSignature(createSequenceSignature(nextSequence));
         setCurrentRevealIndex(0);
         setRevealKey((prev) => prev + 1);
         setStep('revealing');
