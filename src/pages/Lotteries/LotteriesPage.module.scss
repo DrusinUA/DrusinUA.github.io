@@ -243,9 +243,8 @@
 
 // ─── Step 1: Connect ────────────────────────────────────────────
 .connectStep {
-  justify-content: space-between !important;
-  padding-top: v.space(8);
-  padding-bottom: v.space(8);
+  justify-content: flex-start !important;
+  gap: v.space(28) !important;
 }
 
 .connectTop {
