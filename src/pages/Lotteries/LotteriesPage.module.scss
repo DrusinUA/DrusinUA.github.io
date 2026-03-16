@@ -158,11 +158,10 @@
   }
 
   @media (max-width: v.bp(lg)) {
-    max-width: 309px;
-    min-height: 620px;
+    max-width: 100%;
     height: auto;
-    padding: 0;
-    gap: 24px;
+    padding: 16px;
+    gap: 16px;
     background: transparent;
 
     &::before {
@@ -233,6 +232,7 @@
 
   @media (max-width: v.bp(lg)) {
     padding-right: 0;
+    justify-content: flex-start;
   }
 }
 
