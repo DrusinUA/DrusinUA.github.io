@@ -237,7 +237,7 @@ function LotteriesPage() {
                                 onClick={handleStartRevealSequence}
                                 disabled={!eligibleLotteries.length}
                             >
-                                Reveal Eligible Lotteries
+                                Reveal
                             </button>
                         </div>
                     )}

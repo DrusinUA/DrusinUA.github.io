@@ -83,7 +83,7 @@ export function LootboxReveal({ result, onComplete, image, completeDelayMs = 800
                     ) : (
                         <div className={styles.loseResult}>
                             <p className={styles.loseTitle}>Empty...</p>
-                            <p className={styles.loseText}>The lootbox was empty this time. Better luck next draw!</p>
+                            <p className={styles.loseText}>No prize this time. Better luck next draw!</p>
                         </div>
                     )}
                 </div>
