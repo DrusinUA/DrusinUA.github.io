@@ -237,6 +237,7 @@ function LotteriesPage() {
                                 onClick={handleStartRevealSequence}
                                 disabled={!eligibleLotteries.length}
                             >
+                                <span className={styles.revealButtonShine} />
                                 Reveal
                             </button>
                         </div>
