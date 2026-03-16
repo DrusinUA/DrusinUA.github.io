@@ -30,6 +30,12 @@
     height: 200px;
     pointer-events: none;
     z-index: 0;
+    animation: ringsAppear 600ms ease-out;
+}
+
+@keyframes ringsAppear {
+    from { opacity: 0; transform: translate(-50%, -55%) scale(0.7); }
+    to { opacity: 1; transform: translate(-50%, -55%) scale(1); }
 }
 
 .ring {

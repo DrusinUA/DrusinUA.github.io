@@ -3,7 +3,7 @@ import styles from './LootboxReveal.module.scss';
 import lootboxImg from '../../../PreSale/assets/presale/lootbox.png';
 
 export function LootboxReveal({ result, onComplete, image, completeDelayMs = 800 }) {
-    const [phase, setPhase] = useState('idle'); // idle -> channeling -> open -> reveal
+    const [phase, setPhase] = useState('channeling'); // channeling -> open -> reveal
     const [particles, setParticles] = useState([]);
     const [sparkles, setSparkles] = useState([]);
     const hasStarted = useRef(false);
@@ -31,8 +31,7 @@ export function LootboxReveal({ result, onComplete, image, completeDelayMs = 800
         if (hasStarted.current) return;
         hasStarted.current = true;
 
-        // idle (0.4s) -> channeling (1.8s) -> open (0.6s) -> reveal
-        setTimeout(() => setPhase('channeling'), 400);
+        // channeling (2.2s) -> open (0.6s) -> reveal
         setTimeout(() => setPhase('open'), 2200);
         setTimeout(() => {
             setPhase('reveal');
