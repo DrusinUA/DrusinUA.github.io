@@ -498,8 +498,9 @@
   position: relative;
   width: 280px;
   height: 60px;
+  margin-top: -#{v.space(8)};
   background: linear-gradient(135deg, #e7c84f 0%, #d4a830 40%, #e7c84f 60%, #f0d860 100%);
-  border: 2px solid #c99a20;
+  border: none;
   border-radius: 6px;
   color: #2b1b07;
   font-family: "Work Sans", ui-sans-serif, system-ui;
@@ -509,11 +510,9 @@
   letter-spacing: 1px;
   text-transform: uppercase;
   overflow: hidden;
-  box-shadow:
-    0 2px 8px rgba(231, 200, 79, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: filter 200ms ease;
 
-  // Ticket notch left
+  // Ticket notches
   &::before,
   &::after {
     content: '';
@@ -524,7 +523,6 @@
     border-radius: 50%;
     background: #2e2550;
     transform: translateY(-50%);
-    border: 2px solid #c99a20;
     z-index: 2;
   }
 
@@ -536,8 +534,12 @@
     right: -9px;
   }
 
-  &:hover .revealButtonShine {
-    animation: ticketShine 800ms ease forwards;
+  &:hover {
+    filter: brightness(1.12);
+
+    .revealButtonShine {
+      animation: ticketShine 800ms ease forwards;
+    }
   }
 
   &:active {
@@ -547,9 +549,14 @@
   &:disabled {
     opacity: 0.55;
     cursor: not-allowed;
+    filter: none;
 
-    &:hover .revealButtonShine {
-      animation: none;
+    &:hover {
+      filter: none;
+
+      .revealButtonShine {
+        animation: none;
+      }
     }
   }
 
