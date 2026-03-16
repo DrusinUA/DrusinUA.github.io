@@ -181,8 +181,26 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: v.space(6);
+    gap: v.space(4);
     padding: 0 v.space(16);
+}
+
+.emptyOrb {
+    width: 72px;
+    height: 72px;
+    margin-bottom: v.space(4);
+    animation: orbDim 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 8px rgba(90, 69, 136, 0.4));
+
+    @media (max-width: v.bp(sm)) {
+        width: 56px;
+        height: 56px;
+    }
+}
+
+@keyframes orbDim {
+    0%, 100% { opacity: 0.85; filter: drop-shadow(0 0 8px rgba(90, 69, 136, 0.4)); }
+    50% { opacity: 1; filter: drop-shadow(0 0 14px rgba(90, 69, 136, 0.6)); }
 }
 
 .loseTitle {
@@ -197,7 +215,7 @@
 
 .loseText {
     font-size: 13px;
-    color: v.color(text-muted-1);
+    color: v.color(text-muted-2);
     max-width: 280px;
     line-height: 1.4;
 }
