@@ -278,10 +278,6 @@
     background: #9560d6;
   }
 
-  &:active {
-    transform: scale(0.98);
-  }
-
   @media (max-width: v.bp(lg)) {
     width: 100%;
     max-width: 300px;
@@ -820,10 +816,6 @@
 
   &:hover {
     background: #9560d6;
-  }
-
-  &:active {
-    transform: scale(0.98);
   }
 
   @media (max-width: v.bp(lg)) {
