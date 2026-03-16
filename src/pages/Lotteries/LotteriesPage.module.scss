@@ -242,19 +242,28 @@
 }
 
 // ─── Step 1: Connect ────────────────────────────────────────────
+.connectStep {
+  justify-content: space-between !important;
+  padding-top: v.space(8);
+  padding-bottom: v.space(8);
+}
+
+.connectTop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: v.space(8);
+}
+
 .conditionsBox {
   width: 100%;
   max-width: 548px;
-  background: rgba(63, 46, 102, 0.4);
-  border-radius: 8px;
-  padding: v.space(16) v.space(24);
   text-align: center;
   font-size: 14px;
   line-height: 22px;
   color: v.color(text-muted-1);
 
   @media (max-width: v.bp(lg)) {
-    padding: v.space(12) v.space(16);
     font-size: 13px;
   }
 }

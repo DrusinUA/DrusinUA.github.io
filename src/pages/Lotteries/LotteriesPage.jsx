@@ -182,11 +182,13 @@ function LotteriesPage() {
                 <div className={styles.innerFrame}>
                     {/* Step 1: Connect */}
                     {step === 'connect' && (
-                        <div className={styles.stepContainer} key="connect">
-                            <h1 className={styles.pageTitle}>Play Test Lotteries</h1>
-                            <p className={styles.subtitle}>
-                                Will the odds be in your favor?
-                            </p>
+                        <div className={`${styles.stepContainer} ${styles.connectStep}`} key="connect">
+                            <div className={styles.connectTop}>
+                                <h1 className={styles.pageTitle}>Play Test Lotteries</h1>
+                                <p className={styles.subtitle}>
+                                    Will the odds be in your favor?
+                                </p>
+                            </div>
                             <div className={styles.conditionsBox}>
                                 Three exclusive lotteries await Play Test participants.
                                 Connect your wallet to discover which lotteries you
