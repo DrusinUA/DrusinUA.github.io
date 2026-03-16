@@ -3,16 +3,36 @@ import styles from './LootboxReveal.module.scss';
 import lootboxImg from '../../../PreSale/assets/presale/lootbox.png';
 
 export function LootboxReveal({ result, onComplete, image, completeDelayMs = 800 }) {
-    const [phase, setPhase] = useState('idle'); // idle -> shake -> open -> reveal
+    const [phase, setPhase] = useState('idle'); // idle -> channeling -> open -> reveal
     const [particles, setParticles] = useState([]);
+    const [sparkles, setSparkles] = useState([]);
     const hasStarted = useRef(false);
+
+    // Generate floating sparkles for the channeling phase
+    useEffect(() => {
+        if (phase !== 'channeling') {
+            setSparkles([]);
+            return;
+        }
+        const makeSparkles = () =>
+            Array.from({ length: 16 }, (_, i) => ({
+                id: i,
+                startAngle: (360 / 16) * i + Math.random() * 20,
+                radius: 55 + Math.random() * 35,
+                size: 2 + Math.random() * 3,
+                duration: 1.8 + Math.random() * 1.2,
+                delay: Math.random() * 1.5,
+                color: ['#844acb', '#9559d8', '#b47ee8', '#e7c84f', '#6b4f9e'][Math.floor(Math.random() * 5)],
+            }));
+        setSparkles(makeSparkles());
+    }, [phase]);
 
     useEffect(() => {
         if (hasStarted.current) return;
         hasStarted.current = true;
 
-        // idle (0.4s) -> shake (1.8s) -> open (0.6s) -> reveal
-        setTimeout(() => setPhase('shake'), 400);
+        // idle (0.4s) -> channeling (1.8s) -> open (0.6s) -> reveal
+        setTimeout(() => setPhase('channeling'), 400);
         setTimeout(() => setPhase('open'), 2200);
         setTimeout(() => {
             setPhase('reveal');
@@ -43,17 +63,45 @@ export function LootboxReveal({ result, onComplete, image, completeDelayMs = 800
         }, 2800);
     }, []);
 
+    const isChanneling = phase === 'channeling';
+    const isOpen = phase === 'open' || phase === 'reveal';
+
     return (
         <div className={styles.lootboxContainer}>
-            {/* Glow behind lootbox */}
-            <div className={`${styles.glow} ${phase === 'shake' ? styles.glowPulse : ''} ${phase === 'open' || phase === 'reveal' ? styles.glowBurst : ''}`} />
+            {/* Swirling magic rings behind the orb */}
+            {isChanneling && (
+                <div className={styles.magicRings}>
+                    <div className={`${styles.ring} ${styles.ring1}`} />
+                    <div className={`${styles.ring} ${styles.ring2}`} />
+                    <div className={`${styles.ring} ${styles.ring3}`} />
+                </div>
+            )}
 
-            {/* Lootbox */}
-            <div className={`${styles.lootbox} ${phase === 'shake' ? styles.shaking : ''} ${phase === 'open' || phase === 'reveal' ? styles.opened : ''}`}>
-                <img src={image || lootboxImg} alt="Lootbox" className={styles.lootboxImg} />
+            {/* Floating sparkles during channeling */}
+            {sparkles.map(s => (
+                <div
+                    key={s.id}
+                    className={styles.sparkle}
+                    style={{
+                        '--angle': `${s.startAngle}deg`,
+                        '--radius': `${s.radius}px`,
+                        '--size': `${s.size}px`,
+                        '--duration': `${s.duration}s`,
+                        '--delay': `${s.delay}s`,
+                        '--color': s.color,
+                    }}
+                />
+            ))}
+
+            {/* Glow behind orb */}
+            <div className={`${styles.glow} ${isChanneling ? styles.glowPulse : ''} ${isOpen ? styles.glowBurst : ''}`} />
+
+            {/* Orb image */}
+            <div className={`${styles.lootbox} ${isChanneling ? styles.channeling : ''} ${isOpen ? styles.opened : ''}`}>
+                <img src={image || lootboxImg} alt="Magic Orb" className={styles.lootboxImg} />
             </div>
 
-            {/* Particles */}
+            {/* Burst particles */}
             {particles.map(p => (
                 <div
                     key={p.id}
