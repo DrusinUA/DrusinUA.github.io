@@ -157,16 +157,9 @@
 }
 
 .channeling {
-    animation: orbFloat 1.5s ease-in-out infinite;
-
     .lootboxImg {
         filter: drop-shadow(0 4px 20px rgba(132, 74, 203, 0.8));
     }
-}
-
-@keyframes orbFloat {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-6px) scale(1.03); }
 }
 
 .opened {
