@@ -224,7 +224,7 @@ function LotteriesPage() {
                                             </p>
                                         </div>
                                         <div className={styles.lotteryPreviews}>
-                                            {lottery.prizes.slice(0, 3).map((p) => (
+                                            {lottery.prizes.slice(0, 5).map((p) => (
                                                 <img key={p.id} src={p.icon} alt={p.name} />
                                             ))}
                                         </div>
