@@ -49,7 +49,9 @@
       "Bash(cp assets/blue_ring.png src/pages/Lotteries/assets/dragon_ring.png)",
       "Bash(cp assets/lottery.png src/pages/Lotteries/assets/lottery.png)",
       "Bash(rm -f src/pages/Lotteries/assets/lottery.jpg)",
-      "Bash(rm -f assets/lottery.jpg)"
+      "Bash(rm -f assets/lottery.jpg)",
+      "Bash(cp \"assets/Wiki_icon.png\" \"src/assets/images/navbar/wiki.png\")",
+      "Bash(cp \"assets/lottery_icon-2.png\" \"src/assets/images/navbar/lottery.png\")"
     ]
   }
 }
