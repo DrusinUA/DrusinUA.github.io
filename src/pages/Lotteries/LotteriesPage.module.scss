@@ -315,6 +315,7 @@
   @media (max-width: v.bp(lg)) {
     padding: v.space(12) v.space(16);
     gap: v.space(12);
+    flex-wrap: wrap;
   }
 }
 
@@ -363,6 +364,11 @@
     object-fit: contain;
     image-rendering: pixelated;
     filter: drop-shadow(0 0 4px rgba(132, 74, 203, 0.3));
+  }
+
+  @media (max-width: v.bp(lg)) {
+    width: 100%;
+    order: 1;
   }
 }
 
