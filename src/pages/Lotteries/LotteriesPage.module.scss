@@ -354,12 +354,12 @@
 
 .lotteryPreviews {
   display: flex;
-  gap: v.space(4);
+  gap: v.space(6);
   flex-shrink: 0;
 
   img {
-    width: 36px;
-    height: 36px;
+    width: 39px;
+    height: 39px;
     object-fit: contain;
     image-rendering: pixelated;
     filter: drop-shadow(0 0 4px rgba(132, 74, 203, 0.3));
