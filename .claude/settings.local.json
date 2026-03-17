@@ -36,7 +36,20 @@
       "Bash(cp -r \"D:/Unity Projects/calamity-app/public\" .)",
       "Bash(npm install:*)",
       "Bash(npx vite:*)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Read(//d/Unity Projects/**)",
+      "Bash(find 'D:/Unity Projects/RektSkullsUnity' -iname *circle*flame* -o -iname *circleofflame* -o -iname *circle_flame*)",
+      "Bash(find 'D:/Unity Projects/RektSkullsUnity' -iname *circle*)",
+      "Bash(find 'D:/Unity Projects/RektSkullsUnity' -iname *flame* -type f)",
+      "Bash(find 'D:/Unity Projects/RektSkullsUnity/Assets/Game/Art/CustomSprites/DragonsRings' -iname *icon* -o -iname *Icon* -o -iname *.png)",
+      "Bash(find 'D:/Unity Projects/RektSkullsUnity/Assets/Game/Art/CustomSprites/DragonsRings/BlazingShackles' -iname *.png)",
+      "Bash(find 'D:/Unity Projects/RektSkullsUnity' -iname *fiery* -o -iname *FieryCrown*)",
+      "Bash(find 'D:/Unity Projects/RektSkullsUnity' -iname *crown* -type f -iname *.png)",
+      "Bash(cp \"D:/Unity Projects/RektSkullsUnity/Assets/Game/Art/Sprites/Armor/Artifacts/CrownGold_Icon.png\" src/pages/Lotteries/assets/circle_of_flame.png)",
+      "Bash(cp assets/blue_ring.png src/pages/Lotteries/assets/dragon_ring.png)",
+      "Bash(cp assets/lottery.png src/pages/Lotteries/assets/lottery.png)",
+      "Bash(rm -f src/pages/Lotteries/assets/lottery.jpg)",
+      "Bash(rm -f assets/lottery.jpg)"
     ]
   }
 }

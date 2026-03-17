@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './LotteriesPage.module.scss';
 import castleBg from '@assets/images/castleBg.png';
 import wavesBottom from '@assets/images/wavesBottom.png';
-import lotteryHeader from '../../../assets/lottery.jpg';
+import lotteryHeader from './assets/lottery.png';
 import runicOrbImg from '../../../assets/runic_orb.png';
 import { LootboxReveal } from './components/LootboxReveal/LootboxReveal.jsx';
 import { TransactionModal } from '@shared/components/ui/TransactionModal/TransactionModal.jsx';
@@ -29,7 +29,7 @@ const LOTTERIES = [
             { id: 'ring', name: 'Ring NFT', icon: dragonRing, quantity: 3 },
             { id: 'factory', name: 'Factory NFT', icon: factory, quantity: 9 },
             { id: 'katana', name: "Jin's Katana NFT", icon: katana, quantity: 10 },
-            { id: 'flame', name: 'Circle of Flame NFT', icon: circleOfFlame, quantity: 5 },
+            { id: 'flame', name: 'Fiery Crowns NFT', icon: circleOfFlame, quantity: 5 },
             { id: 'ron', name: '50 RON Voucher', icon: ronCoin, quantity: 100 },
         ],
         nothingWeight: 0.975,
