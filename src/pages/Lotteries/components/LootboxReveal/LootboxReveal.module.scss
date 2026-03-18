@@ -150,15 +150,15 @@
 }
 
 .lootboxImg {
-    width: 120px;
-    height: 120px;
+    width: 132px;
+    height: 132px;
     object-fit: contain;
     image-rendering: pixelated;
     filter: drop-shadow(0 4px 12px rgba(132, 74, 203, 0.5));
 
     @media (max-width: v.bp(sm)) {
-        width: 100px;
-        height: 100px;
+        width: 110px;
+        height: 110px;
     }
 }
 
