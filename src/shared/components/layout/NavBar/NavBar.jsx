@@ -9,7 +9,7 @@ import checker from "@assets/images/navbar/checker.png";
 import cosmetics from '@assets/images/navbar/cosmetics.png';
 import wiki from '@assets/images/navbar/wiki.png';
 import armory from '@assets/images/navbar/armory.png';
-import lottery from '@assets/images/navbar/lottery.png';
+import lottery from '../../../../../assets/lottery-icon.png';
 import privacy from '@assets/images/labels/privacy.svg';
 import xIcon from '@assets/images/labels/x.svg';
 import discordIcon from '@assets/images/labels/discord.svg';
