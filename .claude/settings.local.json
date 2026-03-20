@@ -52,7 +52,9 @@
       "Bash(rm -f assets/lottery.jpg)",
       "Bash(cp \"assets/Wiki_icon.png\" \"src/assets/images/navbar/wiki.png\")",
       "Bash(cp \"assets/lottery_icon-2.png\" \"src/assets/images/navbar/lottery.png\")",
-      "Bash(claude remote-control:*)"
+      "Bash(claude remote-control:*)",
+      "Bash(cp assets/Wiki_icon.png src/assets/images/navbar/wiki.png)",
+      "Bash(cp assets/lottery-icon.png src/assets/images/navbar/lottery.png)"
     ]
   }
 }
