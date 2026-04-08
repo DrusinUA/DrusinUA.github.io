@@ -3,7 +3,7 @@ import styles from './LotteriesPage.module.scss';
 import castleBg from '@assets/images/castleBg.png';
 import wavesBottom from '@assets/images/wavesBottom.png';
 import lotteryHeader from './assets/lottery.png';
-import runicOrbImg from '../../../assets/runic_orb.png';
+import runicOrbImg from '../../../assets/Magic Orb.gif';
 import { LootboxReveal } from './components/LootboxReveal/LootboxReveal.jsx';
 import { TransactionModal } from '@shared/components/ui/TransactionModal/TransactionModal.jsx';
 

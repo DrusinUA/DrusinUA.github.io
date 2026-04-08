@@ -22,7 +22,7 @@ export function LootboxReveal({ result, onComplete, image, completeDelayMs = 800
                 size: 2 + Math.random() * 3,
                 duration: 1.8 + Math.random() * 1.2,
                 delay: Math.random() * 1.5,
-                color: ['#844acb', '#9559d8', '#b47ee8', '#e7c84f', '#6b4f9e'][Math.floor(Math.random() * 5)],
+                color: ['#844acb', '#2ec4b6', '#b47ee8', '#e7c84f', '#c74b8f'][Math.floor(Math.random() * 5)],
             }));
         setSparkles(makeSparkles());
     }, [phase]);
@@ -38,7 +38,7 @@ export function LootboxReveal({ result, onComplete, image, completeDelayMs = 800
 
             // Particles burst
             const colors = result
-                ? ['#e7c84f', '#f9fefd', '#844acb', '#9559d8', '#fdfd80']
+                ? ['#e7c84f', '#2ec4b6', '#844acb', '#c74b8f', '#fdfd80']
                 : ['#5a4588', '#4a357a', '#3f2e66'];
 
             const count = result ? 30 : 12;
