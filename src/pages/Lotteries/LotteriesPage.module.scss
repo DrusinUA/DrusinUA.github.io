@@ -120,6 +120,7 @@
   height: auto;
   display: block;
   border-radius: 8px;
+  image-rendering: pixelated;
 
   @media (max-width: v.bp(lg)) {
     width: 100%;
