@@ -136,12 +136,12 @@
 
 .packHalfLeft {
   clip-path: inset(0 50% 0 0);
-  animation: crackLeft 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: crackLeft 700ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .packHalfRight {
   clip-path: inset(0 0 0 50%);
-  animation: crackRight 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: crackRight 700ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes crackLeft {
@@ -172,7 +172,7 @@
     transparent 100%
   );
   filter: blur(1.5px);
-  animation: crackSliver 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: crackSliver 700ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
   z-index: 1;
   pointer-events: none;
 }
@@ -330,7 +330,7 @@
   color: inherit;
   opacity: 0;
   transform: translateY(22px) scale(0.94);
-  animation: cardEnter 380ms cubic-bezier(0.34, 1.56, 0.64, 1) var(--enter-delay, 0ms) forwards;
+  animation: cardEnter 520ms cubic-bezier(0.34, 1.56, 0.64, 1) var(--enter-delay, 0ms) forwards;
   outline: none;
   filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.55));
 
@@ -360,12 +360,22 @@
   }
 }
 
+// Flipped state runs a dramatic reveal animation: card flips and
+// simultaneously scales up to peak at 1.18, then settles at 1.08 so it
+// reads as "lifted forward" against the un-flipped neighbours.
 .cardSlotFlipped {
   cursor: default;
 
   .cardInner {
-    transform: rotateY(180deg);
+    animation: revealFlip 900ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
+}
+
+@keyframes revealFlip {
+  0%   { transform: rotateY(0deg)   scale(1);    }
+  45%  { transform: rotateY(90deg)  scale(1.16); }
+  60%  { transform: rotateY(180deg) scale(1.18); }
+  100% { transform: rotateY(180deg) scale(1.08); }
 }
 
 .cardInner {
@@ -375,6 +385,33 @@
   transform-style: preserve-3d;
   transition: transform 480ms cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 6px;
+}
+
+// Animated purple+gold gradient halo that appears behind the card once
+// flipped. Cycles slowly to keep the revealed card feeling alive without
+// being a bright glow.
+.cardGlow {
+  position: absolute;
+  inset: -18%;
+  border-radius: 12px;
+  background: linear-gradient(270deg, #844acb, #e7c84f, #b08fd8, #844acb);
+  background-size: 400% 400%;
+  filter: blur(20px);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 600ms ease;
+  pointer-events: none;
+}
+
+.cardSlotFlipped .cardGlow {
+  opacity: 0.55;
+  animation: gradientSweep 8s ease infinite;
+}
+
+@keyframes gradientSweep {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .cardFace {

@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from './StickerReveal.module.scss';
 import { StickerArt, PackArt } from '../../EmotesPage.jsx';
 
-const CHANNEL_MS = 1500;
-const OPEN_MS = 600;
-const AUTO_ADVANCE_MS = 700; // wait after last reveal before going to summary
+const CHANNEL_MS = 2500;
+const OPEN_MS = 700;
+const AUTO_ADVANCE_MS = 1800; // wait after last reveal before going to summary
 
 export function StickerReveal({ stickers, onComplete, packImage }) {
     const [phase, setPhase] = useState('channeling'); // channeling -> open -> reveal
@@ -217,11 +217,14 @@ export function StickerReveal({ stickers, onComplete, packImage }) {
                                     className={`${styles.cardSlot} ${
                                         isFlipped ? styles.cardSlotFlipped : styles.cardSlotIdle
                                     }`}
-                                    style={{ '--enter-delay': `${idx * 180}ms` }}
+                                    style={{ '--enter-delay': `${idx * 220}ms` }}
                                     onClick={() => handleFlip(idx)}
                                     disabled={isFlipped}
                                     aria-label={isFlipped ? sticker.name : `Reveal rune ${idx + 1}`}
                                 >
+                                    {/* Animated gradient glow that appears behind the card once revealed */}
+                                    <div className={styles.cardGlow} aria-hidden="true" />
+
                                     {isBursting && (
                                         <div className={styles.cardBurst} aria-hidden="true" />
                                     )}
