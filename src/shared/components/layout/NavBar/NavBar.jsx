@@ -10,6 +10,7 @@ import cosmetics from '@assets/images/navbar/cosmetics.png';
 import wiki from '../../../../../assets/wiki_icon.png';
 import armory from '@assets/images/navbar/armory.png';
 import lottery from '../../../../../assets/lottery-icon.png';
+import emote from '../../../../../assets/emote-icon.svg';
 import privacy from '@assets/images/labels/privacy.svg';
 import xIcon from '@assets/images/labels/x.svg';
 import discordIcon from '@assets/images/labels/discord.svg';
@@ -82,6 +83,10 @@ const Navbar = () => {
                         Lotteries
                     </NavItem>
 
+                    <NavItem to="/emotes" img={emote} onClick={closeMenu}>
+                        Emotes
+                    </NavItem>
+
                     <ExternalNavItem href="https://wiki.calamity.online/" img={wiki} onClick={closeMenu}>
                         Wiki
                     </ExternalNavItem>
@@ -146,6 +151,10 @@ const Navbar = () => {
 
                     <NavItem to="/lotteries" img={lottery}>
                         Lotteries
+                    </NavItem>
+
+                    <NavItem to="/emotes" img={emote}>
+                        Emotes
                     </NavItem>
 
                     <ExternalNavItem href="https://wiki.calamity.online/" img={wiki}>

@@ -1,0 +1,631 @@
+@use "../../styles/abstracts/variables" as v;
+
+// ─── Page layout (mirrors LotteriesPage shell) ──────────────────
+.emotesPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: v.space(48) v.space(48) 0;
+  position: relative;
+  min-height: calc(100vh - 90px);
+
+  @media (max-width: v.bp(lg)) {
+    padding: v.space(24) v.space(16) 0;
+    min-height: calc(100vh - 70px);
+  }
+}
+
+.castleBgWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-height: 60vh;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+
+  .castleBackground {
+    width: 100%;
+    height: auto;
+    display: block;
+    opacity: 0.7;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    background: linear-gradient(to bottom, transparent 0%, #{v.color(bg)} 100%);
+    pointer-events: none;
+  }
+}
+
+.wavesBottom {
+  width: calc(100% + #{v.space(48)} * 2);
+  max-width: none;
+  height: auto;
+  margin-left: -#{v.space(48)};
+  margin-right: -#{v.space(48)};
+  margin-top: auto;
+  pointer-events: none;
+  z-index: 1;
+  display: block;
+
+  @media (max-width: v.bp(lg)) {
+    width: calc(100% + #{v.space(16)} * 2);
+    margin-left: -#{v.space(16)};
+    margin-right: -#{v.space(16)};
+  }
+}
+
+// ─── Main card ──────────────────────────────────────────────────
+.mainContent {
+  width: clamp(320px, 90%, 920px);
+  background: #2e2550;
+  border-radius: 12px;
+  padding: 44px 48px;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(97, 60, 148, 1) 0%, rgba(46, 37, 81, 1) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  @media (max-width: v.bp(lg)) {
+    width: 343px;
+    max-width: calc(100% - 32px);
+    border-radius: 19px;
+    padding: 24px 17px;
+
+    &::before {
+      border-radius: 19px;
+      background: linear-gradient(180deg, rgba(97, 60, 148, 1) 0%, rgba(97, 60, 148, 0) 100%);
+    }
+  }
+}
+
+// ─── Inner frame ────────────────────────────────────────────────
+.innerFrame {
+  width: 100%;
+  max-width: 760px;
+  min-height: 560px;
+  background: linear-gradient(90deg, rgba(79, 54, 136, 0.3) 0%, rgba(79, 54, 136, 0.3) 100%);
+  border-radius: 8px;
+  padding: 19px 32px 32px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 21px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: 8px;
+    background: linear-gradient(180deg, rgba(97, 60, 148, 1) 0%, rgba(97, 60, 148, 1) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  @media (max-width: v.bp(lg)) {
+    max-width: 100%;
+    min-height: 0;
+    padding: 16px;
+    gap: 16px;
+    background: transparent;
+
+    &::before {
+      display: none;
+    }
+  }
+}
+
+.innerFrameCompact {
+  min-height: 0;
+  justify-content: center;
+}
+
+// ─── Typography ─────────────────────────────────────────────────
+.pageTitle {
+  font-family: "Work Sans", ui-sans-serif, system-ui, -apple-system;
+  font-size: 34px;
+  line-height: 48px;
+  font-weight: 700;
+  color: #f9fefd;
+  text-align: center;
+  margin: 0;
+
+  @media (max-width: v.bp(lg)) {
+    font-size: 32px;
+    line-height: 35px;
+  }
+}
+
+.subtitle {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: #f9fefd;
+  text-align: center;
+  margin: 0;
+  max-width: 548px;
+
+  @media (max-width: v.bp(lg)) {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+.sectionTitle {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 20px;
+  font-weight: 700;
+  color: #f9fefd;
+  text-align: center;
+  margin: 0;
+
+  @media (max-width: v.bp(lg)) {
+    font-size: 18px;
+  }
+}
+
+.sectionSubtitle {
+  font-size: 13px;
+  color: v.color(text-muted-1);
+  text-align: center;
+  margin: 0;
+}
+
+.progressText {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #e7c84f;
+  margin: 0;
+}
+
+// ─── Step container ─────────────────────────────────────────────
+.stepContainer {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: v.space(16);
+  box-sizing: border-box;
+}
+
+// ─── Step alignment modifiers ───────────────────────────────────
+// Connect / revealing / summary steps all want their content
+// vertically centred inside the inner frame so the title doesn't
+// stick to the top with a void below.
+.connectStep {
+  justify-content: center !important;
+  gap: v.space(20) !important;
+}
+
+.revealingStep {
+  justify-content: center !important;
+  gap: v.space(12) !important;
+}
+
+.summaryStep {
+  justify-content: center !important;
+  gap: v.space(18) !important;
+}
+
+.connectBlock {
+  width: 100%;
+  max-width: 548px;
+  margin-top: v.space(8);
+
+  @media (max-width: v.bp(lg)) {
+    max-width: 309px;
+  }
+}
+
+.descriptionBox {
+  background: linear-gradient(0deg, rgba(63, 46, 102, 1) 0%, rgba(63, 46, 102, 1) 100%);
+  border: 1px solid #844acb;
+  border-radius: 8px 8px 0 0;
+  padding: 28px 36px;
+
+  p {
+    font-family: "Work Sans", ui-sans-serif, system-ui;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+    color: #f9fefd;
+    text-align: center;
+    margin: 0;
+
+    @media (max-width: v.bp(lg)) {
+      font-size: 14px;
+      line-height: 20px;
+    }
+  }
+
+  @media (max-width: v.bp(lg)) {
+    padding: 16px;
+  }
+}
+
+.primaryButton {
+  width: 100%;
+  height: 56px;
+  background: #844acb;
+  border: none;
+  border-radius: 0 0 4px 4px;
+  color: #f9fefd;
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 5px 20px rgba(40, 40, 54, 0.5);
+  transition: background 120ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+
+  &:hover {
+    background: #9560d6;
+    color: #f9fefd;
+    text-decoration: none;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.marketplaceLink {
+  display: inline-flex;
+  align-items: center;
+  gap: v.space(6);
+  font-size: 13px;
+  color: #c4b2dd;
+  text-decoration: none;
+  transition: color 150ms ease;
+
+  &:hover {
+    color: #f9fefd;
+    text-decoration: underline;
+  }
+}
+
+.arrowIcon {
+  flex-shrink: 0;
+}
+
+// ─── Step 2: Inventory ──────────────────────────────────────────
+// Flex (not grid) with center justify so 1 or 2 remaining packs
+// stay centred instead of leaving an empty right cell.
+.packGrid {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: v.space(12);
+}
+
+.packCard {
+  width: 216px;
+  background: #3f2e66;
+  border: 1px solid rgba(97, 60, 148, 0.6);
+  border-radius: 8px;
+  padding: v.space(20) v.space(16) v.space(18);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: v.space(10);
+  transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 180ms ease,
+              border-color 180ms ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: rgba(132, 74, 203, 0.85);
+    box-shadow: 0 12px 24px rgba(132, 74, 203, 0.28);
+  }
+
+  &:active {
+    transform: translateY(-1px);
+    transition: transform 90ms ease-out;
+  }
+
+  @media (max-width: v.bp(lg)) {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    padding: v.space(12) v.space(14);
+  }
+}
+
+.packArtWrap {
+  width: 132px;
+  height: 198px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.55));
+  position: relative;
+
+  // Cast shadow underneath, like the pack sits on a surface.
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    width: 78%;
+    height: 14px;
+    transform: translateX(-50%);
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.45) 0%, transparent 70%);
+    filter: blur(3px);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  @media (max-width: v.bp(lg)) {
+    width: 92px;
+    height: 138px;
+    flex-shrink: 0;
+  }
+}
+
+.packArt {
+  width: 100%;
+  height: 100%;
+}
+
+.packArtMuted {
+  filter: saturate(0.4) brightness(0.7);
+  opacity: 0.6;
+}
+
+.packBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: v.space(2);
+
+  @media (max-width: v.bp(lg)) {
+    align-items: flex-start;
+    flex: 1;
+  }
+}
+
+.packName {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 16px;
+  font-weight: 700;
+  color: #f9fefd;
+  margin: 0;
+}
+
+.packToken {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: v.color(text-muted-1);
+  margin: 0;
+}
+
+.breakSealButton {
+  width: 100%;
+  height: 44px;
+  background: #844acb;
+  border: none;
+  border-radius: 4px;
+  color: #f9fefd;
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 120ms ease, transform 120ms ease;
+
+  &:hover {
+    background: #9560d6;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  @media (max-width: v.bp(lg)) {
+    width: auto;
+    padding: 0 v.space(16);
+  }
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: v.space(12);
+  padding: v.space(24);
+}
+
+.emptyArtWrap {
+  width: 88px;
+  height: 132px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emptyText {
+  font-size: 14px;
+  color: v.color(text-muted-1);
+  margin: 0;
+}
+
+// ─── Step 3: Revealing ──────────────────────────────────────────
+.revealArea {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: v.space(16);
+}
+
+// ─── Step 4: Summary ────────────────────────────────────────────
+.summaryGrid {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: v.space(12);
+
+  @media (max-width: v.bp(lg)) {
+    gap: v.space(8);
+  }
+}
+
+.summaryCard {
+  width: 188px;
+  padding: v.space(18) v.space(10);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: v.space(12);
+  animation: summaryPop 320ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+
+  &:nth-child(2) { animation-delay: 80ms; }
+  &:nth-child(3) { animation-delay: 160ms; }
+
+  @media (max-width: v.bp(lg)) {
+    width: 108px;
+    padding: v.space(12) v.space(8);
+  }
+}
+
+.summaryStickerName {
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #f9fefd;
+  text-align: center;
+  margin: 0;
+}
+
+@keyframes summaryPop {
+  from { opacity: 0; transform: translateY(12px) scale(0.92); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.summaryActions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: v.space(12);
+  margin-top: v.space(8);
+}
+
+// ─── Action buttons (Break Another Seal, Return to Vault) ─────────
+.mintButton {
+  width: 240px;
+  height: 48px;
+  background: #844acb;
+  border: none;
+  border-radius: 4px;
+  color: #f9fefd;
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 120ms ease;
+  letter-spacing: 0.5px;
+  box-shadow: v.shadow(sidebar);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background: #9560d6;
+    color: #f9fefd;
+    text-decoration: none;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  @media (max-width: v.bp(lg)) {
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
+.secondaryButton {
+  width: 240px;
+  height: 48px;
+  background: transparent;
+  border: 1px solid rgba(132, 74, 203, 0.5);
+  border-radius: 4px;
+  color: v.color(text-muted-1);
+  font-family: "Work Sans", ui-sans-serif, system-ui;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 150ms ease;
+
+  &:hover {
+    border-color: #844acb;
+    color: #f9fefd;
+    background: rgba(132, 74, 203, 0.15);
+  }
+
+  @media (max-width: v.bp(lg)) {
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
+// ─── Sticker visual (used by both reveal and summary) ─────────────
+.stickerArt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stickerImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+}

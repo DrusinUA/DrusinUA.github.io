@@ -9,6 +9,7 @@ import PremiumShop from "@pages/PremiumShop/PremiumShopPage.jsx";
 import PremiumShopHistory from "@pages/PremiumShop/PremiumShopHistoryPage.jsx";
 import WalletChecker from "@pages/WalletChecker/WalletCheckerPage.jsx";
 import Lotteries from "@pages/Lotteries/LotteriesPage.jsx";
+import Emotes from "@pages/Emotes/EmotesPage.jsx";
 import Privacy from "@pages/Privacy/PrivacyPage.jsx";
 import FAQ from "@pages/FAQ/FAQPage.jsx";
 
@@ -40,6 +41,10 @@ const pages = [
     {
         path: '/lotteries',
         Component: Lotteries,
+    },
+    {
+        path: '/emotes',
+        Component: Emotes,
     },
     // Hidden temporarily
     // {
