@@ -11,7 +11,6 @@ export function StickerReveal({ stickers, onComplete, packImage }) {
     const [sparkles, setSparkles] = useState([]);
     const [particles, setParticles] = useState([]);
     const [flipped, setFlipped] = useState(() => stickers.map(() => false));
-    const [burstSlot, setBurstSlot] = useState(null); // index of slot currently bursting
     const hasStarted = useRef(false);
 
     // Orbiting motes during the channeling phase.
@@ -74,10 +73,6 @@ export function StickerReveal({ stickers, onComplete, packImage }) {
             next[idx] = true;
             return next;
         });
-
-        // Burst halo behind that slot.
-        setBurstSlot(idx);
-        setTimeout(() => setBurstSlot((cur) => (cur === idx ? null : cur)), 700);
     };
 
     // When all three are flipped, advance after a short beat.
@@ -209,7 +204,6 @@ export function StickerReveal({ stickers, onComplete, packImage }) {
                     <div className={styles.cardRow}>
                         {stickers.map((sticker, idx) => {
                             const isFlipped = flipped[idx];
-                            const isBursting = burstSlot === idx;
                             return (
                                 <button
                                     type="button"
@@ -222,13 +216,6 @@ export function StickerReveal({ stickers, onComplete, packImage }) {
                                     disabled={isFlipped}
                                     aria-label={isFlipped ? sticker.name : `Reveal rune ${idx + 1}`}
                                 >
-                                    {/* Animated gradient glow that appears behind the card once revealed */}
-                                    <div className={styles.cardGlow} aria-hidden="true" />
-
-                                    {isBursting && (
-                                        <div className={styles.cardBurst} aria-hidden="true" />
-                                    )}
-
                                     <div className={styles.cardInner}>
                                         {/* Card back (visible when not flipped) */}
                                         <div className={styles.cardFace}>
