@@ -206,9 +206,9 @@ function LotteriesPage() {
                     {/* Step 2: Select lottery */}
                     {step === 'select' && (
                         <div className={styles.stepContainer} key="select">
-                            <h1 className={styles.pageTitle}>Your Eligible Lotteries</h1>
+                            <h1 className={styles.pageTitle}>Lotteries</h1>
                             <p className={styles.subtitle}>
-                                Eligible lotteries will reveal automatically, one by one.
+                                All lotteries will reveal automatically, one by one.
                             </p>
                             <div className={styles.lotteryGrid}>
                                 {LOTTERIES.map((lottery) => (
@@ -228,9 +228,6 @@ function LotteriesPage() {
                                                 <img key={p.id} src={p.icon} alt={p.name} />
                                             ))}
                                         </div>
-                                        <span className={`${styles.statusBadge} ${lottery.eligible ? styles.eligibleBadge : styles.ineligibleBadge}`}>
-                                            {lottery.eligible ? 'Eligible' : 'Not eligible'}
-                                        </span>
                                     </div>
                                 ))}
                             </div>
@@ -265,7 +262,7 @@ function LotteriesPage() {
                                 />
                             </div>
                             <p className={styles.autoAdvanceText}>
-                                Only eligible lotteries are being revealed automatically.
+                                Lotteries are being revealed automatically, one by one.
                             </p>
                         </div>
                     )}
@@ -334,9 +331,9 @@ function LotteriesPage() {
                                             <animate attributeName="opacity" values="0.4;0.1;0.4" dur="2.5s" repeatCount="indefinite" />
                                         </circle>
                                     </svg>
-                                    <h3 className={styles.summaryHeroTitle}>No prize this time</h3>
+                                    <h3 className={styles.summaryHeroTitle}>Sorry, no prize this time</h3>
                                     <p className={styles.summaryHeroText}>
-                                        All {revealSequence.length} eligible lotteries completed without a win.
+                                        All {revealSequence.length} lotteries completed without a win. Better luck next round!
                                     </p>
                                 </div>
                             )}

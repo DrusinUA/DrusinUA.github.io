@@ -105,3 +105,10 @@ em { font-style: italic; }
 
 ::selection { background: rgba(139,144,255,0.25); }
 
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
