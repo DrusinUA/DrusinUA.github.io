@@ -332,7 +332,10 @@
   transform: translateY(22px) scale(0.94);
   animation: cardEnter 520ms cubic-bezier(0.34, 1.56, 0.64, 1) var(--enter-delay, 0ms) forwards;
   outline: none;
-  filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.55));
+  // NOTE: do not put `filter` here. A filter on this element flattens
+  // the 3D context of .cardInner and the rotateY flip collapses to a
+  // 2D horizontal squish (front face never appears). The card drop
+  // shadow lives on each .cardFace via box-shadow instead.
 
   &:focus-visible .cardInner {
     box-shadow: 0 0 0 2px rgba(231, 200, 79, 0.6);
@@ -408,6 +411,9 @@
   justify-content: center;
   backface-visibility: hidden;
   border-radius: 6px;
+  // Shadow lives on each face (not on .cardSlot) so the 3D context of
+  // .cardInner stays intact through the rotateY flip.
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.55);
 }
 
 .cardFaceFront {
