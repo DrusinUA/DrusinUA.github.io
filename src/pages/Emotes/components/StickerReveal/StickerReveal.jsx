@@ -9,7 +9,6 @@ const AUTO_ADVANCE_MS = 1800; // wait after last reveal before going to summary
 export function StickerReveal({ stickers, onComplete, packImage }) {
     const [phase, setPhase] = useState('channeling'); // channeling -> open -> reveal
     const [sparkles, setSparkles] = useState([]);
-    const [particles, setParticles] = useState([]);
     const [flipped, setFlipped] = useState(() => stickers.map(() => false));
     const hasStarted = useRef(false);
 
@@ -39,30 +38,7 @@ export function StickerReveal({ stickers, onComplete, packImage }) {
         hasStarted.current = true;
 
         setTimeout(() => setPhase('open'), CHANNEL_MS);
-        setTimeout(() => {
-            setPhase('reveal');
-
-            // One-shot pack burst.
-            const colors = ['#e7c84f', '#b08fd8', '#f5e9d0', '#a52e3a'];
-            const count = 28;
-            setParticles(
-                Array.from({ length: count }, (_, i) => {
-                    const angleRad =
-                        ((360 / count) * i + Math.random() * 18) * (Math.PI / 180);
-                    const dist = 90 + Math.random() * 110;
-                    return {
-                        id: i,
-                        x: Math.cos(angleRad) * dist,
-                        y: Math.sin(angleRad) * dist,
-                        size: Math.random() * 4 + 1.8,
-                        delay: Math.random() * 0.2,
-                        duration: 0.8 + Math.random() * 0.4,
-                        color: colors[Math.floor(Math.random() * colors.length)],
-                    };
-                }),
-            );
-            setTimeout(() => setParticles([]), 1300);
-        }, CHANNEL_MS + OPEN_MS);
+        setTimeout(() => setPhase('reveal'), CHANNEL_MS + OPEN_MS);
     }, []);
 
     const handleFlip = (idx) => {
@@ -84,7 +60,6 @@ export function StickerReveal({ stickers, onComplete, packImage }) {
     }, [allRevealed, phase, onComplete]);
 
     const isChanneling = phase === 'channeling';
-    const isOpen = phase === 'open' || phase === 'reveal';
     const isReveal = phase === 'reveal';
     const flippedCount = flipped.filter(Boolean).length;
 
@@ -92,53 +67,13 @@ export function StickerReveal({ stickers, onComplete, packImage }) {
         <div className={styles.revealContainer}>
             <div className={styles.stageFloor} aria-hidden="true" />
 
-            {/* Particles always emanate from the visual centre, even after
-                packStage is unmounted in the reveal phase. */}
-            <div className={styles.particleHost} aria-hidden="true">
-                {particles.map((p) => (
-                    <div
-                        key={p.id}
-                        className={styles.particle}
-                        style={{
-                            '--px': `${p.x}px`,
-                            '--py': `${p.y}px`,
-                            '--size': `${p.size}px`,
-                            '--delay': `${p.delay}s`,
-                            '--duration': `${p.duration}s`,
-                            '--color': p.color,
-                        }}
-                    />
-                ))}
-            </div>
-
             {/* Pack stage only exists during channeling + open phases so the
                 reveal phase doesn't have a 220x220 dead zone above the cards. */}
             {!isReveal && (
                 <div className={styles.packStage}>
                     {isChanneling && (
-                        <div className={styles.magicRings} aria-hidden="true">
-                            <svg viewBox="0 0 220 220" className={styles.runicRingOuter}>
-                                <circle
-                                    cx="110"
-                                    cy="110"
-                                    r="100"
-                                    fill="none"
-                                    stroke="rgba(231, 200, 79, 0.5)"
-                                    strokeWidth="1"
-                                    strokeDasharray="3 6"
-                                />
-                            </svg>
-                            <svg viewBox="0 0 180 180" className={styles.runicRingInner}>
-                                <circle
-                                    cx="90"
-                                    cy="90"
-                                    r="80"
-                                    fill="none"
-                                    stroke="rgba(176, 143, 216, 0.4)"
-                                    strokeWidth="1"
-                                    strokeDasharray="2 4"
-                                />
-                            </svg>
+                        <div className={styles.runicCircleWrap} aria-hidden="true">
+                            <RunicCircle />
                         </div>
                     )}
 
@@ -211,7 +146,7 @@ export function StickerReveal({ stickers, onComplete, packImage }) {
                                     className={`${styles.cardSlot} ${
                                         isFlipped ? styles.cardSlotFlipped : styles.cardSlotIdle
                                     }`}
-                                    style={{ '--enter-delay': `${idx * 220}ms` }}
+                                    style={{ '--enter-delay': `${idx * 700}ms` }}
                                     onClick={() => handleFlip(idx)}
                                     disabled={isFlipped}
                                     aria-label={isFlipped ? sticker.name : `Reveal rune ${idx + 1}`}
@@ -234,6 +169,147 @@ export function StickerReveal({ stickers, onComplete, packImage }) {
                 </>
             )}
         </div>
+    );
+}
+
+// Layered runic summoning circle — three concentric layers, two rotating
+// in opposite directions, plus a static hexagram core. Replaces the
+// simple double-dashed-circle of the previous build.
+function RunicCircle() {
+    const outerTicks = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330];
+    const glyphAngles = [0, 60, 120, 180, 240, 300];
+
+    return (
+        <svg
+            viewBox="0 0 300 300"
+            xmlns="http://www.w3.org/2000/svg"
+            className={styles.runicCircle}
+            aria-hidden="true"
+        >
+            {/* OUTER LAYER — rotates slowly clockwise */}
+            <g className={styles.runicLayerOuter}>
+                {/* Outer ring */}
+                <circle
+                    cx="150"
+                    cy="150"
+                    r="140"
+                    fill="none"
+                    stroke="rgba(231, 200, 79, 0.55)"
+                    strokeWidth="1"
+                    strokeDasharray="6 4"
+                />
+                {/* Slim secondary outer ring (gives the band a double-line feel) */}
+                <circle
+                    cx="150"
+                    cy="150"
+                    r="134"
+                    fill="none"
+                    stroke="rgba(231, 200, 79, 0.22)"
+                    strokeWidth="0.6"
+                />
+                {/* 12 cardinal tick marks reaching inward from the ring */}
+                {outerTicks.map((angle) => (
+                    <line
+                        key={angle}
+                        x1="150"
+                        y1="10"
+                        x2="150"
+                        y2="22"
+                        stroke="rgba(231, 200, 79, 0.55)"
+                        strokeWidth="1.2"
+                        transform={`rotate(${angle} 150 150)`}
+                    />
+                ))}
+            </g>
+
+            {/* INNER LAYER — rotates counter-clockwise */}
+            <g className={styles.runicLayerInner}>
+                {/* Inner ring */}
+                <circle
+                    cx="150"
+                    cy="150"
+                    r="105"
+                    fill="none"
+                    stroke="rgba(176, 143, 216, 0.5)"
+                    strokeWidth="0.9"
+                    strokeDasharray="2 5"
+                />
+                {/* 6 runic glyph markers between rings — small geometric runes */}
+                {glyphAngles.map((angle) => (
+                    <g key={angle} transform={`rotate(${angle} 150 150)`}>
+                        {/* "T" rune: cross bar + stem */}
+                        <rect
+                            x="144"
+                            y="36"
+                            width="12"
+                            height="2.2"
+                            fill="rgba(231, 200, 79, 0.7)"
+                        />
+                        <rect
+                            x="148.5"
+                            y="38"
+                            width="3"
+                            height="9"
+                            fill="rgba(231, 200, 79, 0.55)"
+                        />
+                        {/* Tiny anchoring dot at the inner end */}
+                        <circle
+                            cx="150"
+                            cy="52"
+                            r="1.2"
+                            fill="rgba(231, 200, 79, 0.6)"
+                        />
+                    </g>
+                ))}
+            </g>
+
+            {/* CORE — static, the anchor of the sigil */}
+            <g className={styles.runicLayerCore}>
+                {/* Hexagram: two overlapping triangles */}
+                <polygon
+                    points="150,76 218,196 82,196"
+                    fill="none"
+                    stroke="rgba(231, 200, 79, 0.42)"
+                    strokeWidth="1.2"
+                />
+                <polygon
+                    points="150,224 82,104 218,104"
+                    fill="none"
+                    stroke="rgba(231, 200, 79, 0.42)"
+                    strokeWidth="1.2"
+                />
+                {/* Hexagonal anchor at each star vertex */}
+                {[
+                    [150, 76], [218, 196], [82, 196],
+                    [150, 224], [82, 104], [218, 104],
+                ].map(([cx, cy], i) => (
+                    <circle
+                        key={i}
+                        cx={cx}
+                        cy={cy}
+                        r="2.4"
+                        fill="rgba(231, 200, 79, 0.55)"
+                    />
+                ))}
+                {/* Central circle */}
+                <circle
+                    cx="150"
+                    cy="150"
+                    r="48"
+                    fill="none"
+                    stroke="rgba(231, 200, 79, 0.28)"
+                    strokeWidth="0.8"
+                    strokeDasharray="1.5 3"
+                />
+                {/* Innermost dot */}
+                <circle
+                    cx="150"
+                    cy="150"
+                    r="2.4"
+                    fill="rgba(231, 200, 79, 0.55)"
+                />
+            </g>
+        </svg>
     );
 }
 
