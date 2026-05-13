@@ -148,16 +148,18 @@ function EmotesPage() {
                                             <div className={styles.packArtWrap}>
                                                 <PackArt />
                                             </div>
-                                            <div className={styles.packBody}>
-                                                <h3 className={styles.packName}>{pack.label}</h3>
-                                                <p className={styles.packToken}>Token {pack.tokenId}</p>
+                                            <div className={styles.packMain}>
+                                                <div className={styles.packBody}>
+                                                    <h3 className={styles.packName}>{pack.label}</h3>
+                                                    <p className={styles.packToken}>Token {pack.tokenId}</p>
+                                                </div>
+                                                <button
+                                                    className={styles.breakSealButton}
+                                                    onClick={() => handleBurnPack(pack)}
+                                                >
+                                                    Break Seal
+                                                </button>
                                             </div>
-                                            <button
-                                                className={styles.breakSealButton}
-                                                onClick={() => handleBurnPack(pack)}
-                                            >
-                                                Break Seal
-                                            </button>
                                         </div>
                                     ))}
                                 </div>
