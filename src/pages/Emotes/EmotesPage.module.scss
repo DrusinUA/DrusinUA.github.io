@@ -67,7 +67,9 @@
 
 // ─── Main card ──────────────────────────────────────────────────
 .mainContent {
-  width: clamp(320px, 90%, 920px);
+  // Match Overview's width so the reveal stage gets the same canvas
+  // as the home page hero.
+  width: clamp(320px, 85%, 1066px);
   background: #2e2550;
   border-radius: 12px;
   padding: 44px 48px;
@@ -106,8 +108,8 @@
 // ─── Inner frame ────────────────────────────────────────────────
 .innerFrame {
   width: 100%;
-  max-width: 760px;
-  min-height: 560px;
+  max-width: 900px;
+  min-height: 580px;
   background: linear-gradient(90deg, rgba(79, 54, 136, 0.3) 0%, rgba(79, 54, 136, 0.3) 100%);
   border-radius: 8px;
   padding: 19px 32px 32px;
@@ -338,11 +340,11 @@
 }
 
 .packCard {
-  width: 216px;
+  width: 252px;
   background: #3f2e66;
   border: 1px solid rgba(97, 60, 148, 0.6);
   border-radius: 8px;
-  padding: v.space(20) v.space(16) v.space(18);
+  padding: v.space(22) v.space(18) v.space(18);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -372,12 +374,12 @@
 }
 
 .packArtWrap {
-  width: 132px;
-  height: 198px;
+  width: 160px;
+  height: 240px;
   display: flex;
   align-items: center;
   justify-content: center;
-  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.55));
+  filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.55));
   position: relative;
 
   // Cast shadow underneath, like the pack sits on a surface.
@@ -387,7 +389,7 @@
     bottom: -6px;
     left: 50%;
     width: 78%;
-    height: 14px;
+    height: 16px;
     transform: translateX(-50%);
     background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.45) 0%, transparent 70%);
     filter: blur(3px);
@@ -514,9 +516,9 @@
 
 .summaryCard {
   // Sticker size for this card context — child .stickerArt reads it.
-  --sticker-size: 160px;
-  width: 220px;
-  padding: v.space(18) v.space(12);
+  --sticker-size: 224px;
+  width: 264px;
+  padding: v.space(20) v.space(14);
   display: flex;
   flex-direction: column;
   align-items: center;

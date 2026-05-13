@@ -290,8 +290,8 @@
 
 .cardSlot {
   position: relative;
-  width: 200px;
-  height: 276px;
+  width: 248px;
+  height: 348px;
   background: transparent;
   border: none;
   padding: 0;
@@ -399,7 +399,7 @@
 
 .cardFaceFront {
   // Sticker size for this card context — child .stickerArt reads it.
-  --sticker-size: 160px;
+  --sticker-size: 224px;
   transform: rotateY(180deg);
   // No background, no border — the sticker stands on its own once the
   // card is broken open. The card frame only exists for the face-down state.
