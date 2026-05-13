@@ -313,7 +313,7 @@
   perspective: 1400px;
 
   @media (max-width: v.bp(lg)) {
-    gap: v.space(14);
+    gap: v.space(8);
   }
 }
 
@@ -346,8 +346,10 @@
   }
 
   @media (max-width: v.bp(lg)) {
-    width: 144px;
-    height: 200px;
+    // Three cards must fit in ~277px of inner-frame content on a 375px
+    // viewport: 3 * 85 + 2 * 8 gap = 271. Keep ~0.7x aspect.
+    width: 85px;
+    height: 118px;
   }
 }
 
@@ -374,22 +376,21 @@
   cursor: default;
 
   .cardInner {
-    animation: revealFlip 1000ms cubic-bezier(0.34, 1.15, 0.5, 1) forwards;
+    animation: revealFlip 850ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   }
 
   // Brightness flash lives on the FRONT face, not on .cardInner — a
   // filter on the element with transform-style: preserve-3d would
   // flatten the whole 3D context and the flip would collapse to 2D.
   .cardFaceFront {
-    animation: revealFlash 1000ms ease-in-out forwards;
+    animation: revealFlash 850ms ease-in-out forwards;
   }
 }
 
 @keyframes revealFlip {
-  0%   { transform: rotateY(0deg)    scale(1);    } // idle
-  10%  { transform: rotateY(-16deg)  scale(0.95); } // wind-up: lean back, compress
-  50%  { transform: rotateY(95deg)   scale(1.26); } // midflip: edge-on, peak size
-  82%  { transform: rotateY(195deg)  scale(1.16); } // overshoot just past front
+  0%   { transform: rotateY(0deg)    scale(1);    } // idle — flip starts immediately, no wind-up pause
+  45%  { transform: rotateY(95deg)   scale(1.22); } // midflip: edge-on, peak size
+  78%  { transform: rotateY(195deg)  scale(1.14); } // overshoot just past front
   100% { transform: rotateY(180deg)  scale(1.08); } // settle slightly raised
 }
 
@@ -426,6 +427,8 @@
 }
 
 .cardFaceFront {
+  // Sticker size for this card context — child .stickerArt reads it.
+  --sticker-size: 160px;
   transform: rotateY(180deg);
   // No background, no border — the sticker stands on its own once the
   // card is broken open. The card frame only exists for the face-down state.
@@ -434,6 +437,12 @@
   // Keep nearest-neighbor sampling for the sticker IMG even when this
   // face is being filtered (brightness flash) or rotated.
   image-rendering: pixelated;
+
+  @media (max-width: v.bp(lg)) {
+    --sticker-size: 64px;
+    padding: v.space(6);
+    gap: v.space(6);
+  }
 }
 
 .cardBackSvg {
@@ -450,5 +459,10 @@
   text-transform: uppercase;
   color: #f9fefd;
   text-align: center;
+
+  @media (max-width: v.bp(lg)) {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
 }
 

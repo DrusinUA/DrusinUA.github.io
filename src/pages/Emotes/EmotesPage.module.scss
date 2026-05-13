@@ -513,6 +513,8 @@
 }
 
 .summaryCard {
+  // Sticker size for this card context — child .stickerArt reads it.
+  --sticker-size: 160px;
   width: 220px;
   padding: v.space(18) v.space(12);
   display: flex;
@@ -527,8 +529,13 @@
   &:nth-child(3) { animation-delay: 160ms; }
 
   @media (max-width: v.bp(lg)) {
-    width: 140px;
-    padding: v.space(12) v.space(8);
+    // Three cards must fit in ~277px inner-frame content on a 375px
+    // viewport: 3 * 85 + 2 * 8 gap = 271. Match the reveal-card width
+    // so the layout reads as a coherent row.
+    --sticker-size: 72px;
+    width: 85px;
+    padding: v.space(8) v.space(6);
+    gap: v.space(6);
   }
 }
 
@@ -540,6 +547,11 @@
   color: #f9fefd;
   text-align: center;
   margin: 0;
+
+  @media (max-width: v.bp(lg)) {
+    font-size: 11px;
+    letter-spacing: 0;
+  }
 }
 
 @keyframes summaryPop {
@@ -620,6 +632,8 @@
 
 // ─── Sticker visual (used by both reveal and summary) ─────────────
 .stickerArt {
+  width: var(--sticker-size, 96px);
+  height: var(--sticker-size, 96px);
   display: flex;
   align-items: center;
   justify-content: center;

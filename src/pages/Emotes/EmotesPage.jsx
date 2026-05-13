@@ -213,7 +213,7 @@ function EmotesPage() {
                             <div className={styles.summaryGrid}>
                                 {revealedStickers.map((sticker, idx) => (
                                     <div key={`${sticker.id}-${idx}`} className={styles.summaryCard}>
-                                        <StickerArt sticker={sticker} size={160} />
+                                        <StickerArt sticker={sticker} />
                                         <span className={styles.summaryStickerName}>{sticker.name}</span>
                                     </div>
                                 ))}
@@ -397,9 +397,12 @@ export function PackArt({ muted = false }) {
 }
 
 // ─── Sticker visual (used by both reveal and summary) ─────────────
-export function StickerArt({ sticker, size = 64 }) {
+// Size is driven by a CSS variable on the parent context (--sticker-size)
+// so reveal and summary can override responsively at mobile breakpoints
+// without inline-style overrides.
+export function StickerArt({ sticker }) {
     return (
-        <div className={styles.stickerArt} style={{ width: size, height: size }}>
+        <div className={styles.stickerArt}>
             <img src={sticker.icon} alt={sticker.name} className={styles.stickerImg} />
         </div>
     );
