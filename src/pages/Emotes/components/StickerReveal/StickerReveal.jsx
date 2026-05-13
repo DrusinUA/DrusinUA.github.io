@@ -223,7 +223,7 @@ export function StickerReveal({ stickers, onComplete, packImage }) {
                                         </div>
                                         {/* Card front (revealed sticker) */}
                                         <div className={`${styles.cardFace} ${styles.cardFaceFront}`}>
-                                            <StickerArt sticker={sticker} size={104} />
+                                            <StickerArt sticker={sticker} size={160} />
                                             <span className={styles.cardLabel}>{sticker.name}</span>
                                         </div>
                                     </div>

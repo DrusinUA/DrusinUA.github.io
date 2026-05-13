@@ -319,8 +319,8 @@
 
 .cardSlot {
   position: relative;
-  width: 144px;
-  height: 200px;
+  width: 200px;
+  height: 276px;
   background: transparent;
   border: none;
   padding: 0;
@@ -332,6 +332,10 @@
   transform: translateY(22px) scale(0.94);
   animation: cardEnter 520ms cubic-bezier(0.34, 1.56, 0.64, 1) var(--enter-delay, 0ms) forwards;
   outline: none;
+  // Promote to its own GPU layer so the flip + scale animation runs on
+  // composited textures and the image-rendering hint on the sticker is
+  // preserved during transforms (instead of being smoothed).
+  will-change: transform, opacity;
   // NOTE: do not put `filter` here. A filter on this element flattens
   // the 3D context of .cardInner and the rotateY flip collapses to a
   // 2D horizontal squish (front face never appears). The card drop
@@ -342,8 +346,8 @@
   }
 
   @media (max-width: v.bp(lg)) {
-    width: 104px;
-    height: 144px;
+    width: 144px;
+    height: 200px;
   }
 }
 
@@ -427,6 +431,9 @@
   // card is broken open. The card frame only exists for the face-down state.
   padding: v.space(8);
   gap: v.space(10);
+  // Keep nearest-neighbor sampling for the sticker IMG even when this
+  // face is being filtered (brightness flash) or rotated.
+  image-rendering: pixelated;
 }
 
 .cardBackSvg {

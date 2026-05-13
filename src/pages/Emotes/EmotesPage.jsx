@@ -213,7 +213,7 @@ function EmotesPage() {
                             <div className={styles.summaryGrid}>
                                 {revealedStickers.map((sticker, idx) => (
                                     <div key={`${sticker.id}-${idx}`} className={styles.summaryCard}>
-                                        <StickerArt sticker={sticker} size={112} />
+                                        <StickerArt sticker={sticker} size={160} />
                                         <span className={styles.summaryStickerName}>{sticker.name}</span>
                                     </div>
                                 ))}
